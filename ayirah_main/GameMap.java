@@ -378,43 +378,43 @@ public class GameMap {
 			switch (t)
 			{
 				case '.':
-					return 0;
+					return AyirahStaticVars.VIS_TYPE_INVISIBLE_NONE;
 				case ' ':
-					return 0;
+					return AyirahStaticVars.VIS_TYPE_INVISIBLE_NONE;
 				case 'x':
-					return 0;
+					return AyirahStaticVars.VIS_TYPE_INVISIBLE_NONE;
 				case 'X':
-					return 0;
+					return AyirahStaticVars.VIS_TYPE_INVISIBLE_NONE;
 				case '<':
-					return 0;
+					return AyirahStaticVars.VIS_TYPE_INVISIBLE_NONE;
 				case '>':
-					return 0;
+					return AyirahStaticVars.VIS_TYPE_INVISIBLE_NONE;
 				case '|':
-					return 0;
+					return AyirahStaticVars.VIS_TYPE_INVISIBLE_NONE;
 				case '1':
-					return 1;
+					return AyirahStaticVars.VIS_TYPE_INVISIBLE_NORTH_EAST;
 				case '4':
-					return 3;
+					return AyirahStaticVars.VIS_TYPE_INVISIBLE_NORTH_WEST;
 				case '2':
-					return 4;
+					return AyirahStaticVars.VIS_TYPE_INVISIBLE_EAST_SOUTH;
 				case '3':
-					return 6;
+					return AyirahStaticVars.VIS_TYPE_INVISIBLE_SOUTH_WEST;
 				case 's':
-					return 2;
+					return AyirahStaticVars.VIS_TYPE_INVISIBLE_NORTH_SOUTH;
 				case 'w':
-					return 5;
+					return AyirahStaticVars.VIS_TYPE_INVISIBLE_EAST_WEST;
 				case '#':
-					return 7;
+					return AyirahStaticVars.VIS_TYPE_INVISIBLE_ALL;
 				case 'I':
-					return 2;
+					return AyirahStaticVars.VIS_TYPE_INVISIBLE_NORTH_SOUTH;
 				case 'i':
-					return 8;
+					return AyirahStaticVars.VIS_TYPE_INVISIBLE_VERTICAL_OPEN_DOOR;
 				case '-':
-					return 5;
+					return AyirahStaticVars.VIS_TYPE_INVISIBLE_EAST_WEST;
 				case '_':
-					return 9;
+					return AyirahStaticVars.VIS_TYPE_INVISIBLE_HORIZONTAL_OPEN_DOOR;
 				default:
-					return 0;	
+					return AyirahStaticVars.VIS_TYPE_INVISIBLE_NONE;
 			}
 		}
 		
