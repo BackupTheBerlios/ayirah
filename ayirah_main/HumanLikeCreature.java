@@ -1442,18 +1442,13 @@ public abstract class HumanLikeCreature extends Creature {
 						AyirahStaticVars.SIDE_TILE_VISIBLE : 
 						AyirahStaticVars.SIDE_TILE_INVISIBLE,
 						
-						AyirahStaticVars.FRONT_TILE_VISIBLE,
+						(vis_type==5 || vis_type==9) ? 
+						AyirahStaticVars.FRONT_TILE_MOST_VISIBLE :
+						vis_type==3 ? 
+						AyirahStaticVars.FRONT_TILE_VISIBLE : 
+						AyirahStaticVars.FRONT_TILE_MOST_INVISIBLE,
+
 						AyirahStaticVars.SIDE_TILE_INVISIBLE);
-						
-						if (vis_type==6 || vis_type==4 || vis_type==7 || 
-						vis_type==2 || vis_type==8)
-						removeVisible(getLayer(), x, y, 
-						AyirahStaticVars.VISIBLE_KNOWN_ALL
-						-AyirahStaticVars.VISIBLE_KNOWN_SOUTH);
-						
-						if (vis_type==5 || vis_type==9)
-						removeVisible(getLayer(), x, y, 
-						AyirahStaticVars.VISIBLE_KNOWN_NORTH);
 					}
 					
 					// Fall: Wand NWW
@@ -1466,20 +1461,16 @@ public abstract class HumanLikeCreature extends Creature {
 						AyirahStaticVars.VISIBLE_CENTER) | 
 						AyirahStaticVars.VISIBLE_RIGHT,
 						AyirahStaticVars.SIDE_TILE_INVISIBLE,
-						AyirahStaticVars.FRONT_TILE_VISIBLE,
+						
+						(vis_type==2 || vis_type==8) ? 
+						AyirahStaticVars.FRONT_TILE_MOST_VISIBLE :
+						vis_type==3 ? 
+						AyirahStaticVars.FRONT_TILE_VISIBLE : 
+						AyirahStaticVars.FRONT_TILE_MOST_INVISIBLE,
+						
 						vis_type==6 ? 
 						AyirahStaticVars.SIDE_TILE_VISIBLE : 
 						AyirahStaticVars.SIDE_TILE_INVISIBLE);
-						
-						if (vis_type==1 || vis_type==4 || vis_type==7 || 
-						vis_type==5 || vis_type==9)
-						removeVisible(getLayer(), x, y, 
-						AyirahStaticVars.VISIBLE_KNOWN_ALL
-						-AyirahStaticVars.VISIBLE_KNOWN_EAST);
-						
-						if (vis_type==2 || vis_type==8)
-						removeVisible(getLayer(), x, y, 
-						AyirahStaticVars.VISIBLE_KNOWN_WEST);
 					}
 				}
 				
@@ -1497,18 +1488,14 @@ public abstract class HumanLikeCreature extends Creature {
 						vis_type==3 ? 
 						AyirahStaticVars.SIDE_TILE_VISIBLE : 
 						AyirahStaticVars.SIDE_TILE_INVISIBLE,
-						AyirahStaticVars.FRONT_TILE_VISIBLE,
+						
+						(vis_type==2 || vis_type==8) ? 
+						AyirahStaticVars.FRONT_TILE_MOST_VISIBLE :
+						vis_type==6 ? 
+						AyirahStaticVars.FRONT_TILE_VISIBLE : 
+						AyirahStaticVars.FRONT_TILE_MOST_INVISIBLE,
+						
 						AyirahStaticVars.SIDE_TILE_INVISIBLE);
-						
-						if (vis_type==4 || vis_type==1 || vis_type==7 ||
-						vis_type==5 || vis_type==9)
-						removeVisible(getLayer(), x, y, 
-						AyirahStaticVars.VISIBLE_KNOWN_ALL
-						-AyirahStaticVars.VISIBLE_KNOWN_EAST);
-						
-						if (vis_type==2 || vis_type==8)
-						removeVisible(getLayer(), x, y, 
-						AyirahStaticVars.VISIBLE_KNOWN_WEST);
 					}
 					
 					// Fall: Wand SSW
@@ -1521,20 +1508,16 @@ public abstract class HumanLikeCreature extends Creature {
 						AyirahStaticVars.VISIBLE_CENTER) | 
 						AyirahStaticVars.VISIBLE_RIGHT,
 						AyirahStaticVars.SIDE_TILE_INVISIBLE,
-						AyirahStaticVars.FRONT_TILE_VISIBLE,
+						
+						(vis_type==5 || vis_type==9) ? 
+						AyirahStaticVars.FRONT_TILE_MOST_VISIBLE :
+						vis_type==6 ? 
+						AyirahStaticVars.FRONT_TILE_VISIBLE : 
+						AyirahStaticVars.FRONT_TILE_MOST_INVISIBLE,
+						
 						vis_type==4 ? 
 						AyirahStaticVars.SIDE_TILE_VISIBLE : 
 						AyirahStaticVars.SIDE_TILE_INVISIBLE);
-						
-						if (vis_type==3 || vis_type==1 || vis_type==7 ||
-						vis_type==2 || vis_type==8)
-						removeVisible(getLayer(), x, y, 
-						AyirahStaticVars.VISIBLE_KNOWN_ALL
-						-AyirahStaticVars.VISIBLE_KNOWN_NORTH);
-						
-						if (vis_type==5 || vis_type==9)
-						removeVisible(getLayer(), x, y, 
-						AyirahStaticVars.VISIBLE_KNOWN_SOUTH);
 					}
 				}
 				
@@ -1552,18 +1535,14 @@ public abstract class HumanLikeCreature extends Creature {
 						vis_type==6 ? 
 						AyirahStaticVars.SIDE_TILE_VISIBLE : 
 						AyirahStaticVars.SIDE_TILE_INVISIBLE,
-						AyirahStaticVars.FRONT_TILE_VISIBLE,
+						
+						(vis_type==5 || vis_type==9) ? 
+						AyirahStaticVars.FRONT_TILE_MOST_VISIBLE :
+						vis_type==4 ? 
+						AyirahStaticVars.FRONT_TILE_VISIBLE : 
+						AyirahStaticVars.FRONT_TILE_MOST_INVISIBLE,
+						
 						AyirahStaticVars.SIDE_TILE_INVISIBLE);
-						
-						if (vis_type==1 || vis_type==3 || vis_type==7 ||
-						vis_type==2 || vis_type==8)
-						removeVisible(getLayer(), x, y, 
-						AyirahStaticVars.VISIBLE_KNOWN_ALL
-						-AyirahStaticVars.VISIBLE_KNOWN_NORTH);
-						
-						if (vis_type==5 || vis_type==9)
-						removeVisible(getLayer(), x, y, 
-						AyirahStaticVars.VISIBLE_KNOWN_SOUTH);
 					}
 					
 					// Fall: SOO
@@ -1576,20 +1555,16 @@ public abstract class HumanLikeCreature extends Creature {
 						AyirahStaticVars.VISIBLE_CENTER) | 
 						AyirahStaticVars.VISIBLE_RIGHT,
 						AyirahStaticVars.SIDE_TILE_INVISIBLE,
-						AyirahStaticVars.FRONT_TILE_VISIBLE,
+						
+						(vis_type==2 || vis_type==8) ? 
+						AyirahStaticVars.FRONT_TILE_MOST_VISIBLE :
+						vis_type==4 ? 
+						AyirahStaticVars.FRONT_TILE_VISIBLE : 
+						AyirahStaticVars.FRONT_TILE_MOST_INVISIBLE,
+						
 						vis_type==1 ? 
 						AyirahStaticVars.SIDE_TILE_VISIBLE : 
 						AyirahStaticVars.SIDE_TILE_INVISIBLE);
-						
-						if (vis_type==6 || vis_type==3 || vis_type==7 ||
-						vis_type==5 || vis_type==9)
-						removeVisible(getLayer(), x, y, 
-						AyirahStaticVars.VISIBLE_KNOWN_ALL
-						-AyirahStaticVars.VISIBLE_KNOWN_WEST);
-						
-						if (vis_type==2 || vis_type==8)
-						removeVisible(getLayer(), x, y, 
-						AyirahStaticVars.VISIBLE_KNOWN_EAST);
 					}
 				}
 				
@@ -1607,18 +1582,14 @@ public abstract class HumanLikeCreature extends Creature {
 						vis_type==4 ? 
 						AyirahStaticVars.SIDE_TILE_VISIBLE : 
 						AyirahStaticVars.SIDE_TILE_INVISIBLE,
-						AyirahStaticVars.FRONT_TILE_VISIBLE,
+						
+						(vis_type==2 || vis_type==8) ? 
+						AyirahStaticVars.FRONT_TILE_MOST_VISIBLE :
+						vis_type==1 ? 
+						AyirahStaticVars.FRONT_TILE_VISIBLE : 
+						AyirahStaticVars.FRONT_TILE_MOST_INVISIBLE,
+						
 						AyirahStaticVars.SIDE_TILE_INVISIBLE);
-						
-						if (vis_type==3 || vis_type==6 || vis_type==7 ||
-						vis_type==5 || vis_type==9)
-						removeVisible(getLayer(), x, y, 
-						AyirahStaticVars.VISIBLE_KNOWN_ALL
-						-AyirahStaticVars.VISIBLE_KNOWN_WEST);
-						
-						if (vis_type==2 || vis_type==8)
-						removeVisible(getLayer(), x, y, 
-						AyirahStaticVars.VISIBLE_KNOWN_EAST);
 					}
 					
 					// Fall: Wand NNO
@@ -1631,20 +1602,16 @@ public abstract class HumanLikeCreature extends Creature {
 						AyirahStaticVars.VISIBLE_CENTER) | 
 						AyirahStaticVars.VISIBLE_RIGHT,
 						AyirahStaticVars.SIDE_TILE_INVISIBLE,
-						AyirahStaticVars.FRONT_TILE_VISIBLE,
+						
+						(vis_type==5 || vis_type==9) ? 
+						AyirahStaticVars.FRONT_TILE_MOST_VISIBLE :
+						vis_type==1 ? 
+						AyirahStaticVars.FRONT_TILE_VISIBLE : 
+						AyirahStaticVars.FRONT_TILE_MOST_INVISIBLE,
+						
 						vis_type==3 ? 
 						AyirahStaticVars.SIDE_TILE_VISIBLE : 
 						AyirahStaticVars.SIDE_TILE_INVISIBLE);
-						
-						if (vis_type==4 || vis_type==6 || vis_type==7 ||
-						vis_type==2 || vis_type==8)
-						removeVisible(getLayer(), x, y, 
-						AyirahStaticVars.VISIBLE_KNOWN_ALL
-						-AyirahStaticVars.VISIBLE_KNOWN_SOUTH);
-						
-						if (vis_type==5 || vis_type==9)
-						removeVisible(getLayer(), x, y, 
-						AyirahStaticVars.VISIBLE_KNOWN_NORTH);
 					}
 				}
 			}
