@@ -261,34 +261,38 @@ public class AyirahComponent extends Canvas
 		
 		if (direction==AyirahStaticVars.DIRECTION_SOUTH)
 		{
-			map.getCharacter(map.getActualCharacterIndex()).scroll_top_y+=pixels;
+			map.getCharacter(map.getActualCharacterIndex()).
+			setScrollTopY(map.getCharacter(map.getActualCharacterIndex()).getScrollTopY()+pixels);
 			
-			if (map.getCharacter(map.getActualCharacterIndex()).scroll_top_y>max_top_y)
-				map.getCharacter(map.getActualCharacterIndex()).scroll_top_y=max_top_y;
+			if (map.getCharacter(map.getActualCharacterIndex()).getScrollTopY()>max_top_y)
+				map.getCharacter(map.getActualCharacterIndex()).setScrollTopY(max_top_y);
 		}
 		
 		else if (direction==AyirahStaticVars.DIRECTION_NORTH)
 		{
-			map.getCharacter(map.getActualCharacterIndex()).scroll_top_y-=pixels;
+			map.getCharacter(map.getActualCharacterIndex()).
+			setScrollTopY(map.getCharacter(map.getActualCharacterIndex()).getScrollTopY()-pixels);
 			
-			if (map.getCharacter(map.getActualCharacterIndex()).scroll_top_y<0)
-				map.getCharacter(map.getActualCharacterIndex()).scroll_top_y=0;
+			if (map.getCharacter(map.getActualCharacterIndex()).getScrollTopY()<0)
+				map.getCharacter(map.getActualCharacterIndex()).setScrollTopY(0);
 		}
 		
 		else if (direction==AyirahStaticVars.DIRECTION_EAST)
 		{
-			map.getCharacter(map.getActualCharacterIndex()).scroll_top_x+=pixels;
+			map.getCharacter(map.getActualCharacterIndex()).
+			setScrollTopX(map.getCharacter(map.getActualCharacterIndex()).getScrollTopX()+pixels);
 			
-			if (map.getCharacter(map.getActualCharacterIndex()).scroll_top_x>max_top_x)
-				map.getCharacter(map.getActualCharacterIndex()).scroll_top_x=max_top_x;
+			if (map.getCharacter(map.getActualCharacterIndex()).getScrollTopX()>max_top_x)
+				map.getCharacter(map.getActualCharacterIndex()).setScrollTopX(max_top_x);
 		}
 		
 		else if (direction==AyirahStaticVars.DIRECTION_WEST)
 		{
-			map.getCharacter(map.getActualCharacterIndex()).scroll_top_x-=pixels;
+			map.getCharacter(map.getActualCharacterIndex()).
+			setScrollTopX(map.getCharacter(map.getActualCharacterIndex()).getScrollTopX()-pixels);
 			
-			if (map.getCharacter(map.getActualCharacterIndex()).scroll_top_x<0)
-				map.getCharacter(map.getActualCharacterIndex()).scroll_top_x=0;
+			if (map.getCharacter(map.getActualCharacterIndex()).getScrollTopX()<0)
+				map.getCharacter(map.getActualCharacterIndex()).setScrollTopX(0);
 		}
 	}
 	
@@ -326,8 +330,8 @@ public class AyirahComponent extends Canvas
 			actualize=false;
 		}
 		
-		g.drawImage(dbImage,-map.getCharacter(map.getActualCharacterIndex()).scroll_top_x, 
-			-map.getCharacter(map.getActualCharacterIndex()).scroll_top_y,this);
+		g.drawImage(dbImage,-map.getCharacter(map.getActualCharacterIndex()).getScrollTopX(), 
+			-map.getCharacter(map.getActualCharacterIndex()).getScrollTopY(),this);
 	}
 
 	

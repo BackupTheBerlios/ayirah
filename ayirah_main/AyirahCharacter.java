@@ -29,7 +29,7 @@
  * @author Wolfgang Keller
  */
 public class AyirahCharacter extends HumanLikeCreature {
-	public int scroll_top_x, scroll_top_y;
+	protected int scroll_top_x, scroll_top_y;
 	
 	public AyirahCharacter(GameMap map, int layer, int x, int y, int direction,
 	int scroll_top_x, int scroll_top_y) {
