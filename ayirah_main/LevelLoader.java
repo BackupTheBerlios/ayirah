@@ -41,22 +41,31 @@ import javax.xml.parsers.SAXParser;
 
 public final class LevelLoader extends DefaultHandler {
 	
-	protected CoordVector actual_coords;
-	protected int l, x, y;
+	private CoordVector actual_coords;
+	private int l, x, y;
 	
-	protected GameItem gi;
-	protected String gi_type, gi_sub_type, gi_state, gi_name;
-	protected int gi_vis_type, gi_using_directions;
-	protected boolean gi_take_able, gi_walk_on_able;
-	protected long gi_weight;
+	private GameItem gi;
+	private String gi_type, gi_sub_type, gi_state, gi_description;
+	private int gi_vis_type, gi_using_directions;
+	private boolean gi_take_able, gi_walk_on_able;
+	private long gi_weight;
 	
-	protected HashMap hm;
+	private HashMap coords_items;
 	
-	protected boolean inMapTile;
+	private GameItem def;
+	private String def_name, def_type, def_sub_type, def_state, def_description;
+	private int def_vis_type, def_using_directions;
+	private boolean def_take_able, def_walk_on_able;
+	private long def_weight;
+	
+	private HashMap names_objects;
+	
+	private boolean inMapTile;
 	
 	protected LevelLoader()
 	{
-		hm=new HashMap();
+		coords_items=new HashMap();
+		names_objects=new HashMap();
 	}
 	
 	public static final HashMap loadLevel(String file_name)
@@ -64,6 +73,7 @@ public final class LevelLoader extends DefaultHandler {
 		LevelLoader handler=new LevelLoader();
 		
 		SAXParserFactory factory = SAXParserFactory.newInstance();
+		
 		try {
 			
 			// Parse the input
@@ -71,6 +81,7 @@ public final class LevelLoader extends DefaultHandler {
 			saxParser.parse( new File(file_name), handler);
 			
 		}
+		
 		catch (SAXParseException spe)
 		{
 			System.out.println("** Parsing error" 
@@ -108,7 +119,7 @@ public final class LevelLoader extends DefaultHandler {
 	
 	public HashMap getHashMap()
 	{
-		return hm;
+		return coords_items;
 	}
 	
 	public void startDocument()
@@ -190,9 +201,9 @@ public final class LevelLoader extends DefaultHandler {
 						gi_state=attrs.getValue(i);
 					}
 					
-					else if (aName.equals("name"))
+					else if (aName.equals("description"))
 					{
-						gi_name=attrs.getValue(i);
+						gi_description=attrs.getValue(i);
 					}
 					
 					else if (aName.equals("vis_type"))
@@ -221,14 +232,89 @@ public final class LevelLoader extends DefaultHandler {
 					}
 				}
 			}
-		
-			gi=new GameItem(gi_type, gi_sub_type, gi_state, gi_name, gi_vis_type, gi_using_directions,
+			
+			gi=new GameItem(gi_type, gi_sub_type, gi_state, gi_description, gi_vis_type, gi_using_directions,
 			gi_take_able,gi_walk_on_able, gi_weight);
 		}
 		
 		else if (eName.equals("object") && !inMapTile)
-		{
 			System.out.println("<object>-Tags dürfen nur in <maptile>-Tags benutzt werden");
+		
+		else if (eName.equals("defobject"))
+		{
+			reinitDefItem();
+		
+			if (attrs != null) 
+			{
+				for (int i = 0; i < attrs.getLength(); i++) {
+					String aName = attrs.getLocalName(i); // Attr name 
+					if ("".equals(aName)) 
+						aName = attrs.getQName(i);
+					
+					if (aName.equals("name"))
+					{
+						def_name=attrs.getValue(i);
+					}
+					
+					else if (aName.equals("type"))
+					{
+						def_type=attrs.getValue(i);
+					}
+			
+					else if (aName.equals("sub_type"))
+					{
+						def_sub_type=attrs.getValue(i);
+					}
+		
+					else if (aName.equals("state"))
+					{
+						def_state=attrs.getValue(i);
+					}
+					
+					else if (aName.equals("description"))
+					{
+						def_description=attrs.getValue(i);
+					}
+					
+					else if (aName.equals("vis_type"))
+					{
+						def_vis_type=Integer.parseInt(attrs.getValue(i));
+					}
+					
+					else if (aName.equals("using_directions"))
+					{
+						def_using_directions=Integer.parseInt(attrs.getValue(i));
+					}
+					
+					else if (aName.equals("take_able"))
+					{
+						def_take_able=Boolean.getBoolean(attrs.getValue(i));
+					}
+					
+					else if (aName.equals("walk_on_able"))
+					{
+						def_walk_on_able=Boolean.getBoolean(attrs.getValue(i));
+					}
+					
+					else if (aName.equals("weight"))
+					{
+						def_weight=Long.parseLong(attrs.getValue(i));
+					}
+				}
+			}
+			
+			if (def_name!=null)
+			{
+				def=new GameItem(gi_type, gi_sub_type, gi_state, gi_description, 
+				gi_vis_type, gi_using_directions, gi_take_able,gi_walk_on_able, gi_weight);
+				
+				names_objects.put(def_name, def);
+			}
+			
+			else
+			{
+				System.out.println("<defobject> muss ein name-Attribut besitzen");
+			}
 		}
 	}
 	
@@ -243,7 +329,7 @@ public final class LevelLoader extends DefaultHandler {
 		
 		if (eName.equals("maptile"))
 		{
-			hm.put(actual_coords, gi);
+			coords_items.put(actual_coords, gi);
 			inMapTile=false;
 		}
 	}
@@ -262,11 +348,26 @@ public final class LevelLoader extends DefaultHandler {
 		gi_type="";
 		gi_sub_type="";
 		gi_state="";
-		gi_name="";
+		gi_description="";
 		gi_vis_type=0;
 		gi_using_directions=15;
 		gi_take_able=false;
 		gi_walk_on_able=false;
 		gi_weight=0;
+	}
+	
+	protected void reinitDefItem()
+	{
+		def=null;
+		def_name=null;
+		def_type="";
+		def_sub_type="";
+		def_state="";
+		def_description="";
+		def_vis_type=0;
+		def_using_directions=15;
+		def_take_able=false;
+		def_walk_on_able=false;
+		def_weight=0;
 	}
 }
