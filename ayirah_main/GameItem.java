@@ -32,12 +32,12 @@
  * der Karte auftreten (Items haben
  * die Eigenschaft takeable=true)
  */
-public class GameItem {
+public class GameItem implements Cloneable {
 	protected String type; // um was für einen Objekttyp handelt es sich
 	protected String sub_type; // Unter-Typ
 	protected String state; // Status des Objekts
 	protected String name; // lange Bezeichnung
-	protected int visibility_type;
+	protected int vis_type;
 	protected long weight; // Gewicht in Gramm
 	protected boolean takeable; // kann der Character das Objekt aufnehmen (rein theoretisch!)
 	
@@ -48,7 +48,7 @@ public class GameItem {
 		this.sub_type=sub_type;
 		this.state=state;
 		this.name=name;
-		this.visibility_type=vis_type;
+		this.vis_type=vis_type;
 		this.weight=Math.abs(weight);
 		this.takeable=takeable;
 	}
@@ -75,7 +75,7 @@ public class GameItem {
 	
 	public int getVisibilityType()
 	{
-		return this.visibility_type;
+		return this.vis_type;
 	}
 	
 	public long getWeight()
@@ -86,5 +86,38 @@ public class GameItem {
 	public boolean isTakeAble()
 	{
 		return takeable;
+	}
+	
+	public boolean equals(Object arg0) {
+		if (arg0 instanceof GameItem)
+		{
+			GameItem gi=(GameItem) arg0;
+			return (this.getType()==gi.getType() && 
+			this.getSubType()==gi.getSubType() &&
+			this.getState()==gi.getState() &&
+			this.getName()==gi.getName() &&
+			this.getVisibilityType()==gi.getVisibilityType() &&
+			this.getWeight()==gi.getWeight() &&
+			this.isTakeAble()==gi.isTakeAble());
+		}
+		else
+			return false;
+	}
+	
+	public int hashCode() {
+		return
+		((type.hashCode() & ((1<<6)-1))<<26) |
+		((sub_type.hashCode() & ((1<<6)-1))<<20 |
+		((state.hashCode() & ((1<<6)-1))<<14) |
+		((name.hashCode() & ((1<<6)-1))<<8) |
+		((vis_type & ((1<<3)-1))<<5) |
+		(((int) weight & ((1<<3)-1))<<1) |
+		(takeable ? 1 : 0)
+		);
+	}
+	
+	public Object clone()
+	{
+		return new GameItem(type, sub_type, state, name, vis_type, weight, takeable);
 	}
 }

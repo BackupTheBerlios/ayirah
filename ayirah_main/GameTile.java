@@ -29,7 +29,6 @@
  * @author Wolfgang
  */
 public class GameTile {
-
 	protected char[] directionParts;
 	protected int visibility;
 	protected int visible_other;
