@@ -117,12 +117,6 @@ public class GameMap {
 		ayirah_char=new AyirahCharacter(this, 0, 1, 1, AyirahStaticVars.DIRECTION_SOUTH);
 		ayirah_char.calculateVisible();
 	}
-	
-	/*public int getMonstersCount()
-	{
-		return monsters.length;
-	}*/
-	
 	public char getTile(int l, int zeile, int spalte)
 	{
 		if (!(isValidCoordPair(l, spalte, zeile)))
