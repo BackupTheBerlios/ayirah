@@ -29,11 +29,12 @@
  * @author Wolfgang Keller
  */
 
+import java.awt.BorderLayout;
 import java.awt.event.*;
 import javax.swing.*;
 
 public class LevelEditor extends JFrame {
-	private JSplitPane jsplp;
+	private JToolBar tb;
 	private JTabbedPane choose_objects;
 	
 	public LevelEditor() {
@@ -44,17 +45,18 @@ public class LevelEditor extends JFrame {
 			}
 		});
 		
-		jsplp=new JSplitPane(JSplitPane.VERTICAL_SPLIT);
+		tb=new JToolBar();
 		
 		choose_objects=new JTabbedPane();
-		choose_objects.addTab("Tiles", new JPanel());
+		choose_objects.add("Tiles", new JPanel());
 		choose_objects.addTab("Objekte", new JPanel());
 		
-		jsplp.setTopComponent(new JPanel());
+		getContentPane().setLayout(new BorderLayout());
 		
-		jsplp.setBottomComponent(choose_objects);
+		tb.add(choose_objects);
 		
-		getContentPane().add(jsplp);
+		getContentPane().add(new JPanel(), BorderLayout.CENTER);
+		getContentPane().add(tb, BorderLayout.NORTH);
 		
 		pack();
 	}
