@@ -28,10 +28,9 @@
  * @author Wolfgang Keller
  */
 public abstract class HumanLikeCreature extends Creature {
-	protected VisibleKnownNode[][][] isVisible;
-	protected VisibleKnownNode[][][] isKnown;
-	protected boolean[][][] visibleWalls;
-
+	public VisibleKnownNode[][][] isVisible;
+	public VisibleKnownNode[][][] isKnown;
+	protected boolean[][][] visibleWalls;
 	/**
 	 * @param map
 	 */
@@ -51,13 +50,13 @@ public abstract class HumanLikeCreature extends Creature {
 				}
 	}
 	
-	public int getMainVisible(int l, int zeile, int spalte)
+	public VisibleKnownNode getVisible(int l, int zeile, int spalte)
 	{
 		//in return 15; zu Testzwecken ersetzen
 		if ((zeile >= map.getHeight()) || (zeile<0) || 
 		(spalte>=map.getWidth()) || (spalte<0))
-			return AyirahStaticVars.VISIBLE_NONE;
-		else return isVisible[l][zeile][spalte].getMainType();
+			return new VisibleKnownNode(AyirahStaticVars.VISIBLE_NONE,0);
+		else return isVisible[l][zeile][spalte];
 	}
 	
 	protected void addVisible(int l, int x, int y, int main_type, int diagonal_visible)
@@ -77,12 +76,12 @@ public abstract class HumanLikeCreature extends Creature {
 			System.out.println("Ungültige Koordinate: x="+x+" y="+y);
 	}
 		
-	public int getMainKnown(int l, int zeile, int spalte)
+	public VisibleKnownNode getKnown(int l, int zeile, int spalte)
 	{
 		if ((spalte >= map.getWidth()) || (spalte<0) || 
 		(zeile>=map.getHeight()) || (zeile<0))
-				return AyirahStaticVars.VISIBLE_NONE;
-		else return isKnown[l][zeile][spalte].getMainType();
+				return new VisibleKnownNode(AyirahStaticVars.VISIBLE_NONE,0);
+		else return isKnown[l][zeile][spalte];
 	}
 	
 	protected void removeVisible(int l, int x, int y, int main_type, int diagonal_visible)
@@ -91,7 +90,7 @@ public abstract class HumanLikeCreature extends Creature {
 		{
 			isVisible[l][y][x].removeType(main_type, diagonal_visible);
 	
-			if (map.isWall(l, y,x) && getMainVisible(l, y, x)==0)
+			if (map.isWall(l, y,x) && getVisible(l, y, x).getMainType()==0)
 			{
 				visibleWalls[l][y][x]=false;
 			}
@@ -106,7 +105,7 @@ public abstract class HumanLikeCreature extends Creature {
 		{
 			isVisible[l][y][x].setType(main_type, diagonal_visible);
 		
-			if (map.isWall(l, y,x) && getMainVisible(l,y,x)==0)
+			if (map.isWall(l, y,x) && getVisible(l,y,x).getMainType()==0)
 			{
 				visibleWalls[l][y][x]=false;
 			}
@@ -164,7 +163,7 @@ public abstract class HumanLikeCreature extends Creature {
 		for (int zeile=0; zeile<map.getHeight(); zeile++)
 			for (int spalte=0; spalte<map.getWidth(); spalte++)
 			{
-				int visible=getMainVisible(getLayer(), zeile, spalte);
+				int visible=getVisible(getLayer(), zeile, spalte).getMainType();
 				
 				isKnown[getLayer()][zeile][spalte].addType
 				(isVisible[getLayer()][zeile][spalte].getMainType(),
@@ -176,8 +175,8 @@ public abstract class HumanLikeCreature extends Creature {
 		for (int zeile=0; zeile<map.getHeight(); zeile++)
 			for (int spalte=0; spalte<map.getWidth(); spalte++)
 			{
-				int known=getMainKnown(getLayer(), zeile, spalte);
-				int visible=getMainVisible(getLayer(), zeile, spalte);
+				int known=getKnown(getLayer(), zeile, spalte).getMainType();
+				int visible=getVisible(getLayer(), zeile, spalte).getMainType();
 				
 				int tile=map.getTile(getLayer(), zeile, spalte);
 				
@@ -217,8 +216,8 @@ public abstract class HumanLikeCreature extends Creature {
 		for (int zeile=0; zeile<map.getHeight();zeile++)
 			for (int spalte=0; spalte<map.getWidth(); spalte++)
 			{
-				int vis=getMainVisible(getLayer(), zeile, spalte);
-				int known=getMainKnown(getLayer(), zeile, spalte);
+				int vis=getVisible(getLayer(), zeile, spalte).getMainType();
+				int known=getKnown(getLayer(), zeile, spalte).getMainType();
 				int tile=map.getTile(getLayer(), zeile, spalte);
 				
 				if (tile=='#' || tile=='-' || tile=='I')

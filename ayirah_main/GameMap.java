@@ -34,7 +34,7 @@ public class GameMap {
 	   {".........................",
 		".........................",
 		".........................",
-		".........................",
+		"............1............",
 		"........#................",
 		".........................",
 		".........................",
@@ -42,7 +42,7 @@ public class GameMap {
 		"...................>.....",
 		"..........x..............",
 		".........................",
-		"........1X...............",
+		".........X...............",
 		".........................",
 		".........................",
 		".........................",
@@ -111,14 +111,10 @@ public class GameMap {
 	};
 	
 	protected AyirahCharacter ayirah_char;
-	//protected Creature[] monsters;
-	
 	protected int mapsize_x=25, mapsize_y=25, layers_count=3;
-	
 	public GameMap()
 	{
-		//monsters=new Creature[0];
-		
+	
 		ayirah_char=new AyirahCharacter(this, 0, 1, 1, AyirahStaticVars.DIRECTION_SOUTH);
 		ayirah_char.calculateVisible();
 	}
@@ -161,12 +157,12 @@ public class GameMap {
 		if ((zeile >= mapsize_y) || (zeile<0) || 
 		(spalte>=mapsize_x) || (spalte<0))
 			return ' ';
-		else if (getCharacter().getMainKnown(l, zeile, spalte)==AyirahStaticVars.VISIBLE_NONE)
+		else if (getCharacter().getKnown(l, zeile, spalte).getMainType()		==AyirahStaticVars.VISIBLE_NONE)
 			return ' ';
 		else
 		{
 			char r=map[l][zeile].charAt(spalte);
-			int known=getCharacter().getMainKnown(l, zeile, spalte);
+			int known=getCharacter().getKnown(l, zeile, spalte).getMainType();
 			
 			if (r=='1')
 			{

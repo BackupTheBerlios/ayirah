@@ -60,19 +60,15 @@ public class AyirahComponent extends Canvas
 	AyirahComponent()
 	{
 		map=new GameMap();
-		
 		m_tiles=new MediaTracker(this);
 		m_boden=new MediaTracker(this);
-		
 		tiles=new Image[17];
 		character=new Image[8][4];
-		
 		tiles[0]=getToolkit().getImage(AyirahStaticVars.tile_prefix+"leer.png");
 		m_tiles.addImage(tiles[0], 0);
 		
 		tiles[1]=getToolkit().getImage(AyirahStaticVars.tile_prefix+"boden.png");
 		m_tiles.addImage(tiles[0], 1);
-		
 		tiles[2]=getToolkit().getImage(AyirahStaticVars.tile_prefix+"wand.png");
 		m_tiles.addImage(tiles[2], 2);
 		
@@ -313,8 +309,8 @@ public class AyirahComponent extends Canvas
 					catch (Exception e) {}
 				}
 				
-				int visible=map.getCharacter().getMainVisible
-				(map.getCharacter().getLayer(), zeile+top_corner_y, spalte+top_corner_x);
+				int visible=map.getCharacter().getVisible
+				(map.getCharacter().getLayer(), zeile+top_corner_y, spalte+top_corner_x)				.getMainType();
 				
 				if (visible==AyirahStaticVars.VISIBLE_NONE)
 				{
@@ -355,8 +351,8 @@ public class AyirahComponent extends Canvas
 					
 					
 				
-				int known=map.getCharacter().getMainKnown
-				(map.getCharacter().getLayer(), zeile+top_corner_y, spalte+top_corner_x);
+				int known=map.getCharacter().getKnown
+				(map.getCharacter().getLayer(), zeile+top_corner_y, spalte+top_corner_x)				.getMainType();
 				
 				if (known==AyirahStaticVars.KNOWN_NONE)
 				{
