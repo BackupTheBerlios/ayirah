@@ -990,7 +990,7 @@ public abstract class HumanLikeCreature extends Creature {
 								AyirahStaticVars.VISIBLE_KNOWN_SOUTH);
 							}
 							
-							if (vis_type==1)
+							else if (vis_type==1)
 							{
 								removeEvenDirectionWallInvisible
 								(getLayer(), x, y-1, 
@@ -1004,7 +1004,7 @@ public abstract class HumanLikeCreature extends Creature {
 								AyirahStaticVars.VISIBLE_KNOWN_EAST);
 							}
 							
-							if (vis_type==6)
+							else if (vis_type==6)
 							{
 								removeEvenDirectionWallInvisible
 								(getLayer(), x-1, y, 
@@ -1059,7 +1059,7 @@ public abstract class HumanLikeCreature extends Creature {
 								AyirahStaticVars.VISIBLE_KNOWN_SOUTH);
 							}
 							
-							if (vis_type==1)
+							else if (vis_type==1)
 							{
 								for (int i=0; i<=Math.min(map.getWidth()-1-x, 
 								map.getHeight()-1-y); i++)
@@ -1080,7 +1080,7 @@ public abstract class HumanLikeCreature extends Creature {
 								AyirahStaticVars.VISIBLE_KNOWN_EAST);
 							}
 							
-							if (vis_type==6)
+							else if (vis_type==6)
 							{
 								for (int i=0; i<=Math.min(map.getWidth()-1-x, 
 								map.getHeight()-1-y); i++)
@@ -1129,7 +1129,7 @@ public abstract class HumanLikeCreature extends Creature {
 								AyirahStaticVars.VISIBLE_KNOWN_NORTH);
 							}
 								
-							if (vis_type==1)
+							else if (vis_type==1)
 							{
 								removeEvenDirectionWallInvisible
 								(getLayer(), x+1, y,
@@ -1143,7 +1143,7 @@ public abstract class HumanLikeCreature extends Creature {
 								AyirahStaticVars.VISIBLE_KNOWN_NORTH);
 							}
 							
-							if (vis_type==6)
+							else if (vis_type==6)
 							{
 								removeEvenDirectionWallInvisible
 								(getLayer(), x, y+1,
@@ -1194,7 +1194,7 @@ public abstract class HumanLikeCreature extends Creature {
 								AyirahStaticVars.VISIBLE_KNOWN_NORTH);
 							}
 							
-							if (vis_type==1)
+							else if (vis_type==1)
 							{
 								for (int i=0; i<=Math.min(x, y); i++)
 								{
@@ -1215,7 +1215,7 @@ public abstract class HumanLikeCreature extends Creature {
 								AyirahStaticVars.VISIBLE_KNOWN_NORTH);
 							}
 							
-							if (vis_type==6)
+							else if (vis_type==6)
 							{
 								for (int i=0; i<=Math.min(x, y); i++)
 								{
@@ -1265,7 +1265,7 @@ public abstract class HumanLikeCreature extends Creature {
 								AyirahStaticVars.VISIBLE_KNOWN_NORTH);
 							}
 								
-							if (vis_type==3)
+							else if (vis_type==3)
 							{
 								removeEvenDirectionWallInvisible
 								(getLayer(), x-1, y,
@@ -1279,7 +1279,7 @@ public abstract class HumanLikeCreature extends Creature {
 								AyirahStaticVars.VISIBLE_KNOWN_NORTH);
 							}
 							
-							if (vis_type==4)
+							else if (vis_type==4)
 							{
 								removeEvenDirectionWallInvisible
 								(getLayer(), x, y+1,
@@ -1333,7 +1333,7 @@ public abstract class HumanLikeCreature extends Creature {
 								AyirahStaticVars.VISIBLE_KNOWN_NORTH);
 							}
 							
-							if (vis_type==3)
+							else if (vis_type==3)
 							{
 								for (int i=0; i<=Math.min
 								(map.getWidth()-1-x, y); i++)
@@ -1355,7 +1355,7 @@ public abstract class HumanLikeCreature extends Creature {
 								AyirahStaticVars.VISIBLE_KNOWN_NORTH);
 							}
 							
-							if (vis_type==4)
+							else if (vis_type==4)
 							{
 								for (int i=0; i<=Math.min
 								(map.getWidth()-1-x, y); i++)
@@ -1402,7 +1402,7 @@ public abstract class HumanLikeCreature extends Creature {
 									AyirahStaticVars.VISIBLE_KNOWN_SOUTH);
 							}
 							
-							if (vis_type==3)
+							else if (vis_type==3)
 							{
 								removeEvenDirectionWallInvisible
 								(getLayer(), x, y-1,
@@ -1416,7 +1416,7 @@ public abstract class HumanLikeCreature extends Creature {
 								AyirahStaticVars.VISIBLE_KNOWN_WEST);
 							}
 							
-							if (vis_type==4)
+							else if (vis_type==4)
 							{
 								removeEvenDirectionWallInvisible
 								(getLayer(), x+1, y,
@@ -1471,7 +1471,7 @@ public abstract class HumanLikeCreature extends Creature {
 									AyirahStaticVars.VISIBLE_KNOWN_SOUTH);
 							}
 							
-							if (vis_type==3)
+							else if (vis_type==3)
 							{
 								for (int i=0; i<=Math.min(x, 
 								(map.getHeight()-1-y)); i++)
@@ -1494,7 +1494,7 @@ public abstract class HumanLikeCreature extends Creature {
 								AyirahStaticVars.VISIBLE_KNOWN_WEST);
 							}
 							
-							if (vis_type==4)
+							else if (vis_type==4)
 							{
 								for (int i=0; i<=Math.min(x, 
 								(map.getHeight()-1-y)); i++)
