@@ -71,6 +71,15 @@ public class AyirahStaticVars {
 	public static final int DIAGONAL_TILE_HALFVISIBLE=2;
 	public static final int DIAGONAL_TILE_VISIBLE=3;
 	
+	public static final int VIS_TYPE_INVISIBLE_NONE=0;
+	public static final int VIS_TYPE_INVISIBLE_NORTH_EAST=1;
+	public static final int VIS_TYPE_INVISIBLE_NORTH_SOUTH=2;
+	public static final int VIS_TYPE_INVISIBLE_NORTH_WEST=3;
+	public static final int VIS_TYPE_INVISIBLE_EAST_SOUTH=4;
+	public static final int VIS_TYPE_INVISIBLE_EAST_WEST=5;
+	public static final int VIS_TYPE_INVISIBLE_SOUTH_WEST=6;
+	public static final int VIS_TYPE_INVISIBLE_ALL=7;
+	
 	public static char[][] non_block_tiles_tile_parts=
 	{
 		{'#', '#', '.', '.'},
