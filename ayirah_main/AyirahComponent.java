@@ -436,10 +436,10 @@ public class AyirahComponent extends Canvas
 						for (int i=0; i<array_index.length; i++)
 						{
 							int known=gt.getKnown();
-							System.out.println("Known="+known);
 							
 							boolean isVisible=(visible & (1 << i))!=0;
 							
+							if ((known & (1 << i))!=0)
 								g.drawImage(items[item_index][i][isVisible?1:0], 
 								tile_width*spalte+delta_x+im_delta_x[i], 
 								tile_height*zeile+delta_y+im_delta_y[i], this);

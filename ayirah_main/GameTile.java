@@ -40,6 +40,7 @@ public class GameTile {
 	{
 		this.visibility=visible;
 		directionParts=new char[4];
+		this.known=known;
 		this.item=item;
 		
 		directionParts[0]=t_north;
@@ -51,6 +52,8 @@ public class GameTile {
 	GameTile(char[] direction_parts, int vis, int known, String item)
 	{
 		this.visibility=vis;
+		this.known=known;
+		
 		directionParts=new char[4];
 		
 		if (direction_parts.length>=4)
