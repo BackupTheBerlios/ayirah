@@ -43,6 +43,6 @@ public class VisibleKnownNode implements Cloneable {
 			this.main_type=this.main_type | main_type;
 		}
 	}
-		public void removeType(int main_type)	{		if (isValidVisibleType(main_type))		{			this.main_type=this.main_type & (15-main_type);		}
+		public void removeType(int main_type)	{		if (isValidVisibleType(main_type))		{			this.main_type=this.main_type & (AyirahStaticVars.VISIBLE_KNOWN_ALL-main_type);		}
 	}
 }
