@@ -25,7 +25,7 @@ public class VisibleKnownNode implements Cloneable {
 	
 	protected boolean isValidVisibleType(int main_type)
 	{
-		return (main_type>=0 && main_type<16);
+		return (main_type>=0 && main_type<=15);
 	}
 	
 	public void setType(int main_type)
@@ -43,6 +43,8 @@ public class VisibleKnownNode implements Cloneable {
 			this.main_type=this.main_type | main_type;
 		}
 	}
-		public void removeType(int main_type)	{		if (isValidVisibleType(main_type))		{			this.main_type=this.main_type & (AyirahStaticVars.VISIBLE_KNOWN_ALL-main_type);		}
+		public void removeType(int main_type)	{		if (isValidVisibleType(main_type))			this.main_type=this.main_type & (AyirahStaticVars.VISIBLE_KNOWN_ALL-main_type);
+		else
+			System.out.println(main_type+" is not a valid VisibilityType");
 	}
 }
