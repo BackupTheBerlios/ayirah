@@ -1,5 +1,6 @@
 /* 
  * Created on 10.09.2003
+ * Last modified on 14.07.2004
  * 
  * Ayirah - a Java (tm)-based Roleplaying Game 
  * Copyright (C) 2003  Wolfgang Keller
@@ -434,7 +435,9 @@ public class AyirahComponent extends Canvas
 							boolean isVisible=(visible & (1 << i))!=0;
 							boolean isVisibleOther=(vis_other & (1 << i))!=0;
 							
-							if ((known & (1 << i))!=0)
+							if (((known & (1 << i))!=0) && 
+							((gt.getItem().getUsingDirections() & (1 << i))!=0))
+									
 							{
 								if (isVisible)
 								g.drawImage(items[item_index][i][1], 
