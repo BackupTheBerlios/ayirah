@@ -70,15 +70,15 @@ public class Ayirah extends Frame implements KeyListener {
 		mainFrame.pack();
 		mainFrame.setVisible(true);
 		
-//		try
-//		{
-//			AudioClip ac = Applet.newAudioClip(
-//			new URL( "file:" + System.getProperty( "user.dir" ) + "/sound/bg.wav" ));
-//			ac.loop();
-//		}
-//		catch(MalformedURLException e)
-//		{
-//			System.out.println(e.toString());
-//		}
+		try
+		{
+			AudioClip ac = Applet.newAudioClip(
+			new URL( "file:" + System.getProperty( "user.dir" ) + "/sound/bg.wav" ));
+			ac.loop();
+		}
+		catch(MalformedURLException e)
+		{
+			System.out.println(e.toString());
+		}
 	}
 }
