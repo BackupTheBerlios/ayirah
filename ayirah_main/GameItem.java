@@ -33,58 +33,89 @@
  * die Eigenschaft takeable=true)
  */
 public class GameItem implements Cloneable {
-	protected String type; // um was für einen Objekttyp handelt es sich
-	protected String sub_type; // Unter-Typ
-	protected String state; // Status des Objekts
-	protected String name; // lange Bezeichnung
-	protected int vis_type;
-	protected long weight; // Gewicht in Gramm
-	protected boolean takeable; // kann der Character das Objekt aufnehmen (rein theoretisch!)
+	private String type; // um was für einen Objekttyp handelt es sich
+	private String sub_type; // Unter-Typ
+	private String state; // Status des Objekts
+	private String name; // lange Bezeichnung
+	private int vis_type;
+	private long weight; // Gewicht in Gramm
+	private boolean walk_on_able;
+	private boolean takeable; // kann der Character das Objekt aufnehmen (rein theoretisch!)
 	
 	GameItem(String type, String sub_type, String state, String name, 
-	int vis_type, long weight, boolean takeable)
+	int vis_type, boolean takeable, boolean move_on_able, long weight)
 	{
-		this.type=type;
-		this.sub_type=sub_type;
-		this.state=state;
-		this.name=name;
-		this.vis_type=vis_type;
-		this.weight=Math.abs(weight);
-		this.takeable=takeable;
+		setType(type);
+		setSubType(sub_type);
+		setState(state);
+		setName(name);
+		setVisibilityType(vis_type);
+		setWeight(Math.abs(weight));
+		setWalkOnAble(move_on_able);
+		setTakeable(takeable);
 	}
 	
-	public String getType()
-	{
-		return this.type;
+	protected void setType(String type) {
+		this.type = type;
 	}
 	
-	public String getSubType()
-	{
-		return this.sub_type;
+	public String getType() {
+		return type;
+	}
+
+	protected void setSubType(String sub_type) {
+		this.sub_type = sub_type;
+	}
+
+	public String getSubType() {
+		return sub_type;
+	}
+
+	public void setState(String state) {
+		this.state = state;
+	}
+
+	public String getState() {
+		return state;
+	}
+
+	protected void setName(String name) {
+		this.name = name;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setVisibilityType(int vis_type) {
+		this.vis_type = vis_type;
+	}
+
+	public int getVisibilityType() {
+		return vis_type;
+	}
+
+	protected void setWeight(long weight) {
+		this.weight = weight;
+	}
+
+	public long getWeight() {
+		return weight;
 	}
 	
-	public String getState()
-	{
-		return this.state;
+	protected void setWalkOnAble(boolean move_on_able) {
+		this.walk_on_able = move_on_able;
 	}
 	
-	public String getName()
-	{
-		return this.name;
+	public boolean isWalkOnAble() {
+		return walk_on_able;
 	}
-	
-	public int getVisibilityType()
-	{
-		return this.vis_type;
+
+	protected void setTakeable(boolean takeable) {
+		this.takeable = takeable;
 	}
-	
-	public long getWeight()
-	{
-		return this.weight;
-	}
-	
-	public boolean isTakeAble()
-	{
+
+	public boolean isTakeable() {
 		return takeable;
 	}
 	
@@ -98,7 +129,7 @@ public class GameItem implements Cloneable {
 			this.getName()==gi.getName() &&
 			this.getVisibilityType()==gi.getVisibilityType() &&
 			this.getWeight()==gi.getWeight() &&
-			this.isTakeAble()==gi.isTakeAble());
+			this.isTakeable()==gi.isTakeable());
 		}
 		else
 			return false;
@@ -106,18 +137,18 @@ public class GameItem implements Cloneable {
 	
 	public int hashCode() {
 		return
-		((type.hashCode() & ((1<<6)-1))<<26) |
-		((sub_type.hashCode() & ((1<<6)-1))<<20 |
-		((state.hashCode() & ((1<<6)-1))<<14) |
-		((name.hashCode() & ((1<<6)-1))<<8) |
-		((vis_type & ((1<<3)-1))<<5) |
-		(((int) weight & ((1<<3)-1))<<1) |
-		(takeable ? 1 : 0)
+		((getType().hashCode() & ((1<<6)-1))<<26) |
+		((getSubType().hashCode() & ((1<<6)-1))<<20 |
+		((getState().hashCode() & ((1<<6)-1))<<14) |
+		((getName().hashCode() & ((1<<6)-1))<<8) |
+		((getVisibilityType() & ((1<<3)-1))<<5) |
+		(((int) getWeight() & ((1<<3)-1))<<1) |
+		(isTakeable() ? 1 : 0)
 		);
 	}
 	
 	public Object clone()
 	{
-		return new GameItem(type, sub_type, state, name, vis_type, weight, takeable);
+		return new GameItem(getType(), getSubType(), getState(), getName(), getVisibilityType(), isTakeable(), false, getWeight());
 	}
 }

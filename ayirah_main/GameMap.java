@@ -125,10 +125,10 @@ public class GameMap {
 		object_pos=new HashMap();
 		
 		this.addItem(new CoordVector(0, 10, 9), 
-		new GameItem("box", "wooden_box", "open", "an open box", 0, 50000l, false));
+		new GameItem("box", "wooden_box", "open", "an open box", 0, false, false, 50000l));
 		
 		this.addItem(new CoordVector(0, 9, 11), 
-		new GameItem("box", "wooden_box", "closed", "a closed box", 0, 50000l, false));
+		new GameItem("box", "wooden_box", "closed", "a closed box", 0, false, false, 50000l));
 		
 		this.characters_count=Math.max(1, Math.abs(characters_count));
 		
@@ -276,9 +276,9 @@ public class GameMap {
 				GameTile gt=createGameTile('.', c.getVisible(l, zeile, spalte), 
 				c.getKnown(l, zeile, spalte));
 				if (r=='x')
-					gt.setItem(new GameItem("box", "wooden_box", "open", "an open box", 0, 50000l, false));
+					gt.setItem(new GameItem("box", "wooden_box", "open", "an open box", 0, false, false, 50000l));
 				else
-					gt.setItem(new GameItem("box", "wooden_box", "closed", "a closed box", 0, 50000l, false));
+					gt.setItem(new GameItem("box", "wooden_box", "closed", "a closed box", 0, false, false, 50000l));
 				return gt;
 			}
 			
