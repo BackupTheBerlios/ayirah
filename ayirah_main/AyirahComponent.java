@@ -39,14 +39,13 @@ public class AyirahComponent extends Canvas
 	private MediaTracker m_tiles;
 	
 	// tiles[tile_number][direction][visible]
-	private Image[][][] tiles; // Alle Tiles
-	private Image[][][] items;
+	private Image[][] tiles; // Alle Tiles
+	private Image[][] items;
 	private Image[][] character;
 	
 	private GameMap map;
 	
 	private int top_x, top_y;
-	
 	private int max_top_x, max_top_y;
 	
 	private int scrolling_pixels_count=4;
@@ -66,6 +65,13 @@ public class AyirahComponent extends Canvas
 		0, 0, tile_height/2, 0
 	};
 	
+
+	private final AlphaComposite ac_unvis=AlphaComposite.getInstance(
+	AlphaComposite.SRC_OVER, 0.5f);
+						
+	private final AlphaComposite ac_vis=AlphaComposite.getInstance(
+	AlphaComposite.SRC_OVER, 1.0f);
+	
 	boolean map_changed=false;
 	boolean actualize=true;
 	
@@ -73,12 +79,12 @@ public class AyirahComponent extends Canvas
 	{
 		map=new GameMap();
 		m_tiles=new MediaTracker(this);
-		tiles=new Image[11][4][2];
+		tiles=new Image[11][4];
 		character=new Image[8][4];
-		items=new Image[2][4][2];
+		items=new Image[2][4];
 		
-		Image[] prepareImage=new Image[21];
-		Image[] prepareItems=new Image[4];
+		Image[] prepareImage=new Image[11];
+		Image[] prepareItems=new Image[2];
 		
 		max_top_x=map.getWidth()*tile_width-1024;
 		max_top_y=map.getHeight()*tile_height-768;
@@ -87,102 +93,53 @@ public class AyirahComponent extends Canvas
 		m_tiles.addImage(prepareImage[0], 0);
 		
 		prepareImage[1]=getToolkit().getImage(
-		AyirahStaticVars.tile_prefix+"boden1_invisible.gif");
+		AyirahStaticVars.tile_prefix+"boden1_visible.gif");
 		m_tiles.addImage(prepareImage[1], 0);
 		
 		prepareImage[2]=getToolkit().getImage(
-		AyirahStaticVars.tile_prefix+"boden1_visible.gif");
+		AyirahStaticVars.tile_prefix+"wand1_visible.gif");
 		m_tiles.addImage(prepareImage[2], 0);
 		
 		prepareImage[3]=getToolkit().getImage(
-		AyirahStaticVars.tile_prefix+"wand1_invisible.gif");
+		AyirahStaticVars.tile_prefix+"placeholder1_visible.gif");
 		m_tiles.addImage(prepareImage[3], 0);
 		
 		prepareImage[4]=getToolkit().getImage(
-		AyirahStaticVars.tile_prefix+"wand1_visible.gif");
+		AyirahStaticVars.tile_prefix+"tuer_waagrecht_offen_visible.gif");
 		m_tiles.addImage(prepareImage[4], 0);
 		
 		prepareImage[5]=getToolkit().getImage(
-		AyirahStaticVars.tile_prefix+"placeholder1_invisible.gif");
+		AyirahStaticVars.tile_prefix+"tuer_waagrecht_geschlossen_visible.gif");
 		m_tiles.addImage(prepareImage[5], 0);
 		
 		prepareImage[6]=getToolkit().getImage(
-		AyirahStaticVars.tile_prefix+"placeholder1_visible.gif");
+		AyirahStaticVars.tile_prefix+"tuer_senkrecht_offen_visible.gif");
 		m_tiles.addImage(prepareImage[6], 0);
 		
 		prepareImage[7]=getToolkit().getImage(
-		AyirahStaticVars.tile_prefix+"tuer_waagrecht_offen_invisible.gif");
+		AyirahStaticVars.tile_prefix+"tuer_senkrecht_geschlossen_visible.gif");
 		m_tiles.addImage(prepareImage[7], 0);
 		
 		prepareImage[8]=getToolkit().getImage(
-		AyirahStaticVars.tile_prefix+"tuer_waagrecht_offen_visible.gif");
+		AyirahStaticVars.tile_prefix+"treppe_hoch_visible.gif");
 		m_tiles.addImage(prepareImage[8], 0);
 		
 		prepareImage[9]=getToolkit().getImage(
-		AyirahStaticVars.tile_prefix+"tuer_waagrecht_geschlossen_invisible.gif");
+		AyirahStaticVars.tile_prefix+"treppe_hoch_runter_visible.gif");
 		m_tiles.addImage(prepareImage[9], 0);
 		
 		prepareImage[10]=getToolkit().getImage(
-		AyirahStaticVars.tile_prefix+"tuer_waagrecht_geschlossen_visible.gif");
+		AyirahStaticVars.tile_prefix+"treppe_runter_visible.gif");
 		m_tiles.addImage(prepareImage[10], 0);
 		
-		prepareImage[11]=getToolkit().getImage(
-		AyirahStaticVars.tile_prefix+"tuer_senkrecht_offen_invisible.gif");
-		m_tiles.addImage(prepareImage[11], 0);
-		
-		prepareImage[12]=getToolkit().getImage(
-		AyirahStaticVars.tile_prefix+"tuer_senkrecht_offen_visible.gif");
-		m_tiles.addImage(prepareImage[12], 0);
-		
-		prepareImage[13]=getToolkit().getImage(
-		AyirahStaticVars.tile_prefix+"tuer_senkrecht_geschlossen_invisible.gif");
-		m_tiles.addImage(prepareImage[13], 0);
-		
-		prepareImage[14]=getToolkit().getImage(
-		AyirahStaticVars.tile_prefix+"tuer_senkrecht_geschlossen_visible.gif");
-		m_tiles.addImage(prepareImage[14], 0);
-		
-		prepareImage[15]=getToolkit().getImage(
-		AyirahStaticVars.tile_prefix+"treppe_hoch_invisible.gif");
-		m_tiles.addImage(prepareImage[15], 0);
-		
-		prepareImage[16]=getToolkit().getImage(
-		AyirahStaticVars.tile_prefix+"treppe_hoch_visible.gif");
-		m_tiles.addImage(prepareImage[15], 0);
-		
-		prepareImage[17]=getToolkit().getImage(
-		AyirahStaticVars.tile_prefix+"treppe_hoch_runter_invisible.gif");
-		m_tiles.addImage(prepareImage[17], 0);
-		
-		prepareImage[18]=getToolkit().getImage(
-		AyirahStaticVars.tile_prefix+"treppe_hoch_runter_visible.gif");
-		m_tiles.addImage(prepareImage[18], 0);
-		
-		prepareImage[19]=getToolkit().getImage(
-		AyirahStaticVars.tile_prefix+"treppe_runter_invisible.gif");
-		m_tiles.addImage(prepareImage[19], 0);
-		
-		prepareImage[20]=getToolkit().getImage(
-		AyirahStaticVars.tile_prefix+"treppe_runter_visible.gif");
-		m_tiles.addImage(prepareImage[20], 0);
-		
 		// -------jetzt Items--------------
-		
 		prepareItems[0]=getToolkit().getImage(
-		AyirahStaticVars.item_prefix+"box_open_invisible.gif");
+		AyirahStaticVars.item_prefix+"box_open_visible.gif");
 		m_tiles.addImage(prepareItems[0], 0);
 		
 		prepareItems[1]=getToolkit().getImage(
-		AyirahStaticVars.item_prefix+"box_open_visible.gif");
-		m_tiles.addImage(prepareItems[1], 0);
-		
-		prepareItems[2]=getToolkit().getImage(
-		AyirahStaticVars.item_prefix+"box_closed_invisible.gif");
-		m_tiles.addImage(prepareItems[2], 0);
-		
-		prepareItems[3]=getToolkit().getImage(
 		AyirahStaticVars.item_prefix+"box_closed_visible.gif");
-		m_tiles.addImage(prepareItems[3], 0);
+		m_tiles.addImage(prepareItems[1], 0);
 
 		try {
 			m_tiles.waitForAll();
@@ -195,73 +152,55 @@ public class AyirahComponent extends Canvas
 		ImageFilter filter_south=new CropImageFilter(0, 24, 48, 24);
 		ImageFilter filter_east=new CropImageFilter(72, 0, 24, 48);
 		
-		ImageProducer collectionProducer=prepareImage[0].getSource();
-		tiles[0][0][0]=createImage(new FilteredImageSource(
-		collectionProducer,filter_north));
-		m_tiles.addImage(tiles[0][0][0], 1);
-		tiles[0][1][0]=createImage(new FilteredImageSource(
-		collectionProducer,filter_east));
-		m_tiles.addImage(tiles[0][1][0], 1);
-		tiles[0][2][0]=createImage(new FilteredImageSource(
-		collectionProducer,filter_south));
-		m_tiles.addImage(tiles[0][2][0], 1);
-		tiles[0][3][0]=createImage(new FilteredImageSource(
-		collectionProducer,filter_west));
-		m_tiles.addImage(tiles[0][3][0], 1);
-		
 		try {
 			m_tiles.waitForAll();
 		} catch (InterruptedException e) { }
 		
-		for (int i=1; i<11; i++)
+		ImageProducer collectionProducer;
+		
+		for (int i=0; i<11; i++)
 		{
-			for (int j=0; j<2; j++)
+			if (prepareImage[i]!=null)
 			{
-				if (prepareImage[i*2+j-1]!=null)
-				{
-					collectionProducer=prepareImage[i*2+j-1].getSource();
-					
-					tiles[i][0][j]=createImage(new FilteredImageSource(
-					collectionProducer,filter_north));
-					m_tiles.addImage(tiles[i][0][j], 2);
-					
-					tiles[i][1][j]=createImage(new FilteredImageSource(
-					collectionProducer,filter_east));
-					m_tiles.addImage(tiles[i][1][j], 2);
-					
-					tiles[i][2][j]=createImage(new FilteredImageSource(
-					collectionProducer,filter_south));
-					m_tiles.addImage(tiles[i][2][j], 2);
-					
-					tiles[i][3][j]=createImage(new FilteredImageSource(
-					collectionProducer,filter_west));
-					m_tiles.addImage(tiles[i][3][j], 2);
-				}
+				collectionProducer=prepareImage[i].getSource();
+				
+				tiles[i][0]=createImage(new FilteredImageSource(
+				collectionProducer,filter_north));
+				m_tiles.addImage(tiles[i][0], 2);
+				
+				tiles[i][1]=createImage(new FilteredImageSource(
+				collectionProducer,filter_east));
+				m_tiles.addImage(tiles[i][1], 2);
+				
+				tiles[i][2]=createImage(new FilteredImageSource(
+				collectionProducer,filter_south));
+				m_tiles.addImage(tiles[i][2], 2);
+				
+				tiles[i][3]=createImage(new FilteredImageSource(
+				collectionProducer,filter_west));
+				m_tiles.addImage(tiles[i][3], 2);
 			}
 		}
 		
 		for (int i=0; i<2; i++)
 		{
-			for (int j=0; j<2; j++)
-			{
-				collectionProducer=prepareItems[i*2+j].getSource();
+				collectionProducer=prepareItems[i].getSource();
 				
-				items[i][0][j]=createImage(new FilteredImageSource(
+				items[i][0]=createImage(new FilteredImageSource(
 				collectionProducer,filter_north));
-				m_tiles.addImage(items[i][0][j], 3);
+				m_tiles.addImage(items[i][0], 3);
 				
-				items[i][1][j]=createImage(new FilteredImageSource(
+				items[i][1]=createImage(new FilteredImageSource(
 				collectionProducer,filter_east));
-				m_tiles.addImage(items[i][1][j], 3);
+				m_tiles.addImage(items[i][1], 3);
 				
-				items[i][2][j]=createImage(new FilteredImageSource(
+				items[i][2]=createImage(new FilteredImageSource(
 				collectionProducer,filter_south));
-				m_tiles.addImage(items[i][2][j], 3);
+				m_tiles.addImage(items[i][2], 3);
 				
-				items[i][3][j]=createImage(new FilteredImageSource(
+				items[i][3]=createImage(new FilteredImageSource(
 				collectionProducer,filter_west));
-				m_tiles.addImage(items[i][3][j], 3);
-			}
+				m_tiles.addImage(items[i][3], 3);
 		}
 		
 		for (int i=0; i<8; i++)
@@ -410,8 +349,6 @@ public class AyirahComponent extends Canvas
 				
 				for (int i=0; i<array_index.length; i++)
 				{
-					boolean isVisible=(visible & (1 << i))!=0;
-					
 					if (actual_tile[i]==' ')
 						array_index[i]=0;
 					else if (actual_tile[i]=='.')
@@ -435,14 +372,9 @@ public class AyirahComponent extends Canvas
 					else
 						array_index[i]=3;
 					
-					if (!(array_index[i]==0))
-						g.drawImage(tiles[array_index[i]][i][isVisible?1:0], 
-						tile_width*spalte+im_delta_x[i], 
-						tile_height*zeile+im_delta_y[i], this);
-					else
-						g.drawImage(tiles[array_index[i]][i][0], 
-						tile_width*spalte+im_delta_x[i], 
-						tile_height*zeile+im_delta_y[i], this);
+					g.drawImage(tiles[array_index[i]][i], 
+					tile_width*spalte+im_delta_x[i], 
+					tile_height*zeile+im_delta_y[i], this);
 				}
 				
 				String item=gt.getItem();
@@ -452,41 +384,42 @@ public class AyirahComponent extends Canvas
 					int item_index=-1;
 					
 					if (item=="box_open")
-					{
 						item_index=0;
-					}
-					
 					else if (item=="box_closed")
-					{
 						item_index=1;
-					}
 					
 					if (item_index!=-1)
 						for (int i=0; i<array_index.length; i++)
 						{
 							int known=gt.getKnown();
-							
-							boolean isVisible=(visible & (1 << i))!=0;
-							
+
 							if ((known & (1 << i))!=0)
-								g.drawImage(items[item_index][i][isVisible?1:0], 
+								g.drawImage(items[item_index][i], 
 								tile_width*spalte+im_delta_x[i], 
 								tile_height*zeile+im_delta_y[i], this);
 						}
 				}
+				
+				Graphics2D g2=(Graphics2D) g;
+				g2.setComposite(ac_unvis); 
+				
+				// Sichtbarkeit einschränken
+				for (int i=0; i<array_index.length; i++)
+				{
+					boolean isVisible=(visible & (1 << i))!=0;
+					
+					if (!isVisible)
+					{
+						g2.drawImage(tiles[0][i], tile_width*spalte+im_delta_x[i], 
+						tile_height*zeile+im_delta_y[i], this);
+					}
+				}
+				
+				g2.setComposite(ac_vis);		
 			}
 		
 		int character_width=30;
 		int character_height=48;
-		
-//		Code zum transparenten Zeichnen eines Bildes
-//		Graphics2D g2=(Graphics2D) g;
-//		
-//		AlphaComposite ac=AlphaComposite.getInstance(
-//		AlphaComposite.SRC_OVER, 0.5f);
-//		
-//		g2.setComposite(ac); 
-//		g2.drawImage(<foo>);
 		
 		g.drawImage(
 		character[map.getCharacter().getViewDirection()][0], 
