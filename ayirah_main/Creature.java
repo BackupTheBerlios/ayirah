@@ -47,10 +47,6 @@ public abstract class Creature {
 		return pos;
 	}
 	
-	public CoordVector getPosClone() {
-		return (CoordVector) (pos.clone());
-	}
-	
 	public int getPosX()
 	{
 		return pos.getPosX();

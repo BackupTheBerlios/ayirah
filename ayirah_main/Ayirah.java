@@ -30,6 +30,7 @@
 import java.awt.*;
 import java.awt.event.*;import java.applet.*;
 import java.net.*;
+
 // import org.mozilla.javascript.*;
 // import org.mozilla.javascript.tools.ToolErrorReporter;
 
