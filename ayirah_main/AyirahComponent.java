@@ -66,10 +66,10 @@ public class AyirahComponent extends Canvas
 	{
 		map=new GameMap();
 		m_tiles=new MediaTracker(this);
-		tiles=new Image[5][4][2];
+		tiles=new Image[6][4][2];
 		character=new Image[8][4];
 		
-		Image[] prepareImage=new Image[9];
+		Image[] prepareImage=new Image[11];
 		
 		prepareImage[0]=getToolkit().getImage(AyirahStaticVars.tile_prefix+"unknown1.gif");
 		m_tiles.addImage(prepareImage[0], 0);
@@ -101,6 +101,12 @@ public class AyirahComponent extends Canvas
 		prepareImage[8]=getToolkit().getImage(AyirahStaticVars.tile_prefix+"tuer_waagrecht_offen_visible.gif");
 		m_tiles.addImage(prepareImage[8], 8);
 		
+		prepareImage[9]=getToolkit().getImage(AyirahStaticVars.tile_prefix+"tuer_senkrecht_offen_invisible.gif");
+		m_tiles.addImage(prepareImage[9], 9);
+		
+		prepareImage[10]=getToolkit().getImage(AyirahStaticVars.tile_prefix+"tuer_senkrecht_offen_visible.gif");
+		m_tiles.addImage(prepareImage[10], 10);
+		
 		try {
 			m_tiles.waitForAll();
 		} catch (InterruptedException e) { }
@@ -124,7 +130,7 @@ public class AyirahComponent extends Canvas
 		collectionProducer,filter_west));
 		m_tiles.addImage(tiles[0][3][0], 7);
 		
-		for (int i=1; i<5; i++)
+		for (int i=1; i<6; i++)
 		{
 			for (int j=0; j<2; j++)
 			{
@@ -261,7 +267,7 @@ public class AyirahComponent extends Canvas
 	{
 //		if (dbImage == null) {
 //			/* Diese Zeile verursacht den Fehler bei der Soundwiedergabe
-//			 * (seltsamerweise funktioniert stört sie in der alten Version nicht)
+//			 * (seltsamerweise stört sie in der alten Version nicht)
 //			 */
 //			dbImage = createImage(this.getSize().width,this.getSize().height);
 //			
@@ -337,6 +343,8 @@ public class AyirahComponent extends Canvas
 						array_index[i]=2;
 					else if (actual_tile[i]=='_')
 						array_index[i]=4;
+					else if (actual_tile[i]=='i')
+						array_index[i]=5;	
 					else
 						array_index[i]=3;
 					
