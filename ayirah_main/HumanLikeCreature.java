@@ -29,11 +29,15 @@
  */
 public abstract class HumanLikeCreature extends Creature {
 	public VisibleKnownNode[][][] isVisible;
-	public VisibleKnownNode[][][] isKnown;	
+	public VisibleKnownNode[][][] isKnown;
+	
+	GameMap map;	
 	public HumanLikeCreature(GameMap map, int l, int x, int y, int direction) {
 		super(map, l, x, y, direction);		
 		isVisible=new VisibleKnownNode[map.getLayersCount()][map.getHeight()][map.getWidth()];
 		isKnown=new VisibleKnownNode[map.getLayersCount()][map.getHeight()][map.getWidth()];
+		
+		this.map=map;
 		
 		for (int i=0; i<map.getLayersCount(); i++)
 			for (int j=0; j<map.getHeight(); j++)
@@ -42,6 +46,11 @@ public abstract class HumanLikeCreature extends Creature {
 					isVisible[i][j][k]=new VisibleKnownNode();
 					isKnown[i][j][k]=new VisibleKnownNode();
 				}
+	}
+	
+	public GameMap getMap()
+	{
+		return this.map;
 	}
 	
 	public int getVisible(int l, int zeile, int spalte)
@@ -103,6 +112,19 @@ public abstract class HumanLikeCreature extends Creature {
 			System.out.println("Ungültige Koordinate: x="+x+" y="+y);
 	}
 	
+	public void move(int direction) throws IllegalTurnException
+	{
+		if (isMovePossible(direction))
+		{
+			this.setPosX(this.getPosX()+AyirahStaticVars.direction_modifier[direction][0]);
+			this.setPosY(this.getPosY()+AyirahStaticVars.direction_modifier[direction][1]);
+			this.calculateVisible();
+		}
+		
+		else 
+			throw new IllegalTurnException("Zug unmöglich");
+	}
+	
 	public void goUp() throws IllegalTurnException
 	{
 		char actTile=map.getTile(getLayer(), getPosY(), getPosX());
@@ -130,6 +152,392 @@ public abstract class HumanLikeCreature extends Creature {
 		setLayer(getLayer()+1);
 		calculateVisible();
 	}
+	
+	/**
+	 * 
+	 * @param c
+	 * @return
+	 * true, wenn Erfolg
+	 * false, wenn Misserfolg
+	 * @throws IllegalTurnException
+	 */
+	public boolean openThing() throws IllegalTurnException
+	{
+		if (this.getViewDirection()%2==1 && 
+		getMap().isDoor(this.getLayer(),
+		this.getPosY()+AyirahStaticVars.direction_modifier[this.getViewDirection()][1], 
+		this.getPosX()+AyirahStaticVars.direction_modifier[this.getViewDirection()][0]))
+			throw new IllegalTurnException("Ungültige Richtung");
+		
+		char tile=getMap().getTile(
+		this.getLayer(),
+		this.getPosY()+AyirahStaticVars.direction_modifier[this.getViewDirection()][1], 
+		this.getPosX()+AyirahStaticVars.direction_modifier[this.getViewDirection()][0]);
+	
+		if (!(tile=='-' || tile=='I' || tile=='X'))
+			throw new IllegalTurnException("Keine geschlossenes Ding");
+	
+		if (tile=='-' && !(this.getViewDirection()==AyirahStaticVars.DIRECTION_NORTH || 
+		this.getViewDirection()==AyirahStaticVars.DIRECTION_SOUTH))	
+			throw new IllegalTurnException("Ungültige Richtung");
+	
+		if (tile=='I' && !(this.getViewDirection()==AyirahStaticVars.DIRECTION_WEST || 
+		this.getViewDirection()==AyirahStaticVars.DIRECTION_EAST))	
+			throw new IllegalTurnException("Ungültige Richtung");
+	
+		if (tile=='-')
+		{
+			getMap().setTile(this.getLayer(), 
+			this.getPosY()+AyirahStaticVars.direction_modifier[this.getViewDirection()][1], 
+			this.getPosX()+AyirahStaticVars.direction_modifier[this.getViewDirection()][0], '_');
+			this.calculateVisible();
+			return true;
+		}
+	
+		else if (tile=='I')
+		{
+			getMap().setTile(this.getLayer(),
+			this.getPosY()+AyirahStaticVars.direction_modifier[this.getViewDirection()][1], 
+			this.getPosX()+AyirahStaticVars.direction_modifier[this.getViewDirection()][0], 'i');
+			this.calculateVisible();
+			return true;
+		}
+		else if (tile=='X' && isReachable(this.getViewDirection()))
+		{
+			getMap().setTile(this.getLayer(),
+			this.getPosY()+AyirahStaticVars.direction_modifier[this.getViewDirection()][1], 
+			this.getPosX()+AyirahStaticVars.direction_modifier[this.getViewDirection()][0], 'x');
+			return true;
+		}
+	
+		else return false;
+	}
+
+	/**
+	 * 
+	 * @param c
+	 * @return
+	 * true, wenn Erfolg
+	 * false, wenn Misserfolg
+	 * @throws IllegalTurnException
+	 */
+	public boolean closeThing() throws IllegalTurnException
+	{
+		if (this.getViewDirection()%2==1 && 
+		getMap().isDoor(this.getLayer(),
+		this.getPosY()+AyirahStaticVars.direction_modifier[this.getViewDirection()][1], 
+		this.getPosX()+AyirahStaticVars.direction_modifier[this.getViewDirection()][0]))
+			throw new IllegalTurnException("Ungültige Richtung");
+	
+		char tile=getMap().getTile(this.getLayer(),
+		this.getPosY()+AyirahStaticVars.direction_modifier[this.getViewDirection()][1], 
+		this.getPosX()+AyirahStaticVars.direction_modifier[this.getViewDirection()][0]);
+
+		if (!(tile=='_' || tile=='i' || tile=='x'))
+			throw new IllegalTurnException("Keine offenes Ding");
+
+		if (tile=='_' && !(this.getViewDirection()==AyirahStaticVars.DIRECTION_NORTH || 
+		this.getViewDirection()==AyirahStaticVars.DIRECTION_SOUTH))	
+			throw new IllegalTurnException("Ungültige Richtung");
+
+		if (tile=='i' && !(this.getViewDirection()==AyirahStaticVars.DIRECTION_WEST || 
+		this.getViewDirection()==AyirahStaticVars.DIRECTION_EAST))	
+			throw new IllegalTurnException("Ungültige Richtung");
+
+		if (tile=='_')
+		{
+			getMap().setTile(this.getLayer(),
+			this.getPosY()+AyirahStaticVars.direction_modifier[this.getViewDirection()][1], 
+			this.getPosX()+AyirahStaticVars.direction_modifier[this.getViewDirection()][0], '-');
+			this.calculateVisible();
+			return true;
+		}
+		
+		else if (tile=='i')
+		{
+			getMap().setTile(this.getLayer(),
+			this.getPosY()+AyirahStaticVars.direction_modifier[this.getViewDirection()][1], 
+			this.getPosX()+AyirahStaticVars.direction_modifier[this.getViewDirection()][0], 'I');
+			this.calculateVisible();
+			return true;
+		}
+		
+		else if (tile=='x' && isReachable(this.getViewDirection()))
+		{
+			getMap().setTile(this.getLayer(),
+			this.getPosY()+AyirahStaticVars.direction_modifier[this.getViewDirection()][1], 
+			this.getPosX()+AyirahStaticVars.direction_modifier[this.getViewDirection()][0], 'X');
+			return true;
+		}
+	
+		else return false;
+	}
+	
+	protected boolean isMovePossible(int direction)
+	{
+		if (direction<0 || direction>=8)
+			return false;
+		
+		for (int i=0; i<getMap().getCharactersCount(); i++)
+		{
+			if ((this != getMap().getCharacter(i)) && (this.getLayer() ==
+			getMap().getCharacter(i).getLayer()) &&
+			((this.getPosX()+AyirahStaticVars.direction_modifier[direction][0])
+			== getMap().getCharacter(i).getPosX()) && 
+			((this.getPosY()+AyirahStaticVars.direction_modifier[direction][1])
+			== getMap().getCharacter(i).getPosY()))
+				return false;
+		}
+		
+		char tile_to=getMap().getTile(this.getLayer(),
+		this.getPosY()+AyirahStaticVars.direction_modifier[direction][1],
+		this.getPosX()+AyirahStaticVars.direction_modifier[direction][0]);
+		
+		if (tile_to=='.' || tile_to=='i' || tile_to=='_' || 
+		tile_to=='<' || tile_to=='>' || tile_to=='|')
+		{
+			if (direction%2==1)
+			{
+				char tile_before=getMap().getTile(this.getLayer(),
+				this.getPosY()+AyirahStaticVars.direction_modifier[(direction+7)%8][1],
+				this.getPosX()+AyirahStaticVars.direction_modifier[(direction+7)%8][0] );
+			
+				char tile_after=getMap().getTile(this.getLayer(),
+				this.getPosY()+AyirahStaticVars.direction_modifier[(direction+1)%8][1],
+				this.getPosX()+AyirahStaticVars.direction_modifier[(direction+1)%8][0] );
+			
+				if (tile_before=='.' || tile_before=='>' || 
+				tile_after=='.' || tile_after=='>') 
+				// nur an leeren Tiles oder nach unten gehenden Treppen kann sich easy
+				// vorbeigeschlichen werden
+					return true;
+				
+				else
+				{
+					if (direction==AyirahStaticVars.DIRECTION_NORTH_EAST)
+					{
+						if (
+						getMap().getTile(this.getLayer(),
+						this.getPosY()+AyirahStaticVars.direction_modifier
+						[AyirahStaticVars.DIRECTION_NORTH][1],
+						this.getPosX()+AyirahStaticVars.direction_modifier
+						[AyirahStaticVars.DIRECTION_NORTH][0])=='4' || 
+						getMap().getTile(this.getLayer(),
+						this.getPosY()+AyirahStaticVars.direction_modifier
+						[AyirahStaticVars.DIRECTION_EAST][1],
+						this.getPosX()+AyirahStaticVars.direction_modifier
+						[AyirahStaticVars.DIRECTION_EAST][0])=='2')
+							return true;
+						else return false;
+					}
+				
+					else if (direction==AyirahStaticVars.DIRECTION_SOUTH_WEST)
+					{
+						if (
+						getMap().getTile(this.getLayer(),
+						this.getPosY()+AyirahStaticVars.direction_modifier
+						[AyirahStaticVars.DIRECTION_WEST][1],
+						this.getPosX()+AyirahStaticVars.direction_modifier
+						[AyirahStaticVars.DIRECTION_WEST][0])=='4' || 
+						getMap().getTile(this.getLayer(),
+						this.getPosY()+AyirahStaticVars.direction_modifier
+						[AyirahStaticVars.DIRECTION_SOUTH][1],
+						this.getPosX()+AyirahStaticVars.direction_modifier
+						[AyirahStaticVars.DIRECTION_SOUTH][0])=='2')
+							 return true;
+						else return false;
+					}
+				
+					else if (direction==AyirahStaticVars.DIRECTION_NORTH_WEST)
+					{
+						if (
+						getMap().getTile(this.getLayer(),
+						this.getPosY()+AyirahStaticVars.direction_modifier
+						[AyirahStaticVars.DIRECTION_WEST][1],
+						this.getPosX()+AyirahStaticVars.direction_modifier
+						[AyirahStaticVars.DIRECTION_WEST][0])=='3' || 
+						getMap().getTile(this.getLayer(),
+						this.getPosY()+AyirahStaticVars.direction_modifier
+						[AyirahStaticVars.DIRECTION_NORTH][1],
+						this.getPosX()+AyirahStaticVars.direction_modifier
+						[AyirahStaticVars.DIRECTION_NORTH][0])=='1')
+							return true;
+						else return false;
+					}
+				
+					else if (direction==AyirahStaticVars.DIRECTION_SOUTH_EAST)
+					{
+						if (
+						getMap().getTile(this.getLayer(),
+						this.getPosY()+AyirahStaticVars.direction_modifier
+						[AyirahStaticVars.DIRECTION_EAST][1],
+						this.getPosX()+AyirahStaticVars.direction_modifier
+						[AyirahStaticVars.DIRECTION_EAST][0])=='1' || 
+						getMap().getTile(this.getLayer(),
+						this.getPosY()+AyirahStaticVars.direction_modifier
+						[AyirahStaticVars.DIRECTION_SOUTH][1],
+						this.getPosX()+AyirahStaticVars.direction_modifier
+						[AyirahStaticVars.DIRECTION_SOUTH][0])=='3')
+							return true;
+						else return false;
+					}
+				
+					else return false;
+				}
+			}
+		
+			else // if (direction%2==0)
+			{
+				char tile_from=getMap().getTile(this.getLayer(),
+				this.getPosY(), this.getPosX());
+			
+				if (tile_from=='_' && (direction==AyirahStaticVars.DIRECTION_EAST ||
+				direction==AyirahStaticVars.DIRECTION_WEST))
+					return false;
+			
+				else if (tile_from=='i' && (direction==AyirahStaticVars.DIRECTION_NORTH || 
+				direction==AyirahStaticVars.DIRECTION_SOUTH))
+					return false;
+			
+				if (tile_to=='_' && (direction==AyirahStaticVars.DIRECTION_EAST ||
+				direction==AyirahStaticVars.DIRECTION_WEST))
+					return false;
+			
+				else if (tile_to=='i' && (direction==AyirahStaticVars.DIRECTION_NORTH || 
+				direction==AyirahStaticVars.DIRECTION_SOUTH))
+					return false;
+				
+				else return true;
+			}
+		}
+		
+		else return false;
+		}
+	
+	
+		protected boolean isReachable(int direction)
+		{
+			if (direction<0 || direction>=8)
+				return false;
+		
+			char tile_to=getMap().getTile(this.getLayer(),
+			this.getPosY()+AyirahStaticVars.direction_modifier[direction][1],
+			this.getPosX()+AyirahStaticVars.direction_modifier[direction][0]);
+		
+			if (direction%2==1)
+			{
+				char tile_before=getMap().getTile(this.getLayer(),
+				this.getPosY()+AyirahStaticVars.direction_modifier[(direction+7)%8][1],
+				this.getPosX()+AyirahStaticVars.direction_modifier[(direction+7)%8][0] );
+			
+				char tile_after=getMap().getTile(this.getLayer(),
+				this.getPosY()+AyirahStaticVars.direction_modifier[(direction+1)%8][1],
+				this.getPosX()+AyirahStaticVars.direction_modifier[(direction+1)%8][0] );
+				
+				if (tile_before=='.' || tile_before=='>' || 
+				tile_after=='.' || tile_after=='>') 
+				// nur an leeren Tiles oder nach unten gehenden Treppen kann sich easy
+				// vorbeigeschlichen werden
+					return true;
+			
+				else
+				{
+					if (direction==AyirahStaticVars.DIRECTION_NORTH_EAST)
+					{
+						if (
+						getMap().getTile(this.getLayer(),
+						this.getPosY()+AyirahStaticVars.direction_modifier
+						[AyirahStaticVars.DIRECTION_NORTH][1],
+						this.getPosX()+AyirahStaticVars.direction_modifier
+						[AyirahStaticVars.DIRECTION_NORTH][0])=='4' || 
+						getMap().getTile(this.getLayer(),
+						this.getPosY()+AyirahStaticVars.direction_modifier
+						[AyirahStaticVars.DIRECTION_EAST][1],
+						this.getPosX()+AyirahStaticVars.direction_modifier
+						[AyirahStaticVars.DIRECTION_EAST][0])=='2')
+							return true;
+						else return false;
+					}
+				
+					else if (direction==AyirahStaticVars.DIRECTION_SOUTH_WEST)
+					{
+						if (
+						getMap().getTile(this.getLayer(),
+						this.getPosY()+AyirahStaticVars.direction_modifier
+						[AyirahStaticVars.DIRECTION_WEST][1],
+						this.getPosX()+AyirahStaticVars.direction_modifier
+						[AyirahStaticVars.DIRECTION_WEST][0])=='4' || 
+						getMap().getTile(this.getLayer(),
+						this.getPosY()+AyirahStaticVars.direction_modifier
+						[AyirahStaticVars.DIRECTION_SOUTH][1],
+						this.getPosX()+AyirahStaticVars.direction_modifier
+						[AyirahStaticVars.DIRECTION_SOUTH][0])=='2')
+							return true;
+						else return false;
+					}
+				
+					else if (direction==AyirahStaticVars.DIRECTION_NORTH_WEST)
+					{
+						if (
+						getMap().getTile(this.getLayer(),
+						this.getPosY()+AyirahStaticVars.direction_modifier
+						[AyirahStaticVars.DIRECTION_WEST][1],
+						this.getPosX()+AyirahStaticVars.direction_modifier
+						[AyirahStaticVars.DIRECTION_WEST][0])=='3' || 
+						getMap().getTile(this.getLayer(),
+						this.getPosY()+AyirahStaticVars.direction_modifier
+						[AyirahStaticVars.DIRECTION_NORTH][1],
+						this.getPosX()+AyirahStaticVars.direction_modifier
+						[AyirahStaticVars.DIRECTION_NORTH][0])=='1')
+							return true;
+						else return false;
+					}
+				
+					else if (direction==AyirahStaticVars.DIRECTION_SOUTH_EAST)
+					{
+						if (
+						getMap().getTile(this.getLayer(),
+						this.getPosY()+AyirahStaticVars.direction_modifier
+						[AyirahStaticVars.DIRECTION_EAST][1],
+						this.getPosX()+AyirahStaticVars.direction_modifier
+						[AyirahStaticVars.DIRECTION_EAST][0])=='1' || 
+						getMap().getTile(this.getLayer(),
+						this.getPosY()+AyirahStaticVars.direction_modifier
+						[AyirahStaticVars.DIRECTION_SOUTH][1],
+						this.getPosX()+AyirahStaticVars.direction_modifier
+						[AyirahStaticVars.DIRECTION_SOUTH][0])=='3')
+							return true;
+						else return false;
+					}
+				
+					else return false;
+				}
+			}
+		
+			else // if (direction%2==0)
+			{
+				char tile_from=getMap().getTile(this.getLayer(),
+				this.getPosY(), this.getPosX());
+			
+				if (tile_from=='_' && (direction==AyirahStaticVars.DIRECTION_EAST ||
+				direction==AyirahStaticVars.DIRECTION_WEST))
+					return false;
+			
+				else if (tile_from=='i' && (direction==AyirahStaticVars.DIRECTION_NORTH || 
+				direction==AyirahStaticVars.DIRECTION_SOUTH))
+					return false;
+			
+				if (tile_to=='_' && (direction==AyirahStaticVars.DIRECTION_EAST ||
+				direction==AyirahStaticVars.DIRECTION_WEST))
+					return false;
+			
+				else if (tile_to=='i' && (direction==AyirahStaticVars.DIRECTION_NORTH || 
+				direction==AyirahStaticVars.DIRECTION_SOUTH))
+					return false;
+			
+				else return true;
+			}
+		 }
 	
 	protected void makeVisibleKnown()
 	{

@@ -49,9 +49,8 @@ public class AyirahComponentKeyListener extends KeyAdapter {
 			{
 				try
 				{
-					ac.getGameMap().move(AyirahStaticVars.DIRECTION_SOUTH, 
 					ac.getGameMap().getCharacter(ac.getGameMap().
-					getActualCharacterIndex()));
+					getActualCharacterIndex()).move(AyirahStaticVars.DIRECTION_SOUTH);
 					ac.actualize();
 				}
 				catch (IllegalTurnException exc) {}
@@ -62,9 +61,8 @@ public class AyirahComponentKeyListener extends KeyAdapter {
 			{
 				try
 				{
-					ac.getGameMap().move(AyirahStaticVars.DIRECTION_NORTH, 
 					ac.getGameMap().getCharacter(ac.getGameMap().
-					getActualCharacterIndex()));
+					getActualCharacterIndex()).move(AyirahStaticVars.DIRECTION_NORTH);
 					ac.actualize();
 				}
 				catch (IllegalTurnException exc) {}
@@ -75,9 +73,8 @@ public class AyirahComponentKeyListener extends KeyAdapter {
 			{
 				try
 				{
-					ac.getGameMap().move(AyirahStaticVars.DIRECTION_WEST, 
 					ac.getGameMap().getCharacter(ac.getGameMap().
-					getActualCharacterIndex()));
+					getActualCharacterIndex()).move(AyirahStaticVars.DIRECTION_WEST);
 					ac.actualize();
 				}
 				catch (IllegalTurnException exc) {}
@@ -88,9 +85,8 @@ public class AyirahComponentKeyListener extends KeyAdapter {
 			{
 				try
 				{
-					ac.getGameMap().move(AyirahStaticVars.DIRECTION_EAST, 
 					ac.getGameMap().getCharacter(ac.getGameMap().
-					getActualCharacterIndex()));
+					getActualCharacterIndex()).move(AyirahStaticVars.DIRECTION_EAST);
 					ac.actualize();
 				}
 				catch (IllegalTurnException exc) {}
@@ -100,9 +96,8 @@ public class AyirahComponentKeyListener extends KeyAdapter {
 			{
 				try
 				{
-					ac.getGameMap().move(AyirahStaticVars.DIRECTION_NORTH_EAST, 
 					ac.getGameMap().getCharacter(ac.getGameMap().
-					getActualCharacterIndex()));
+					getActualCharacterIndex()).move(AyirahStaticVars.DIRECTION_NORTH_EAST);
 					ac.actualize();
 				}
 					catch (IllegalTurnException exc) {}
@@ -111,16 +106,15 @@ public class AyirahComponentKeyListener extends KeyAdapter {
 			else if (kc==KeyEvent.VK_PAGE_DOWN || kc==KeyEvent.VK_NUMPAD3)
 			{
 				try
-				{					ac.getGameMap().move(AyirahStaticVars.DIRECTION_SOUTH_EAST, 					ac.getGameMap().getCharacter(ac.getGameMap().
-					getActualCharacterIndex()));					ac.actualize();				}				catch (IllegalTurnException exc) {}			}
-						else if (kc==KeyEvent.VK_HOME || kc==KeyEvent.VK_NUMPAD7)			{				try				{					ac.getGameMap().move(AyirahStaticVars.DIRECTION_NORTH_WEST, 					ac.getGameMap().getCharacter(ac.getGameMap().
-					getActualCharacterIndex()));					ac.actualize();				}				catch (IllegalTurnException exc) {}			}
+				{					ac.getGameMap().getCharacter(ac.getGameMap().
+					getActualCharacterIndex()).move(AyirahStaticVars.DIRECTION_SOUTH_EAST);					ac.actualize();				}				catch (IllegalTurnException exc) {}			}
+						else if (kc==KeyEvent.VK_HOME || kc==KeyEvent.VK_NUMPAD7)			{				try				{					ac.getGameMap().getCharacter(ac.getGameMap().
+					getActualCharacterIndex()).move(AyirahStaticVars.DIRECTION_NORTH_WEST);					ac.actualize();				}				catch (IllegalTurnException exc) {}			}
 						else if (kc==KeyEvent.VK_END || kc==KeyEvent.VK_NUMPAD1)
 			{
 				try				{
-					ac.getGameMap().move(AyirahStaticVars.DIRECTION_SOUTH_WEST, 
 					ac.getGameMap().getCharacter(ac.getGameMap().
-					getActualCharacterIndex()));					ac.actualize();				}				catch (IllegalTurnException exc) {}			}
+					getActualCharacterIndex()).move(AyirahStaticVars.DIRECTION_SOUTH_WEST);					ac.actualize();				}				catch (IllegalTurnException exc) {}			}
 			
 			else if (kc==KeyEvent.VK_X)
 			{
@@ -167,8 +161,8 @@ public class AyirahComponentKeyListener extends KeyAdapter {
 			{
 				try
 				{
-					ac.getGameMap().openThing(ac.getGameMap().
-					getCharacter(ac.getGameMap().getActualCharacterIndex()));
+					ac.getGameMap().getCharacter(ac.getGameMap().
+					getActualCharacterIndex()).openThing();
 					ac.actualize();
 				}
 				catch (IllegalTurnException exc) {}
@@ -178,8 +172,8 @@ public class AyirahComponentKeyListener extends KeyAdapter {
 			{
 				try
 				{
-					ac.getGameMap().closeThing(ac.getGameMap().
-					getCharacter(ac.getGameMap().getActualCharacterIndex()));
+					ac.getGameMap().getCharacter(ac.getGameMap().
+					getActualCharacterIndex()).closeThing();
 					ac.actualize();
 				}
 				catch (IllegalTurnException exc) {}
