@@ -205,7 +205,7 @@ public class GameMap {
 		(spalte>=mapsize_x) || (spalte<0))
 			return createGameTile(' ', 0, 0);
 		else if (c.getKnown(l, zeile, spalte)		==AyirahStaticVars.VISIBLE_KNOWN_NONE)
-		return createGameTile('?', 0, 0);
+			return createGameTile('?', 0, 0);
 		else
 		{
 			char r=map[l][zeile].charAt(spalte);
@@ -265,9 +265,9 @@ public class GameMap {
 				GameTile gt=createGameTile('.', c.getVisible(l, zeile, spalte), 
 				c.getKnown(l, zeile, spalte));
 				if (r=='x')
-					gt.setItem(new GameItem("box", "open", "an open box", 50000, false));
+					gt.setItem(new GameItem("box", "open", "an open box", 0, 50000l, false));
 				else
-					gt.setItem(new GameItem("box", "closed", "a closed box", 50000, false));
+					gt.setItem(new GameItem("box", "closed", "a closed box", 0, 50000l, false));
 				return gt;
 			}
 			
