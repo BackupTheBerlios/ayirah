@@ -28,6 +28,9 @@
 /**
  * @author Wolfgang Keller
  */
+
+import java.util.*;
+
 public class GameMap {
 	protected String[][] map= // Format: [zeile][spalte]
 	{
@@ -115,8 +118,12 @@ public class GameMap {
 	protected int characters_count;
 	protected int actual_character_index;
 	
+	public HashMap object_pos;
+	
 	public GameMap(int characters_count)
 	{
+		object_pos=new HashMap();
+		
 		this.characters_count=Math.max(1, Math.abs(characters_count));
 		
 		ayirah_char=new AyirahCharacter[this.characters_count];
@@ -178,7 +185,9 @@ public class GameMap {
 	}
 	
 	/**
-	 * Sollte es für alle Fälle, außer die diagonalen Wände tun
+	 * Ganz einfache Methode zum Erzeugen von GameTiles. Nix für
+	 * Spezialfälle
+	 * 
 	 * @param tile_type
 	 * @param visible
 	 * @param known
@@ -186,17 +195,12 @@ public class GameMap {
 	 */
 	public GameTile createGameTile(char tile_type, int visible, int known)
 	{
-		boolean known_north=((known & 1) != 0);
-		boolean known_east=((known & 2) != 0);
-		boolean known_south=((known & 4) != 0);
-		boolean known_west=((known & 8) != 0);
-		
-		char tile_north= known_north ? tile_type : '?';
-		char tile_east= known_east ? tile_type : '?';
-		char tile_south= known_south ? tile_type : '?';
-		char tile_west= known_west ? tile_type : '?';
-		
-		return new GameTile(tile_north, tile_east, tile_south, tile_west, visible, known, null);
+		return new GameTile(
+		((known & 1) != 0) ? tile_type : '?', 
+		((known & 2) != 0) ? tile_type : '?', 
+		((known & 4) != 0) ? tile_type : '?', 
+		((known & 8) != 0) ? tile_type : '?', 
+		visible, known, null);
 	}
 	
 	public GameTile getCreatureKnownTile(HumanLikeCreature c, int l, int zeile, int spalte)
@@ -331,6 +335,26 @@ public class GameMap {
 		return basic;
 	}
 	
+	public GameItem getItem(CoordVector3 coords)
+	{
+		Object x=object_pos.get(coords);
+		
+		if (x != null)
+			return ((GameItem) ((GameItem) x).clone());
+		else
+			return null;
+	}
+	
+	public void addItem(CoordVector3 coords, GameItem gi)
+	{
+		object_pos.put(coords, gi);
+	}
+	
+	public void removeItem(CoordVector3 coords)
+	{
+		object_pos.remove(coords);
+	}
+	
 	public AyirahCharacter getCharacter(int i)
 	{
 		return ayirah_char[i];
@@ -375,47 +399,75 @@ public class GameMap {
 		{
 			char t=getTile(l, zeile, spalte);
 			
+			int vis_type_tile;
+			
 			switch (t)
 			{
 				case '.':
-					return AyirahStaticVars.VIS_TYPE_INVISIBLE_NONE;
+					vis_type_tile=AyirahStaticVars.VIS_TYPE_INVISIBLE_NONE;
+					break;
 				case ' ':
-					return AyirahStaticVars.VIS_TYPE_INVISIBLE_NONE;
+					vis_type_tile=AyirahStaticVars.VIS_TYPE_INVISIBLE_NONE;
+					break;
 				case 'x':
-					return AyirahStaticVars.VIS_TYPE_INVISIBLE_NONE;
+					vis_type_tile=AyirahStaticVars.VIS_TYPE_INVISIBLE_NONE;
+					break;
 				case 'X':
-					return AyirahStaticVars.VIS_TYPE_INVISIBLE_NONE;
+					vis_type_tile=AyirahStaticVars.VIS_TYPE_INVISIBLE_NONE;
+					break;
 				case '<':
-					return AyirahStaticVars.VIS_TYPE_INVISIBLE_NONE;
+					vis_type_tile=AyirahStaticVars.VIS_TYPE_INVISIBLE_NONE;
+					break;
 				case '>':
-					return AyirahStaticVars.VIS_TYPE_INVISIBLE_NONE;
+					vis_type_tile=AyirahStaticVars.VIS_TYPE_INVISIBLE_NONE;
+					break;
 				case '|':
-					return AyirahStaticVars.VIS_TYPE_INVISIBLE_NONE;
+					vis_type_tile=AyirahStaticVars.VIS_TYPE_INVISIBLE_NONE;
+					break;
 				case '1':
-					return AyirahStaticVars.VIS_TYPE_INVISIBLE_NORTH_EAST;
+					vis_type_tile=AyirahStaticVars.VIS_TYPE_INVISIBLE_NORTH_EAST;
+					break;
 				case '4':
-					return AyirahStaticVars.VIS_TYPE_INVISIBLE_NORTH_WEST;
+					vis_type_tile=AyirahStaticVars.VIS_TYPE_INVISIBLE_NORTH_WEST;
+					break;
 				case '2':
-					return AyirahStaticVars.VIS_TYPE_INVISIBLE_EAST_SOUTH;
+					vis_type_tile=AyirahStaticVars.VIS_TYPE_INVISIBLE_EAST_SOUTH;
+					break;
 				case '3':
-					return AyirahStaticVars.VIS_TYPE_INVISIBLE_SOUTH_WEST;
+					vis_type_tile=AyirahStaticVars.VIS_TYPE_INVISIBLE_SOUTH_WEST;
+					break;
 				case 's':
-					return AyirahStaticVars.VIS_TYPE_INVISIBLE_NORTH_SOUTH;
+					vis_type_tile=AyirahStaticVars.VIS_TYPE_INVISIBLE_NORTH_SOUTH;
+					break;
 				case 'w':
-					return AyirahStaticVars.VIS_TYPE_INVISIBLE_EAST_WEST;
+					vis_type_tile=AyirahStaticVars.VIS_TYPE_INVISIBLE_EAST_WEST;
+					break;
 				case '#':
-					return AyirahStaticVars.VIS_TYPE_INVISIBLE_ALL;
+					vis_type_tile=AyirahStaticVars.VIS_TYPE_INVISIBLE_ALL;
+					break;
 				case 'I':
-					return AyirahStaticVars.VIS_TYPE_INVISIBLE_NORTH_SOUTH;
+					vis_type_tile=AyirahStaticVars.VIS_TYPE_INVISIBLE_NORTH_SOUTH;
+					break;
 				case 'i':
-					return AyirahStaticVars.VIS_TYPE_INVISIBLE_NONE;
+					vis_type_tile=AyirahStaticVars.VIS_TYPE_INVISIBLE_NONE;
+					break;
 				case '-':
-					return AyirahStaticVars.VIS_TYPE_INVISIBLE_EAST_WEST;
+					vis_type_tile=AyirahStaticVars.VIS_TYPE_INVISIBLE_EAST_WEST;
+					break;
 				case '_':
-					return AyirahStaticVars.VIS_TYPE_INVISIBLE_NONE;
+					vis_type_tile=AyirahStaticVars.VIS_TYPE_INVISIBLE_NONE;
+					break;
 				default:
-					return AyirahStaticVars.VIS_TYPE_INVISIBLE_NONE;
+					vis_type_tile=AyirahStaticVars.VIS_TYPE_INVISIBLE_NONE;
+					break;
 			}
+			
+			GameItem gi=getItem(new CoordVector3(l, spalte, zeile));
+			
+			if (gi != null)
+				return vis_type_tile | gi.getVisibilityType();
+			else
+				return vis_type_tile;
 		}
 		
 		else
@@ -428,7 +480,6 @@ public class GameMap {
 	protected boolean isDoor(int layer, int zeile, int spalte)
 	{
 		char t=getTile(layer, zeile, spalte);
-		
 		return (t=='I' || t=='i' || t=='-' || t=='_');
 	}
 }
