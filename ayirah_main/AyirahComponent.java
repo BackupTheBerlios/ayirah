@@ -199,9 +199,6 @@ public class AyirahComponent extends Canvas
 			}
 		}
 		
-//		test=getToolkit().createImage("im_devel/iso/boden_iso.png");
-//		m_tiles.addImage(test,4);
-		
 		prepareImage=null;
 		prepareItems=null;
 		
@@ -303,12 +300,12 @@ public class AyirahComponent extends Canvas
 		repaint();
 	}
 	
-	public void update(Graphics g)
+	/*public void update(Graphics g)
 	{
 		paint(g);
-	}
+	}*/
 	
-	public void paint (Graphics g)
+	public void update (Graphics g)
 	{
 		if (dbImage == null || map_changed) {
 			// Diese Zeile verursacht den Fehler bei der Soundwiedergabe
@@ -327,7 +324,7 @@ public class AyirahComponent extends Canvas
 			
 			// Vordergrund zeichnen
 			dbGraphics.setColor(getForeground());
-			paintIt(dbGraphics);
+			paint(dbGraphics);
 			actualize=false;
 		}
 		
@@ -336,7 +333,7 @@ public class AyirahComponent extends Canvas
 	}
 
 	
-	public void paintIt (Graphics g)
+	public void paint (Graphics g)
 	{
 		g.setColor(Color.BLACK);
 		g.fillRect(
