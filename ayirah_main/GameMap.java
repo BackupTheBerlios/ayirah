@@ -297,6 +297,8 @@ public class GameMap {
 				
 			}
 			
+			if (getCharacter(i).getLayer() == getCharacter(
+			getActualCharacterIndex()).getLayer())
 			basic.setVisibleOther(basic.getVisibleOther() | chartiles[i].getVisible());
 			
 			if ((basic.getItem()=="" || basic.getItem()==null) && 
