@@ -642,9 +642,9 @@ public abstract class HumanLikeCreature extends Creature {
 		return back;
 	}
 	
-	protected void removeInvisible(int layer, int x, int y, int vis_type)
+	protected void removeInvisible(int x, int y, int vis_type)
 	{
-		if (getMap().isValidCoordPair(layer, x, y) && vis_type>0)
+		if (getMap().isValidCoordPair(getLayer(), x, y) && vis_type>0)
 		{
 			if (vis_type>0
 			&&  !(y==this.getPosY() &&
@@ -1700,7 +1700,7 @@ public abstract class HumanLikeCreature extends Creature {
 			{
 				int vis_type=map.getVisibilityType(getLayer(), zeile, spalte);
 				
-				this.removeInvisible(getLayer(), spalte, zeile, vis_type);
+				this.removeInvisible(spalte, zeile, vis_type);
 			}
 	}
 		

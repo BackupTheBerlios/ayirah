@@ -29,11 +29,11 @@
  */
 public abstract class Creature {
 	protected GameMap map;
-	protected int pos_x, pos_y, layer, view_direction;	
+	protected int pos_x, pos_y, pos_layer, view_direction;	
 	public Creature(GameMap map, int l, int x, int y, int direction) {
 		super();
 		this.map=map;
-		this.layer=l;
+		this.pos_layer=l;
 		this.pos_x=x;
 		this.pos_y=y;
 		this.view_direction=direction;
@@ -61,12 +61,12 @@ public abstract class Creature {
 	
 	public int getLayer()
 	{
-		return layer;
+		return pos_layer;
 	}
 	
 	public void setLayer(int layer)
 	{
-		this.layer=layer;
+		this.pos_layer=layer;
 	}
 	
 	public void rotateLeft()

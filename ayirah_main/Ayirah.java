@@ -120,7 +120,7 @@ public class Ayirah extends Frame implements KeyListener {
 		try
 		{
 			AudioClip ac = Applet.newAudioClip(
-			new URL( "file:" + System.getProperty( "user.dir" ) + "/sound/bg.wav" ));
+			new URL( "file:" + System.getProperty( "user.dir" ) + "/sound/jacklight.mid" ));
 			ac.loop();
 		}
 		catch(MalformedURLException e)
