@@ -30,9 +30,11 @@
 import java.awt.*;
 import java.awt.event.*;import java.applet.*;
 import java.net.*;
+// import org.mozilla.javascript.*;
+// import org.mozilla.javascript.tools.ToolErrorReporter;
 
 public class Ayirah extends Frame implements KeyListener {
-	public AyirahComponent ac;
+	protected AyirahComponent ac;
 	
 	public Ayirah() {
 		addWindowListener(new WindowAdapter() {
@@ -73,14 +75,47 @@ public class Ayirah extends Frame implements KeyListener {
 	{
 	}
 	
+	public AyirahComponent getAyirahComponent()
+	{
+		return ac;
+	}
+	
 	public static void main(String args[]) {
-		System.out.println();
 		Ayirah mainFrame = new Ayirah();
 		mainFrame.setSize(700, 500);
 		mainFrame.setTitle("Ayirah");
 		mainFrame.setResizable(false);
 		mainFrame.pack();
 		mainFrame.setVisible(true);
+		
+		
+		// Nein, der JavaScript-Interpreter wird allenfalls später eingebunden
+//		Context cx=Context.enter();
+//		
+//		try {
+//			Scriptable scope = cx.initStandardObjects();
+//			
+//			//String s="java.lang.System.out.println(3)";
+//			String s="ayirahFrame.getAyirahComponent().getScrollingPixelsCount()";
+//			
+//			Scriptable jsArgs = Context.toObject(mainFrame, scope);
+//			scope.put("ayirahFrame", scope, jsArgs);
+//			
+//		 	// Now evaluate the string we've colected.
+//		 	Object result = cx.evaluateString(scope, s, "<cmd>", 1, null);
+//		 	
+//		 	// Convert the result to a string and print it.
+//			System.err.println(cx.toString(result));
+//		}
+//		catch(Exception jse)
+//		{
+//			System.out.println(jse.toString());
+//		}
+//			
+//		finally {
+//			// Exit from the context.
+//			Context.exit();
+//		}
 		
 		try
 		{

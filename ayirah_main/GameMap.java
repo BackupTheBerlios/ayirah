@@ -109,13 +109,25 @@ public class GameMap {
 		"#########################"}
 	};
 	
-	protected AyirahCharacter ayirah_char;
+	protected AyirahCharacter[] ayirah_char;
 	protected int mapsize_x=25, mapsize_y=25, layers_count=3;
+	protected int characters_count;
+	protected int actual_character_index;
 	
-	public GameMap()
+	public GameMap(int characters_count)
 	{
-		ayirah_char=new AyirahCharacter(this, 0, 1, 1, AyirahStaticVars.DIRECTION_SOUTH);
-		ayirah_char.calculateVisible();
+		this.characters_count=Math.max(1, Math.abs(characters_count));
+		
+		ayirah_char=new AyirahCharacter[this.characters_count];
+		
+		for (int i=0; i<this.characters_count; i++)
+		{
+			ayirah_char[i]=new AyirahCharacter(this, 0, 1, 1+i, 
+			AyirahStaticVars.DIRECTION_SOUTH, 0, 0);
+			ayirah_char[i].calculateVisible();
+		}
+		
+		actual_character_index=0;
 	}
 	public char getTile(int l, int zeile, int spalte)
 	{
@@ -247,9 +259,75 @@ public class GameMap {
 		}
 	}
 	
-	public AyirahCharacter getCharacter()
+//	public GameTile getAllCharacterKnownTile(int l, int zeile, int spalte)
+//	{
+//		// erst mal eine Quick & Dirty-Implementierung
+//		boolean[] known=new boolean[4];
+//		boolean[] visible=new boolean[4];
+//		boolean[] known_neu=new boolean[4];
+//		boolean[] visible_neu=new boolean[4];
+//		
+//		GameTile[] chartiles=new GameTile[characters_count];
+//		
+//		for (int i=0; i<characters_count; i++)
+//		{
+//			chartiles[i]=getCreatureKnownTile(getCharacter(i), l, zeile, spalte);
+//		}
+//		
+//		GameTile basic=chartiles[0];
+//		for (int i=0; i<4; i++)
+//		{
+//			visible[i]=((basic.getVisible() & (1<<i)) != 0);
+//			known[i]=((basic.getKnown() & (1<<i)) != 0);
+//		}
+//		
+//		for (int i=1; i<characters_count; i++)
+//		{
+//			for (int j=0; j<4; j++)
+//			{
+//				visible_neu[j]=((chartiles[i].getVisible() & (1<<j)) != 0);
+//				known_neu[j]=((chartiles[i].getKnown() & (1<<j)) != 0);
+//				
+//				if (known_neu[j] && !((basic.getKnown() & (1<<j)) != 0))
+//				{
+//					basic.setKnown(basic.getKnown() | (1<<j));
+//					basic.setTile(j, chartiles[i].getTiles()[j]);
+//				}
+//				
+//				if (visible_neu[j] && !((basic.getVisible() & (1<<j)) != 0))
+//				{
+//					basic.setVisible(basic.getVisible() | (1<<j));
+//				}
+//			}
+//			
+//			if ((basic.getItem()=="" || basic.getItem()==null) && 
+//			(chartiles[i].getItem()!="" && chartiles[i].getItem()!=null))
+//			{
+//				basic.setItem(chartiles[i].getItem());
+//			}
+//		}
+//		
+//		return basic;
+//	}
+	
+	public AyirahCharacter getCharacter(int i)
 	{
-		return ayirah_char;
+		return ayirah_char[i];
+	}
+	
+	public int getActualCharacterIndex()
+	{
+		return actual_character_index;
+	}
+	
+	public void setActualCharacterIndex(int aci)
+	{
+		this.actual_character_index=aci;
+	}
+	
+	public int getCharactersCount()
+	{
+		return characters_count;
 	}
 	
 	public int getWidth()
@@ -332,7 +410,7 @@ public class GameMap {
 			return -1;
 		}
 	}
-	public void move(int direction, Creature c) throws IllegalTurnException
+	public void move(int direction, HumanLikeCreature c) throws IllegalTurnException
 	{
 		if (isMovePossible(direction, c))
 		{
@@ -470,12 +548,22 @@ public class GameMap {
 		else return false;
 	}
 	
-	protected boolean isMovePossible(int direction, Creature c)
+	protected boolean isMovePossible(int direction, HumanLikeCreature c)
 	{
 		if (direction<0 || direction>=8)
 			return false;
 		
-		char tile_to=this.getTile(getCharacter().getLayer(),
+		for (int i=0; i<characters_count; i++)
+		{
+			if ((c != ayirah_char[i]) && (c.layer==ayirah_char[i].layer) &&
+			((c.pos_x+AyirahStaticVars.direction_modifier[direction][0])
+			==ayirah_char[i].pos_x) && 
+			((c.pos_y+AyirahStaticVars.direction_modifier[direction][1])
+			==ayirah_char[i].pos_y))
+				return false;
+		}
+		
+		char tile_to=this.getTile(c.getLayer(),
 		c.getPosY()+AyirahStaticVars.direction_modifier[direction][1],
 		c.getPosX()+AyirahStaticVars.direction_modifier[direction][0]);
 		
@@ -484,11 +572,11 @@ public class GameMap {
 		{
 			if (direction%2==1)
 			{
-				char tile_before=this.getTile(getCharacter().getLayer(),
+				char tile_before=this.getTile(c.getLayer(),
 				c.getPosY()+AyirahStaticVars.direction_modifier[(direction+7)%8][1],
 				c.getPosX()+AyirahStaticVars.direction_modifier[(direction+7)%8][0] );
 				
-				char tile_after=this.getTile(getCharacter().getLayer(),
+				char tile_after=this.getTile(c.getLayer(),
 				c.getPosY()+AyirahStaticVars.direction_modifier[(direction+1)%8][1],
 				c.getPosX()+AyirahStaticVars.direction_modifier[(direction+1)%8][0] );
 				
@@ -503,12 +591,12 @@ public class GameMap {
 					if (direction==AyirahStaticVars.DIRECTION_NORTH_EAST)
 					{
 						if (
-						this.getTile(getCharacter().getLayer(),
+						this.getTile(c.getLayer(),
 						c.getPosY()+AyirahStaticVars.direction_modifier
 						[AyirahStaticVars.DIRECTION_NORTH][1],
 						c.getPosX()+AyirahStaticVars.direction_modifier
 						[AyirahStaticVars.DIRECTION_NORTH][0])=='4' || 
-						this.getTile(getCharacter().getLayer(),
+						this.getTile(c.getLayer(),
 						c.getPosY()+AyirahStaticVars.direction_modifier
 						[AyirahStaticVars.DIRECTION_EAST][1],
 						c.getPosX()+AyirahStaticVars.direction_modifier
@@ -520,12 +608,12 @@ public class GameMap {
 					else if (direction==AyirahStaticVars.DIRECTION_SOUTH_WEST)
 					{
 						if (
-						this.getTile(getCharacter().getLayer(),
+						this.getTile(c.getLayer(),
 						c.getPosY()+AyirahStaticVars.direction_modifier
 						[AyirahStaticVars.DIRECTION_WEST][1],
 						c.getPosX()+AyirahStaticVars.direction_modifier
 						[AyirahStaticVars.DIRECTION_WEST][0])=='4' || 
-						this.getTile(getCharacter().getLayer(),
+						this.getTile(c.getLayer(),
 						c.getPosY()+AyirahStaticVars.direction_modifier
 						[AyirahStaticVars.DIRECTION_SOUTH][1],
 						c.getPosX()+AyirahStaticVars.direction_modifier
@@ -537,12 +625,12 @@ public class GameMap {
 					else if (direction==AyirahStaticVars.DIRECTION_NORTH_WEST)
 					{
 						if (
-						this.getTile(getCharacter().getLayer(),
+						this.getTile(c.getLayer(),
 						c.getPosY()+AyirahStaticVars.direction_modifier
 						[AyirahStaticVars.DIRECTION_WEST][1],
 						c.getPosX()+AyirahStaticVars.direction_modifier
 						[AyirahStaticVars.DIRECTION_WEST][0])=='3' || 
-						this.getTile(getCharacter().getLayer(),
+						this.getTile(c.getLayer(),
 						c.getPosY()+AyirahStaticVars.direction_modifier
 						[AyirahStaticVars.DIRECTION_NORTH][1],
 						c.getPosX()+AyirahStaticVars.direction_modifier
@@ -554,12 +642,12 @@ public class GameMap {
 					else if (direction==AyirahStaticVars.DIRECTION_SOUTH_EAST)
 					{
 						if (
-						this.getTile(getCharacter().getLayer(),
+						this.getTile(c.getLayer(),
 						c.getPosY()+AyirahStaticVars.direction_modifier
 						[AyirahStaticVars.DIRECTION_EAST][1],
 						c.getPosX()+AyirahStaticVars.direction_modifier
 						[AyirahStaticVars.DIRECTION_EAST][0])=='1' || 
-						this.getTile(getCharacter().getLayer(),
+						this.getTile(c.getLayer(),
 						c.getPosY()+AyirahStaticVars.direction_modifier
 						[AyirahStaticVars.DIRECTION_SOUTH][1],
 						c.getPosX()+AyirahStaticVars.direction_modifier
@@ -574,7 +662,7 @@ public class GameMap {
 			
 			else // if (direction%2==0)
 			{
-				char tile_from=this.getTile(getCharacter().getLayer(),
+				char tile_from=this.getTile(c.getLayer(),
 				c.getPosY(), c.getPosX());
 				
 				if (tile_from=='_' && (direction==AyirahStaticVars.DIRECTION_EAST ||
@@ -605,17 +693,17 @@ public class GameMap {
 		if (direction<0 || direction>=8)
 			return false;
 		
-		char tile_to=this.getTile(getCharacter().getLayer(),
+		char tile_to=this.getTile(c.getLayer(),
 		c.getPosY()+AyirahStaticVars.direction_modifier[direction][1],
 		c.getPosX()+AyirahStaticVars.direction_modifier[direction][0]);
 		
 		if (direction%2==1)
 		{
-			char tile_before=this.getTile(getCharacter().getLayer(),
+			char tile_before=this.getTile(c.getLayer(),
 			c.getPosY()+AyirahStaticVars.direction_modifier[(direction+7)%8][1],
 			c.getPosX()+AyirahStaticVars.direction_modifier[(direction+7)%8][0] );
 			
-			char tile_after=this.getTile(getCharacter().getLayer(),
+			char tile_after=this.getTile(c.getLayer(),
 			c.getPosY()+AyirahStaticVars.direction_modifier[(direction+1)%8][1],
 			c.getPosX()+AyirahStaticVars.direction_modifier[(direction+1)%8][0] );
 				
@@ -630,12 +718,12 @@ public class GameMap {
 				if (direction==AyirahStaticVars.DIRECTION_NORTH_EAST)
 				{
 					if (
-					this.getTile(getCharacter().getLayer(),
+					this.getTile(c.getLayer(),
 					c.getPosY()+AyirahStaticVars.direction_modifier
 					[AyirahStaticVars.DIRECTION_NORTH][1],
 					c.getPosX()+AyirahStaticVars.direction_modifier
 					[AyirahStaticVars.DIRECTION_NORTH][0])=='4' || 
-					this.getTile(getCharacter().getLayer(),
+					this.getTile(c.getLayer(),
 					c.getPosY()+AyirahStaticVars.direction_modifier
 					[AyirahStaticVars.DIRECTION_EAST][1],
 					c.getPosX()+AyirahStaticVars.direction_modifier
@@ -647,11 +735,11 @@ public class GameMap {
 				else if (direction==AyirahStaticVars.DIRECTION_SOUTH_WEST)
 				{
 					if (
-					this.getTile(getCharacter().getLayer(),					c.getPosY()+AyirahStaticVars.direction_modifier
+					this.getTile(c.getLayer(),					c.getPosY()+AyirahStaticVars.direction_modifier
 					[AyirahStaticVars.DIRECTION_WEST][1],
 					c.getPosX()+AyirahStaticVars.direction_modifier
 					[AyirahStaticVars.DIRECTION_WEST][0])=='4' || 
-					this.getTile(getCharacter().getLayer(),
+					this.getTile(c.getLayer(),
 					c.getPosY()+AyirahStaticVars.direction_modifier
 					[AyirahStaticVars.DIRECTION_SOUTH][1],
 					c.getPosX()+AyirahStaticVars.direction_modifier
@@ -663,12 +751,12 @@ public class GameMap {
 				else if (direction==AyirahStaticVars.DIRECTION_NORTH_WEST)
 				{
 					if (
-					this.getTile(getCharacter().getLayer(),
+					this.getTile(c.getLayer(),
 					c.getPosY()+AyirahStaticVars.direction_modifier
 					[AyirahStaticVars.DIRECTION_WEST][1],
 					c.getPosX()+AyirahStaticVars.direction_modifier
 					[AyirahStaticVars.DIRECTION_WEST][0])=='3' || 
-					this.getTile(getCharacter().getLayer(),
+					this.getTile(c.getLayer(),
 					c.getPosY()+AyirahStaticVars.direction_modifier
 					[AyirahStaticVars.DIRECTION_NORTH][1],
 					c.getPosX()+AyirahStaticVars.direction_modifier
@@ -680,12 +768,12 @@ public class GameMap {
 				else if (direction==AyirahStaticVars.DIRECTION_SOUTH_EAST)
 				{
 					if (
-					this.getTile(getCharacter().getLayer(),
+					this.getTile(c.getLayer(),
 					c.getPosY()+AyirahStaticVars.direction_modifier
 					[AyirahStaticVars.DIRECTION_EAST][1],
 					c.getPosX()+AyirahStaticVars.direction_modifier
 					[AyirahStaticVars.DIRECTION_EAST][0])=='1' || 
-					this.getTile(getCharacter().getLayer(),
+					this.getTile(c.getLayer(),
 					c.getPosY()+AyirahStaticVars.direction_modifier
 					[AyirahStaticVars.DIRECTION_SOUTH][1],
 					c.getPosX()+AyirahStaticVars.direction_modifier
@@ -700,7 +788,7 @@ public class GameMap {
 		
 		else // if (direction%2==0)
 		{
-			char tile_from=this.getTile(getCharacter().getLayer(),
+			char tile_from=this.getTile(c.getLayer(),
 			c.getPosY(), c.getPosX());
 			
 			if (tile_from=='_' && (direction==AyirahStaticVars.DIRECTION_EAST ||

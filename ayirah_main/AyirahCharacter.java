@@ -29,8 +29,39 @@
  * @author Wolfgang Keller
  */
 public class AyirahCharacter extends HumanLikeCreature {
+	public int scroll_top_x, scroll_top_y;
 	
-	public AyirahCharacter(GameMap map, int layer, int x, int y, int direction) {
+	public AyirahCharacter(GameMap map, int layer, int x, int y, int direction,
+	int scroll_top_x, int scroll_top_y) {
 		super(map, layer, x, y, direction);
+		
+		this.scroll_top_x=scroll_top_x;
+		this.scroll_top_y=scroll_top_y;
+	}
+	
+	public void setScrollCoords(int stx, int sty)
+	{
+		this.scroll_top_x=stx;
+		this.scroll_top_y=sty;
+	}
+	
+	public void setScrollTopX(int stx)
+	{
+		this.scroll_top_x=stx;
+	}
+	
+	public void setScrollTopY(int sty)
+	{
+		this.scroll_top_y=sty;
+	}
+	
+	public int getScrollTopX()
+	{
+		return scroll_top_x;
+	}
+	
+	public int getScrollTopY()
+	{
+		return scroll_top_y;
 	}
 }

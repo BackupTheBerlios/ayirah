@@ -40,11 +40,12 @@ public class AyirahComponent extends Canvas
 	// tiles[tile_number][direction][visible]
 	private Image[][][] tiles; // Alle Tiles
 	private Image[][][] items;
-	private Image[][] character;
+	private Image[][][] character;
+//	private Image test;
 	
 	private GameMap map;
 	
-	private int top_x, top_y;
+//	private int top_x, top_y;
 	
 	private int max_top_x, max_top_y;
 	
@@ -52,8 +53,6 @@ public class AyirahComponent extends Canvas
 	
 	private static final int tile_width=48;
 	private static final int tile_height=48;
-	
-	private static final char[] sprite_name={'a', 'b', 'c', 'd'};
 	
 	private Image dbImage;
 	private Graphics dbGraphics;
@@ -70,10 +69,10 @@ public class AyirahComponent extends Canvas
 	
 	AyirahComponent()
 	{
-		map=new GameMap();
+		map=new GameMap(2);
 		m_tiles=new MediaTracker(this);
 		tiles=new Image[11][4][2];
-		character=new Image[8][4];
+		character=new Image[2][8][4];
 		items=new Image[2][4][2];
 		
 		Image[] prepareImage=new Image[1+2*AyirahStaticVars.tile_names.length];
@@ -191,17 +190,22 @@ public class AyirahComponent extends Canvas
 			}
 		}
 		
+//		test=getToolkit().createImage("im_devel/iso/boden_iso.png");
+//		m_tiles.addImage(test,4);
+		
 		prepareImage=null;
 		prepareItems=null;
 		
-		for (int i=0; i<8; i++)
-			for (int j=0; j<4; j++)
-			{
-				character[i][j]=
-				getToolkit().createImage(AyirahStaticVars.avtr_prefix
-				+sprite_name[j]+i+".gif");
-				m_tiles.addImage(character[i][j], 4);
-			}
+		for (int h=0; h<2; h++)
+			for (int i=0; i<8; i++)
+				for (int j=0; j<4; j++)
+				{
+					character[h][i][j]=
+					getToolkit().createImage(AyirahStaticVars.avtr_prefix
+					+(h+1)+AyirahStaticVars.sprite_name[j]+i+".gif");
+					
+					m_tiles.addImage(character[h][i][j], 4);
+				}
 		
 		ackl=new AyirahComponentKeyListener(this);
 		this.addKeyListener(ackl);
@@ -249,34 +253,34 @@ public class AyirahComponent extends Canvas
 		
 		if (direction==AyirahStaticVars.DIRECTION_SOUTH)
 		{
-			top_y+=pixels;
+			map.getCharacter(map.getActualCharacterIndex()).scroll_top_y+=pixels;
 			
-			if (top_y>max_top_y)
-				top_y=max_top_y;
+			if (map.getCharacter(map.getActualCharacterIndex()).scroll_top_y>max_top_y)
+				map.getCharacter(map.getActualCharacterIndex()).scroll_top_y=max_top_y;
 		}
 		
 		else if (direction==AyirahStaticVars.DIRECTION_NORTH)
 		{
-			top_y-=pixels;
+			map.getCharacter(map.getActualCharacterIndex()).scroll_top_y-=pixels;
 			
-			if (top_y<0)
-				top_y=0;
+			if (map.getCharacter(map.getActualCharacterIndex()).scroll_top_y<0)
+				map.getCharacter(map.getActualCharacterIndex()).scroll_top_y=0;
 		}
 		
 		else if (direction==AyirahStaticVars.DIRECTION_EAST)
 		{
-			top_x+=pixels;
+			map.getCharacter(map.getActualCharacterIndex()).scroll_top_x+=pixels;
 			
-			if (top_x>max_top_x)
-				top_x=max_top_x;
+			if (map.getCharacter(map.getActualCharacterIndex()).scroll_top_x>max_top_x)
+				map.getCharacter(map.getActualCharacterIndex()).scroll_top_x=max_top_x;
 		}
 		
 		else if (direction==AyirahStaticVars.DIRECTION_WEST)
 		{
-			top_x-=pixels;
+			map.getCharacter(map.getActualCharacterIndex()).scroll_top_x-=pixels;
 			
-			if (top_x<0)
-				top_x=0;
+			if (map.getCharacter(map.getActualCharacterIndex()).scroll_top_x<0)
+				map.getCharacter(map.getActualCharacterIndex()).scroll_top_x=0;
 		}
 	}
 	
@@ -314,7 +318,8 @@ public class AyirahComponent extends Canvas
 			actualize=false;
 		}
 		
-		g.drawImage(dbImage,-top_x,-top_y,this);
+		g.drawImage(dbImage,-map.getCharacter(map.getActualCharacterIndex()).scroll_top_x, 
+			-map.getCharacter(map.getActualCharacterIndex()).scroll_top_y,this);
 	}
 
 	
@@ -329,7 +334,8 @@ public class AyirahComponent extends Canvas
 			for (int spalte=0; spalte<map.getWidth(); spalte++)
 			{
 				GameTile gt=map.getCreatureKnownTile
-				(map.getCharacter(), map.getCharacter().getLayer(), 
+				(map.getCharacter(map.getActualCharacterIndex()),
+				map.getCharacter(map.getActualCharacterIndex()).getLayer(), 
 				zeile, spalte);
 				
 				char[] actual_tile=gt.getTiles();
@@ -362,7 +368,7 @@ public class AyirahComponent extends Canvas
 						array_index[i]=9;
 					else if (actual_tile[i]=='>')
 						array_index[i]=10;
-					else
+					else if (actual_tile[i]==' ')
 						array_index[i]=3;
 					
 					if (!(array_index[i]==0))
@@ -418,11 +424,19 @@ public class AyirahComponent extends Canvas
 //		g2.setComposite(ac); 
 //		g2.drawImage(<foo>);
 		
-		g.drawImage(
-		character[map.getCharacter().getViewDirection()][0], 
-		tile_width*(map.getCharacter().getPosX())
-		+(tile_width-character_width)/2, 
-		tile_height*(map.getCharacter().getPosY())
-		+(tile_height-character_height)/2, character_width, character_height, this);
+		for (int i=0; i<map.getCharactersCount(); i++)
+		{
+			if (map.getCharacter(map.getActualCharacterIndex()).getLayer()
+			 == map.getCharacter(i).getLayer())
+			g.drawImage(
+			character[i][map.getCharacter(i).getViewDirection()][0], 
+			tile_width*(map.getCharacter(i).getPosX())
+			+(tile_width-character_width)/2, 
+			tile_height*(map.getCharacter(i).getPosY())
+			+(tile_height-character_height)/2, character_width, 
+			character_height, this);
+		}
+		
+//		g.drawImage(test, 0,0, this);
 	}
 }

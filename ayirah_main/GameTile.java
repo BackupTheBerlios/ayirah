@@ -78,14 +78,29 @@ public class GameTile {
 		return directionParts;
 	}
 	
+	public void setTile(int index, char tile)
+	{
+		directionParts[index]=tile;
+	}
+	
 	public int getVisible()
 	{
 		return visibility;
 	}
 	
+	public void setVisible(int visible)
+	{
+		this.visibility=visible;
+	}
+	
 	public int getKnown()
 	{
 		return known;
+	}
+	
+	public void setKnown(int known)
+	{
+		this.known=known;
 	}
 	
 	public String getItem()

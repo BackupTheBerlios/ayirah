@@ -153,8 +153,8 @@ public abstract class HumanLikeCreature extends Creature {
 				int vis_type=map.getVisibilityType(getLayer(), zeile, spalte);
 				
 				if (vis_type>0
-				&&  !(zeile==map.getCharacter().getPosY() &&
-				spalte==map.getCharacter().getPosX()))
+				&&  !(zeile==this.getPosY() &&
+				spalte==this.getPosX()))
 				{
 					if (spalte==this.getPosX())
 					{						// Fall: Wand nördlich vom Character
@@ -996,8 +996,8 @@ public abstract class HumanLikeCreature extends Creature {
 				
 				// Dieser Fall macht bis jetzt nur bei Türen Sinn!
 				else if (vis_type>0 &&
-				zeile==map.getCharacter().getPosY() &&
-				spalte==map.getCharacter().getPosX())
+				zeile==this.getPosY() &&
+				spalte==this.getPosX())
 				{
 					if (vis_type==8) // senkrechte Tür
 					{
