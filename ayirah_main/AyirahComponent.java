@@ -1,4 +1,4 @@
- /*
+/*
  * Created on 10.09.2003
  * 
  * Ayirah - a Java (tm)-based Roleplaying Game 
@@ -258,27 +258,32 @@ public class AyirahComponent extends Canvas
 	
 	public void update (Graphics g)
 	{
-		if (dbImage == null) {
-			dbImage = createImage(
-				this.getSize().width,
-				this.getSize().height
-			);
-			dbGraphics = dbImage.getGraphics();
-		}
-		//Hintergrund löschen
-		dbGraphics.setColor(Color.BLACK);
-		dbGraphics.fillRect(
-		0,
-		0,
-		this.getSize().width,
-		this.getSize().height
-		);
+//		if (dbImage == null) {
+//			/* Diese Zeile verursacht den Fehler bei der Soundwiedergabe
+//			 * (seltsamerweise funktioniert stört sie in der alten Version nicht)
+//			 */
+//			dbImage = createImage(this.getSize().width,this.getSize().height);
+//			
+//			dbGraphics = dbImage.getGraphics();
+//		}
 		
-		//Vordergrund zeichnen
-		dbGraphics.setColor(getForeground());
-		paint(dbGraphics);
-		//Offscreen anzeigen
-		g.drawImage(dbImage,0,0,this);
+//		//Hintergrund löschen
+//		dbGraphics.setColor(Color.BLACK);
+//		dbGraphics.fillRect(
+//		0,
+//		0,
+//		this.getSize().width,
+//		this.getSize().height
+//		);
+		
+//		//Vordergrund zeichnen
+//		dbGraphics.setColor(getForeground());
+//		paint(dbGraphics);
+//		//Offscreen anzeigen
+//		g.drawImage(dbImage,0,0,this);
+		
+		// Provisorium
+		paint(g);
 	}
 	
 	public void fillRect(Graphics g, int x, int y, int width, int height)
@@ -304,7 +309,7 @@ public class AyirahComponent extends Canvas
 	public void paint (Graphics g)
 	{
 		for (int zeile=0; zeile<17; zeile++)
-			for (int spalte=0; spalte<17; spalte++)
+			for (int spalte=0; spalte<22; spalte++)
 			{
 				char[] actual_tile=map.getCreatureKnownTile
 				(map.getCharacter(), map.getCharacter().getLayer(), 
