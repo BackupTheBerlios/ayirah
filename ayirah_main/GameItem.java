@@ -1,6 +1,6 @@
 /*
  * Created on 06.03.2004
- * Last modified on 14.07.2004
+ * Last modified on 16.07.2004
  * 
  * Ayirah - a Java (tm)-based Roleplaying Game 
  * Copyright (C) 2003  Wolfgang Keller
@@ -48,83 +48,46 @@ public class GameItem implements Cloneable {
 	int vis_type, int using_directions,
 	boolean takeable, boolean walk_on_able, long weight)
 	{
-		setType(type);
-		setSubType(sub_type);
-		setState(state);
-		setDescription(description);
-		setVisibilityType(vis_type);
-		setUsingDirections(using_directions);
-		setWeight(Math.abs(weight));
-		setWalkOnAble(walk_on_able);
-		setTakeable(takeable);
-	}
-	
-	public void setType(String type) {
-		this.type = type;
+		this.type=type;
+		this.sub_type=sub_type;
+		this.state=state;
+		this.description=description;
+		this.vis_type=vis_type;
+		this.using_directions=using_directions;
+		this.weight=weight;
+		this.walk_on_able=walk_on_able;
+		this.takeable=takeable;
 	}
 	
 	public String getType() {
 		return type;
 	}
 
-	public void setSubType(String sub_type) {
-		this.sub_type = sub_type;
-	}
-
 	public String getSubType() {
 		return sub_type;
-	}
-
-	public void setState(String state) {
-		this.state = state;
 	}
 
 	public String getState() {
 		return state;
 	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
 	public String getDescription() {
 		return description;
-	}
-
-	public void setVisibilityType(int vis_type) {
-		this.vis_type = vis_type;
 	}
 
 	public int getVisibilityType() {
 		return vis_type;
 	}
 	
-	public void setUsingDirections(int using_directions) {
-		this.using_directions = using_directions;
-	}
-	
 	public int getUsingDirections() {
 		return using_directions;
-	}
-	
-	public void setWeight(long weight) {
-		this.weight = weight;
 	}
 
 	public long getWeight() {
 		return weight;
 	}
 	
-	public void setWalkOnAble(boolean move_on_able) {
-		this.walk_on_able = move_on_able;
-	}
-	
 	public boolean isWalkOnAble() {
 		return walk_on_able;
-	}
-
-	public void setTakeable(boolean takeable) {
-		this.takeable = takeable;
 	}
 
 	public boolean isTakeable() {
@@ -163,7 +126,9 @@ public class GameItem implements Cloneable {
 	
 	public Object clone()
 	{
-		return new GameItem(getType(), getSubType(), getState(), getDescription(), 
-		getVisibilityType(), getUsingDirections(), isTakeable(), false, getWeight());
+		return new GameItem(
+			getType(), getSubType(), getState(), 
+			getDescription(), getVisibilityType(), getUsingDirections(), 
+			isTakeable(), isWalkOnAble(), getWeight());
 	}
 }
