@@ -32,6 +32,7 @@ public class GameTile {
 
 	protected char[] directionParts;
 	protected int visibility;
+	protected int visible_other;
 	protected int known;
 	
 	protected String item;
@@ -39,6 +40,7 @@ public class GameTile {
 	GameTile(char t_north, char t_east, char t_south, char t_west, int visible, int known, String item)
 	{
 		this.visibility=visible;
+		this.visible_other=0;
 		directionParts=new char[4];
 		this.known=known;
 		this.item=item;
@@ -91,6 +93,16 @@ public class GameTile {
 	public void setVisible(int visible)
 	{
 		this.visibility=visible;
+	}
+	
+	public int getVisibleOther()
+	{
+		return visible_other;
+	}
+	
+	public void setVisibleOther(int vis)
+	{
+		this.visible_other=vis;
 	}
 	
 	public int getKnown()

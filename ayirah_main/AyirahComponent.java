@@ -71,12 +71,15 @@ public class AyirahComponent extends Canvas
 	{
 		map=new GameMap(2);
 		m_tiles=new MediaTracker(this);
-		tiles=new Image[11][4][2];
+		tiles=new Image[11][4][3];
 		character=new Image[2][8][4];
-		items=new Image[2][4][2];
+		items=new Image[2][4][3];
 		
-		Image[] prepareImage=new Image[1+2*AyirahStaticVars.tile_names.length];
-		Image[] prepareItems=new Image[4];
+		Image[] prepareImage=new Image[1+AyirahStaticVars.
+		map_object_states.length*AyirahStaticVars.tile_names.length];
+		
+		Image[] prepareItems=new Image[AyirahStaticVars.
+		map_object_states.length*AyirahStaticVars.item_names.length];
 		
 		max_top_x=map.getWidth()*tile_width-1024;
 		max_top_y=map.getHeight()*tile_height-768;
@@ -86,26 +89,30 @@ public class AyirahComponent extends Canvas
 		
 		// erst Tiles
 		for (int i=0; i<AyirahStaticVars.tile_names.length; i++)
-			for (int j=0; j<2; j++)
+			for (int j=0; j<AyirahStaticVars.map_object_states.length; j++)
 			{
-				prepareImage[2*i+j+1]=getToolkit().getImage(
+				prepareImage[AyirahStaticVars.map_object_states.length*i
+				+j+1]=getToolkit().getImage(
 				AyirahStaticVars.tile_prefix
 				+AyirahStaticVars.tile_names[i]
 				+AyirahStaticVars.map_object_states[j]
 				+AyirahStaticVars.map_object_ending);
-				m_tiles.addImage(prepareImage[2*i+j], 0);
+				m_tiles.addImage(prepareImage[AyirahStaticVars.
+				map_object_states.length*i+j], 0);
 			}
 		
 		// dann Items
 		for (int i=0; i<AyirahStaticVars.item_names.length; i++)
-			for (int j=0; j<2; j++)
+			for (int j=0; j<AyirahStaticVars.map_object_states.length; j++)
 			{
-				prepareItems[2*i+j]=getToolkit().getImage(
+				prepareItems[AyirahStaticVars.
+				map_object_states.length*i+j]=getToolkit().getImage(
 				AyirahStaticVars.item_prefix
 				+AyirahStaticVars.item_names[i]
 				+AyirahStaticVars.map_object_states[j]
 				+AyirahStaticVars.map_object_ending);
-				m_tiles.addImage(prepareItems[2*i+j], 0);
+				m_tiles.addImage(prepareItems[AyirahStaticVars.
+				map_object_states.length*i+j], 0);
 			}
 
 		try {
@@ -137,40 +144,41 @@ public class AyirahComponent extends Canvas
 			m_tiles.waitForAll();
 		} catch (InterruptedException e) { }
 		
-		for (int i=1; i<11; i++)
+		for (int i=0; i<AyirahStaticVars.tile_names.length; i++)
 		{
-			for (int j=0; j<2; j++)
+			for (int j=0; j<AyirahStaticVars.map_object_states.length; j++)
 			{
-				if (prepareImage[i*2+j-1]!=null)
+				if (prepareImage[i*3+j+1]!=null)
 				{
-					collectionProducer=prepareImage[i*2+j-1].getSource();
+					collectionProducer=prepareImage[i*3+j+1].getSource();
 					
-					tiles[i][0][j]=createImage(new FilteredImageSource(
+					tiles[i+1][0][j]=createImage(new FilteredImageSource(
 					collectionProducer,filter_north));
-					m_tiles.addImage(tiles[i][0][j], 2);
+					m_tiles.addImage(tiles[i+1][0][j], 2);
 					
-					tiles[i][1][j]=createImage(new FilteredImageSource(
+					tiles[i+1][1][j]=createImage(new FilteredImageSource(
 					collectionProducer,filter_east));
-					m_tiles.addImage(tiles[i][1][j], 2);
+					m_tiles.addImage(tiles[i+1][1][j], 2);
 					
-					tiles[i][2][j]=createImage(new FilteredImageSource(
+					tiles[i+1][2][j]=createImage(new FilteredImageSource(
 					collectionProducer,filter_south));
-					m_tiles.addImage(tiles[i][2][j], 2);
+					m_tiles.addImage(tiles[i+1][2][j], 2);
 					
-					tiles[i][3][j]=createImage(new FilteredImageSource(
+					tiles[i+1][3][j]=createImage(new FilteredImageSource(
 					collectionProducer,filter_west));
-					m_tiles.addImage(tiles[i][3][j], 2);
+					m_tiles.addImage(tiles[i+1][3][j], 2);
 				}
 			}
 		}
 		
 		
 		
-		for (int i=0; i<2; i++)
+		for (int i=0; i<AyirahStaticVars.item_names.length; i++)
 		{
-			for (int j=0; j<2; j++)
+			for (int j=0; j<AyirahStaticVars.map_object_states.length; j++)
 			{
-				collectionProducer=prepareItems[i*2+j].getSource();
+				collectionProducer=prepareItems[i*AyirahStaticVars.
+				map_object_states.length+j].getSource();
 				
 				items[i][0][j]=createImage(new FilteredImageSource(
 				collectionProducer,filter_north));

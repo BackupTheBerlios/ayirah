@@ -99,7 +99,7 @@ public class AyirahStaticVars {
 		"tuer_senkrecht_offen", "tuer_senkrecht_geschlossen", 
 		"treppe_hoch", "treppe_hoch_runter", "treppe_runter"};
 	public static final String[] item_names={"box_open", "box_closed"};
-	public static final String[] map_object_states={"_invisible", "_visible"};
+	public static final String[] map_object_states={"_invisible", "_visible", "_other"};
 	public static final String map_object_ending=".gif";
 
 	public static final char[] sprite_name={'a', 'b', 'c', 'd'};
