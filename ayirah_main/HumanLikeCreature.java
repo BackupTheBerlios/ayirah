@@ -30,7 +30,9 @@
 public abstract class HumanLikeCreature extends Creature {
 	public VisibleKnownNode[][][] isVisible;
 	public VisibleKnownNode[][][] isKnown;	
-	public HumanLikeCreature(GameMap map, int l, int x, int y, int direction) {
+	public HumanLikeCreature(GameMap map, int l, 
+	int x, int y, int direction)
+	{
 		super(map, l, x, y, direction);		
 		isVisible=new VisibleKnownNode[map.getLayersCount()]
 		[map.getHeight()][map.getWidth()];
@@ -1760,14 +1762,14 @@ public abstract class HumanLikeCreature extends Creature {
 						if (j==(-i-1-delta_right))
 						{
 							removeVisible(l, actual_x, actual_y,
-							AyirahStaticVars.dir_right_visible_modifier[direction/2]);
+							(1<<((direction%8)/2))+(1<<(((direction+6)%8)/2)));
 						}
 						
 						// links
 						else if (j==(i+1+delta_left))
 						{
 							removeVisible(l, actual_x, actual_y,
-							AyirahStaticVars.dir_left_visible_modifier[direction/2]);
+							(1<<((direction%8)/2))+(1<<(((direction+2)%8)/2)));
 						}
 						
 						else
@@ -1854,8 +1856,7 @@ public abstract class HumanLikeCreature extends Creature {
 							j*AyirahStaticVars.direction_modifier[dir_left][0], 
 							y+i*AyirahStaticVars.direction_modifier[direction][1]+
 							j*AyirahStaticVars.direction_modifier[dir_left][1],
-							AyirahStaticVars.dir_right_visible_modifier
-							[getViewDirection()/2]); 
+							(1<<((direction%8)/2))+(1<<(((direction+6)%8)/2))); 
 						}
 						
 						else if (j==(i+2))
@@ -1865,8 +1866,7 @@ public abstract class HumanLikeCreature extends Creature {
 							j*AyirahStaticVars.direction_modifier[dir_left][0], 
 							y+i*AyirahStaticVars.direction_modifier[direction][1]+
 							j*AyirahStaticVars.direction_modifier[dir_left][1],
-							AyirahStaticVars.dir_left_visible_modifier
-							[getViewDirection()/2]);
+							(1<<((direction%8)/2))+(1<<(((direction+2)%8)/2)));
 						}
 							
 						else if (!(j==0 && i==0))

@@ -59,22 +59,6 @@ public class AyirahStaticVars {
 	public static final int VISIBLE_KNOWN_NORTH_WEST=9;
 	public static final int VISIBLE_KNOWN_ALL=15;
 	
-	public static final int[] dir_left_visible_modifier=
-	{
-		VISIBLE_KNOWN_NORTH+VISIBLE_KNOWN_EAST, 
-		VISIBLE_KNOWN_SOUTH+VISIBLE_KNOWN_EAST, 
-		VISIBLE_KNOWN_SOUTH+VISIBLE_KNOWN_WEST,
-		VISIBLE_KNOWN_NORTH+VISIBLE_KNOWN_WEST
-	};
-	
-	public static final int[] dir_right_visible_modifier=
-	{
-		VISIBLE_KNOWN_NORTH+VISIBLE_KNOWN_WEST, 
-		VISIBLE_KNOWN_NORTH+VISIBLE_KNOWN_EAST, 
-		VISIBLE_KNOWN_SOUTH+VISIBLE_KNOWN_EAST,
-		VISIBLE_KNOWN_SOUTH+VISIBLE_KNOWN_WEST
-	};
-	
 	public static char[][] non_block_tiles_tile_parts=
 	{
 		{'#', '#', '.', '.'},
