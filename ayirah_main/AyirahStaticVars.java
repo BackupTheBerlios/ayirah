@@ -94,5 +94,11 @@ public class AyirahStaticVars {
 	public static final String item_prefix="items/";
 	public static final String cursor_name="cursor/hand_sm.gif";
 	
-	public static final String[] tile_names={"unknown1.gif"};
+	public static final String[] tile_names={"boden1", "wand1", "placeholder1", 
+		"tuer_waagrecht_offen", "tuer_waagrecht_geschlossen", 
+		"tuer_senkrecht_offen", "tuer_senkrecht_geschlossen", 
+		"treppe_hoch", "treppe_hoch_runter", "treppe_runter"};
+	public static final String[] item_names={"box_open", "box_closed"};
+	public static final String[] map_object_states={"_invisible", "_visible"};
+	public static final String map_object_ending=".gif";
 }

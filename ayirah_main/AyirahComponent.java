@@ -1,5 +1,4 @@
 /* 
- * 
  * Created on 10.09.2003
  * 
  * Ayirah - a Java (tm)-based Roleplaying Game 
@@ -77,7 +76,7 @@ public class AyirahComponent extends Canvas
 		character=new Image[8][4];
 		items=new Image[2][4][2];
 		
-		Image[] prepareImage=new Image[21];
+		Image[] prepareImage=new Image[1+2*AyirahStaticVars.tile_names.length];
 		Image[] prepareItems=new Image[4];
 		
 		max_top_x=map.getWidth()*tile_width-1024;
@@ -86,103 +85,29 @@ public class AyirahComponent extends Canvas
 		prepareImage[0]=getToolkit().getImage(AyirahStaticVars.tile_prefix+"unknown1.gif");
 		m_tiles.addImage(prepareImage[0], 0);
 		
-		prepareImage[1]=getToolkit().getImage(
-		AyirahStaticVars.tile_prefix+"boden1_invisible.gif");
-		m_tiles.addImage(prepareImage[1], 0);
+		// erst Tiles
+		for (int i=0; i<AyirahStaticVars.tile_names.length; i++)
+			for (int j=0; j<2; j++)
+			{
+				prepareImage[2*i+j+1]=getToolkit().getImage(
+				AyirahStaticVars.tile_prefix
+				+AyirahStaticVars.tile_names[i]
+				+AyirahStaticVars.map_object_states[j]
+				+AyirahStaticVars.map_object_ending);
+				m_tiles.addImage(prepareImage[2*i+j], 0);
+			}
 		
-		prepareImage[2]=getToolkit().getImage(
-		AyirahStaticVars.tile_prefix+"boden1_visible.gif");
-		m_tiles.addImage(prepareImage[2], 0);
-		
-		prepareImage[3]=getToolkit().getImage(
-		AyirahStaticVars.tile_prefix+"wand1_invisible.gif");
-		m_tiles.addImage(prepareImage[3], 0);
-		
-		prepareImage[4]=getToolkit().getImage(
-		AyirahStaticVars.tile_prefix+"wand1_visible.gif");
-		m_tiles.addImage(prepareImage[4], 0);
-		
-		prepareImage[5]=getToolkit().getImage(
-		AyirahStaticVars.tile_prefix+"placeholder1_invisible.gif");
-		m_tiles.addImage(prepareImage[5], 0);
-		
-		prepareImage[6]=getToolkit().getImage(
-		AyirahStaticVars.tile_prefix+"placeholder1_visible.gif");
-		m_tiles.addImage(prepareImage[6], 0);
-		
-		prepareImage[7]=getToolkit().getImage(
-		AyirahStaticVars.tile_prefix+"tuer_waagrecht_offen_invisible.gif");
-		m_tiles.addImage(prepareImage[7], 0);
-		
-		prepareImage[8]=getToolkit().getImage(
-		AyirahStaticVars.tile_prefix+"tuer_waagrecht_offen_visible.gif");
-		m_tiles.addImage(prepareImage[8], 0);
-		
-		prepareImage[9]=getToolkit().getImage(
-		AyirahStaticVars.tile_prefix+"tuer_waagrecht_geschlossen_invisible.gif");
-		m_tiles.addImage(prepareImage[9], 0);
-		
-		prepareImage[10]=getToolkit().getImage(
-		AyirahStaticVars.tile_prefix+"tuer_waagrecht_geschlossen_visible.gif");
-		m_tiles.addImage(prepareImage[10], 0);
-		
-		prepareImage[11]=getToolkit().getImage(
-		AyirahStaticVars.tile_prefix+"tuer_senkrecht_offen_invisible.gif");
-		m_tiles.addImage(prepareImage[11], 0);
-		
-		prepareImage[12]=getToolkit().getImage(
-		AyirahStaticVars.tile_prefix+"tuer_senkrecht_offen_visible.gif");
-		m_tiles.addImage(prepareImage[12], 0);
-		
-		prepareImage[13]=getToolkit().getImage(
-		AyirahStaticVars.tile_prefix+"tuer_senkrecht_geschlossen_invisible.gif");
-		m_tiles.addImage(prepareImage[13], 0);
-		
-		prepareImage[14]=getToolkit().getImage(
-		AyirahStaticVars.tile_prefix+"tuer_senkrecht_geschlossen_visible.gif");
-		m_tiles.addImage(prepareImage[14], 0);
-		
-		prepareImage[15]=getToolkit().getImage(
-		AyirahStaticVars.tile_prefix+"treppe_hoch_invisible.gif");
-		m_tiles.addImage(prepareImage[15], 0);
-		
-		prepareImage[16]=getToolkit().getImage(
-		AyirahStaticVars.tile_prefix+"treppe_hoch_visible.gif");
-		m_tiles.addImage(prepareImage[15], 0);
-		
-		prepareImage[17]=getToolkit().getImage(
-		AyirahStaticVars.tile_prefix+"treppe_hoch_runter_invisible.gif");
-		m_tiles.addImage(prepareImage[17], 0);
-		
-		prepareImage[18]=getToolkit().getImage(
-		AyirahStaticVars.tile_prefix+"treppe_hoch_runter_visible.gif");
-		m_tiles.addImage(prepareImage[18], 0);
-		
-		prepareImage[19]=getToolkit().getImage(
-		AyirahStaticVars.tile_prefix+"treppe_runter_invisible.gif");
-		m_tiles.addImage(prepareImage[19], 0);
-		
-		prepareImage[20]=getToolkit().getImage(
-		AyirahStaticVars.tile_prefix+"treppe_runter_visible.gif");
-		m_tiles.addImage(prepareImage[20], 0);
-		
-		// -------jetzt Items--------------
-		
-		prepareItems[0]=getToolkit().getImage(
-		AyirahStaticVars.item_prefix+"box_open_invisible.gif");
-		m_tiles.addImage(prepareItems[0], 0);
-		
-		prepareItems[1]=getToolkit().getImage(
-		AyirahStaticVars.item_prefix+"box_open_visible.gif");
-		m_tiles.addImage(prepareItems[1], 0);
-		
-		prepareItems[2]=getToolkit().getImage(
-		AyirahStaticVars.item_prefix+"box_closed_invisible.gif");
-		m_tiles.addImage(prepareItems[2], 0);
-		
-		prepareItems[3]=getToolkit().getImage(
-		AyirahStaticVars.item_prefix+"box_closed_visible.gif");
-		m_tiles.addImage(prepareItems[3], 0);
+		// dann Items
+		for (int i=0; i<AyirahStaticVars.item_names.length; i++)
+			for (int j=0; j<2; j++)
+			{
+				prepareItems[2*i+j]=getToolkit().getImage(
+				AyirahStaticVars.item_prefix
+				+AyirahStaticVars.item_names[i]
+				+AyirahStaticVars.map_object_states[j]
+				+AyirahStaticVars.map_object_ending);
+				m_tiles.addImage(prepareItems[2*i+j], 0);
+			}
 
 		try {
 			m_tiles.waitForAll();
