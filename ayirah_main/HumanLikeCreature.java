@@ -662,21 +662,20 @@ public abstract class HumanLikeCreature extends Creature {
 							(getLayer(), x, y, 
 							AyirahStaticVars.DIRECTION_NORTH, 
 							
-							(vis_type==1 ? 0 :
-							AyirahStaticVars.VISIBLE_LEFT) | 
-							(vis_type==9 ? 0 : 
-							AyirahStaticVars.VISIBLE_CENTER) | 
-							(vis_type==3 ? 0 : 
-							AyirahStaticVars.VISIBLE_RIGHT), 
-							
+							vis_type==1 ? 
+							AyirahStaticVars.SIDE_FULL_VISIBLE :
 							AyirahStaticVars.SIDE_TILE_INVISIBLE,
 							
+							vis_type==9 ? 
+							AyirahStaticVars.FRONT_FULL_VISIBLE : 
 							(vis_type==1 || vis_type==3) ? 
 							AyirahStaticVars.FRONT_TILE_VISIBLE :
 							vis_type==5 ? 
 							AyirahStaticVars.FRONT_TILE_MOST_VISIBLE : 
 							AyirahStaticVars.FRONT_TILE_MOST_INVISIBLE,
 							
+							vis_type==3 ? 
+							AyirahStaticVars.SIDE_FULL_VISIBLE :
 							AyirahStaticVars.SIDE_TILE_INVISIBLE);
 						}
 						
@@ -685,11 +684,10 @@ public abstract class HumanLikeCreature extends Creature {
 							if (vis_type!=9)
 							removeEvenDirectionWallInvisible
 							(getLayer(), x, y, 
-							AyirahStaticVars.DIRECTION_NORTH, 
-							AyirahStaticVars.VISIBLE_CENTER,
-							AyirahStaticVars.SIDE_TILE_INVISIBLE,
+							AyirahStaticVars.DIRECTION_NORTH,
+							AyirahStaticVars.SIDE_FULL_VISIBLE,
 							AyirahStaticVars.FRONT_TILE_VISIBLE,
-							AyirahStaticVars.SIDE_TILE_INVISIBLE);
+							AyirahStaticVars.SIDE_FULL_VISIBLE);
 							
 							if (!(vis_type==1 || vis_type==3 || 
 							vis_type==9 || vis_type==5))
@@ -714,21 +712,20 @@ public abstract class HumanLikeCreature extends Creature {
 							(getLayer(), x, y, 
 							AyirahStaticVars.DIRECTION_SOUTH, 
 							
-							(vis_type==6 ? 0 :
-							AyirahStaticVars.VISIBLE_LEFT) | 
-							(vis_type==9 ? 0 : 
-							AyirahStaticVars.VISIBLE_CENTER) | 
-							(vis_type==4 ? 0 : 
-							AyirahStaticVars.VISIBLE_RIGHT), 
-							
+							vis_type==6 ? 
+							AyirahStaticVars.SIDE_FULL_VISIBLE :
 							AyirahStaticVars.SIDE_TILE_INVISIBLE,
 							
+							vis_type==9 ? 
+							AyirahStaticVars.FRONT_FULL_VISIBLE :
 							(vis_type==4 || vis_type==6) ? 
 							AyirahStaticVars.FRONT_TILE_VISIBLE :
 							vis_type==5 ? 
 							AyirahStaticVars.FRONT_TILE_MOST_VISIBLE : 
 							AyirahStaticVars.FRONT_TILE_MOST_INVISIBLE,
 							
+							vis_type==4 ? 
+							AyirahStaticVars.SIDE_FULL_VISIBLE :
 							AyirahStaticVars.SIDE_TILE_INVISIBLE);
 						}
 						
@@ -738,10 +735,9 @@ public abstract class HumanLikeCreature extends Creature {
 							removeEvenDirectionWallInvisible
 							(getLayer(), x, y, 
 							AyirahStaticVars.DIRECTION_SOUTH, 
-							AyirahStaticVars.VISIBLE_CENTER,
-							AyirahStaticVars.SIDE_TILE_INVISIBLE,
+							AyirahStaticVars.SIDE_FULL_VISIBLE,
 							AyirahStaticVars.FRONT_TILE_VISIBLE,
-							AyirahStaticVars.SIDE_TILE_INVISIBLE);
+							AyirahStaticVars.SIDE_FULL_VISIBLE);
 							
 							if (!(vis_type==4 || vis_type==6 || 
 							vis_type==9 || vis_type==5))
@@ -767,23 +763,22 @@ public abstract class HumanLikeCreature extends Creature {
 						{
 							removeEvenDirectionWallInvisible
 							(getLayer(), x, y, 
-							AyirahStaticVars.DIRECTION_WEST, 
+							AyirahStaticVars.DIRECTION_WEST,
 							
-							(vis_type==3 ? 0 :
-							AyirahStaticVars.VISIBLE_LEFT) | 
-							(vis_type==8 ? 0 : 
-							AyirahStaticVars.VISIBLE_CENTER) | 
-							(vis_type==6 ? 0 : 
-							AyirahStaticVars.VISIBLE_RIGHT),
-							
+							vis_type==3 ? 
+							AyirahStaticVars.SIDE_FULL_VISIBLE :
 							AyirahStaticVars.SIDE_TILE_INVISIBLE,
 							
+							vis_type==8 ? 
+							AyirahStaticVars.FRONT_FULL_VISIBLE :
 							(vis_type==3 || vis_type==6) ? 
 							AyirahStaticVars.FRONT_TILE_VISIBLE :
 							vis_type==2 ? 
 							AyirahStaticVars.FRONT_TILE_MOST_VISIBLE : 
 							AyirahStaticVars.FRONT_TILE_MOST_INVISIBLE,
 							
+							vis_type==6 ? 
+							AyirahStaticVars.SIDE_FULL_VISIBLE :
 							AyirahStaticVars.SIDE_TILE_INVISIBLE);
 						}
 						
@@ -793,10 +788,9 @@ public abstract class HumanLikeCreature extends Creature {
 							removeEvenDirectionWallInvisible
 							(getLayer(), x, y, 
 							AyirahStaticVars.DIRECTION_WEST, 
-							AyirahStaticVars.VISIBLE_CENTER,
-							AyirahStaticVars.SIDE_TILE_INVISIBLE,
+							AyirahStaticVars.SIDE_FULL_VISIBLE,
 							AyirahStaticVars.FRONT_TILE_VISIBLE,
-							AyirahStaticVars.SIDE_TILE_INVISIBLE);
+							AyirahStaticVars.SIDE_FULL_VISIBLE);
 							
 							if (!(vis_type==6 || vis_type==3 || 
 							vis_type==8 || vis_type==2))
@@ -821,21 +815,20 @@ public abstract class HumanLikeCreature extends Creature {
 							(getLayer(), x, y, 
 							AyirahStaticVars.DIRECTION_EAST, 
 							
-							(vis_type==4 ? 0 :
-							AyirahStaticVars.VISIBLE_LEFT) | 
-							(vis_type==8 ? 0 : 
-							AyirahStaticVars.VISIBLE_CENTER) | 
-							(vis_type==1 ? 0 : 
-							AyirahStaticVars.VISIBLE_RIGHT),
-							
+							vis_type==4 ? 
+							AyirahStaticVars.SIDE_FULL_VISIBLE :
 							AyirahStaticVars.SIDE_TILE_INVISIBLE,
 							
+							vis_type==8 ? 
+							AyirahStaticVars.FRONT_FULL_VISIBLE :
 							(vis_type==1 || vis_type==4) ? 
 							AyirahStaticVars.FRONT_TILE_VISIBLE :
 							vis_type==2 ? 
 							AyirahStaticVars.FRONT_TILE_MOST_VISIBLE : 
 							AyirahStaticVars.FRONT_TILE_MOST_INVISIBLE,
 							
+							vis_type==1 ? 
+							AyirahStaticVars.SIDE_FULL_VISIBLE :
 							AyirahStaticVars.SIDE_TILE_INVISIBLE);
 						}
 							
@@ -844,11 +837,10 @@ public abstract class HumanLikeCreature extends Creature {
 							if (vis_type!=8)
 							removeEvenDirectionWallInvisible
 							(getLayer(), x, y, 
-							AyirahStaticVars.DIRECTION_EAST, 
-							AyirahStaticVars.VISIBLE_CENTER,
-							AyirahStaticVars.SIDE_TILE_INVISIBLE,
+							AyirahStaticVars.DIRECTION_EAST,
+							AyirahStaticVars.SIDE_FULL_VISIBLE,
 							AyirahStaticVars.FRONT_TILE_VISIBLE,
-							AyirahStaticVars.SIDE_TILE_INVISIBLE);
+							AyirahStaticVars.SIDE_FULL_VISIBLE);
 							
 							if (!(vis_type==1 || vis_type==4 || 
 							vis_type==8 || vis_type==2))
@@ -898,10 +890,9 @@ public abstract class HumanLikeCreature extends Creature {
 							{
 								removeEvenDirectionWallInvisible
 								(getLayer(), x, y-1, 
-								AyirahStaticVars.DIRECTION_EAST, 
-								AyirahStaticVars.VISIBLE_RIGHT,
-								AyirahStaticVars.SIDE_TILE_INVISIBLE,
-								AyirahStaticVars.FRONT_TILE_VISIBLE,
+								AyirahStaticVars.DIRECTION_EAST,
+								AyirahStaticVars.SIDE_FULL_VISIBLE,
+								AyirahStaticVars.FRONT_FULL_VISIBLE,
 								AyirahStaticVars.SIDE_TILE_HALFVISIBLE);
 								
 								removeVisible(getLayer(), x, y, 
@@ -912,11 +903,10 @@ public abstract class HumanLikeCreature extends Creature {
 							{
 								removeEvenDirectionWallInvisible
 								(getLayer(), x-1, y, 
-								AyirahStaticVars.DIRECTION_SOUTH, 
-								AyirahStaticVars.VISIBLE_LEFT,
+								AyirahStaticVars.DIRECTION_SOUTH,
 								AyirahStaticVars.SIDE_TILE_HALFVISIBLE,
-								AyirahStaticVars.FRONT_TILE_VISIBLE,
-								AyirahStaticVars.SIDE_TILE_INVISIBLE);
+								AyirahStaticVars.FRONT_FULL_VISIBLE,
+								AyirahStaticVars.SIDE_FULL_VISIBLE);
 								
 								removeVisible(getLayer(), x, y, 
 								AyirahStaticVars.VISIBLE_KNOWN_SOUTH);
@@ -1037,11 +1027,10 @@ public abstract class HumanLikeCreature extends Creature {
 							{
 								removeEvenDirectionWallInvisible
 								(getLayer(), x+1, y,
-								AyirahStaticVars.DIRECTION_NORTH, 
-								AyirahStaticVars.VISIBLE_LEFT,
+								AyirahStaticVars.DIRECTION_NORTH,
 								AyirahStaticVars.SIDE_TILE_HALFVISIBLE,
-								AyirahStaticVars.FRONT_TILE_VISIBLE,
-								AyirahStaticVars.SIDE_TILE_INVISIBLE);
+								AyirahStaticVars.FRONT_FULL_VISIBLE,
+								AyirahStaticVars.SIDE_FULL_VISIBLE);
 								
 								removeVisible(getLayer(), x, y, 
 								AyirahStaticVars.VISIBLE_KNOWN_NORTH);
@@ -1051,10 +1040,9 @@ public abstract class HumanLikeCreature extends Creature {
 							{
 								removeEvenDirectionWallInvisible
 								(getLayer(), x, y+1,
-								AyirahStaticVars.DIRECTION_WEST, 
-								AyirahStaticVars.VISIBLE_RIGHT,
-								AyirahStaticVars.SIDE_TILE_INVISIBLE,
-								AyirahStaticVars.FRONT_TILE_VISIBLE,
+								AyirahStaticVars.DIRECTION_WEST,
+								AyirahStaticVars.SIDE_FULL_VISIBLE,
+								AyirahStaticVars.FRONT_FULL_VISIBLE,
 								AyirahStaticVars.SIDE_TILE_HALFVISIBLE);
 								
 								removeVisible(getLayer(), x, y, 
@@ -1173,10 +1161,9 @@ public abstract class HumanLikeCreature extends Creature {
 							{
 								removeEvenDirectionWallInvisible
 								(getLayer(), x-1, y,
-								AyirahStaticVars.DIRECTION_NORTH, 
-								AyirahStaticVars.VISIBLE_RIGHT,
-								AyirahStaticVars.SIDE_TILE_INVISIBLE,
-								AyirahStaticVars.FRONT_TILE_VISIBLE,
+								AyirahStaticVars.DIRECTION_NORTH,
+								AyirahStaticVars.SIDE_FULL_VISIBLE,
+								AyirahStaticVars.FRONT_FULL_VISIBLE,
 								AyirahStaticVars.SIDE_TILE_HALFVISIBLE);
 								
 								removeVisible(getLayer(), x, y, 
@@ -1187,11 +1174,10 @@ public abstract class HumanLikeCreature extends Creature {
 							{
 								removeEvenDirectionWallInvisible
 								(getLayer(), x, y+1,
-								AyirahStaticVars.DIRECTION_EAST, 
-								AyirahStaticVars.VISIBLE_LEFT,
+								AyirahStaticVars.DIRECTION_EAST,
 								AyirahStaticVars.SIDE_TILE_HALFVISIBLE,
-								AyirahStaticVars.FRONT_TILE_VISIBLE,
-								AyirahStaticVars.SIDE_TILE_INVISIBLE);
+								AyirahStaticVars.FRONT_FULL_VISIBLE,
+								AyirahStaticVars.SIDE_FULL_VISIBLE);
 								
 								removeVisible(getLayer(), x, y, 
 								AyirahStaticVars.VISIBLE_KNOWN_EAST);
@@ -1310,11 +1296,10 @@ public abstract class HumanLikeCreature extends Creature {
 							{
 								removeEvenDirectionWallInvisible
 								(getLayer(), x, y-1,
-								AyirahStaticVars.DIRECTION_WEST, 
-								AyirahStaticVars.VISIBLE_LEFT,
+								AyirahStaticVars.DIRECTION_WEST,
 								AyirahStaticVars.SIDE_TILE_HALFVISIBLE,
-								AyirahStaticVars.FRONT_TILE_VISIBLE,
-								AyirahStaticVars.SIDE_TILE_INVISIBLE);
+								AyirahStaticVars.FRONT_FULL_VISIBLE,
+								AyirahStaticVars.SIDE_FULL_VISIBLE);
 								
 								removeVisible(getLayer(), x, y, 
 								AyirahStaticVars.VISIBLE_KNOWN_WEST);
@@ -1324,10 +1309,9 @@ public abstract class HumanLikeCreature extends Creature {
 							{
 								removeEvenDirectionWallInvisible
 								(getLayer(), x+1, y,
-								AyirahStaticVars.DIRECTION_SOUTH, 
-								AyirahStaticVars.VISIBLE_RIGHT,
-								AyirahStaticVars.SIDE_TILE_INVISIBLE,
-								AyirahStaticVars.FRONT_TILE_VISIBLE,
+								AyirahStaticVars.DIRECTION_SOUTH,
+								AyirahStaticVars.SIDE_FULL_VISIBLE,
+								AyirahStaticVars.FRONT_FULL_VISIBLE,
 								AyirahStaticVars.SIDE_TILE_HALFVISIBLE);
 								
 								removeVisible(getLayer(), x, y, 
@@ -1430,47 +1414,47 @@ public abstract class HumanLikeCreature extends Creature {
 					// Fall: Wand NNW
 					if (getPosY()-getPosX()>y-x)
 					{
-						removeEvenDirectionWallInvisible
-						(getLayer(), x+
-						(vis_type==1 ? 1 : 0), y, 
-						AyirahStaticVars.DIRECTION_NORTH, 
-						AyirahStaticVars.VISIBLE_LEFT | 
-						(vis_type==1 ? 0 : 
-						AyirahStaticVars.VISIBLE_CENTER),
-						
-						vis_type==1 ? 
-						AyirahStaticVars.SIDE_TILE_VISIBLE : 
-						AyirahStaticVars.SIDE_TILE_INVISIBLE,
-						
-						(vis_type==5 || vis_type==9) ? 
-						AyirahStaticVars.FRONT_TILE_MOST_VISIBLE :
-						vis_type==3 ? 
-						AyirahStaticVars.FRONT_TILE_VISIBLE : 
-						AyirahStaticVars.FRONT_TILE_MOST_INVISIBLE,
-
-						AyirahStaticVars.SIDE_TILE_INVISIBLE);
+//						removeEvenDirectionWallInvisible
+//						(getLayer(), x+
+//						(vis_type==1 ? 1 : 0), y, 
+//						AyirahStaticVars.DIRECTION_NORTH, 
+//						AyirahStaticVars.VISIBLE_LEFT | 
+//						(vis_type==1 ? 0 : 
+//						AyirahStaticVars.VISIBLE_CENTER),
+//						
+//						vis_type==1 ? 
+//						AyirahStaticVars.SIDE_TILE_VISIBLE : 
+//						AyirahStaticVars.SIDE_TILE_INVISIBLE,
+//						
+//						(vis_type==5 || vis_type==9) ? 
+//						AyirahStaticVars.FRONT_TILE_MOST_VISIBLE :
+//						vis_type==3 ? 
+//						AyirahStaticVars.FRONT_TILE_VISIBLE : 
+//						AyirahStaticVars.FRONT_TILE_MOST_INVISIBLE,
+//
+//						AyirahStaticVars.SIDE_TILE_INVISIBLE);
 					}
 					
 					// Fall: Wand NWW
 					else if (getPosY()-getPosX()<y-x)
 					{
-						removeEvenDirectionWallInvisible
-						(getLayer(), x, y+(vis_type==6 ? 1 : 0), 
-						AyirahStaticVars.DIRECTION_WEST, 
-						(vis_type==6 ? 0 : 
-						AyirahStaticVars.VISIBLE_CENTER) | 
-						AyirahStaticVars.VISIBLE_RIGHT,
-						AyirahStaticVars.SIDE_TILE_INVISIBLE,
-						
-						(vis_type==2 || vis_type==8) ? 
-						AyirahStaticVars.FRONT_TILE_MOST_VISIBLE :
-						vis_type==3 ? 
-						AyirahStaticVars.FRONT_TILE_VISIBLE : 
-						AyirahStaticVars.FRONT_TILE_MOST_INVISIBLE,
-						
-						vis_type==6 ? 
-						AyirahStaticVars.SIDE_TILE_VISIBLE : 
-						AyirahStaticVars.SIDE_TILE_INVISIBLE);
+//						removeEvenDirectionWallInvisible
+//						(getLayer(), x, y+(vis_type==6 ? 1 : 0), 
+//						AyirahStaticVars.DIRECTION_WEST, 
+//						(vis_type==6 ? 0 : 
+//						AyirahStaticVars.VISIBLE_CENTER) | 
+//						AyirahStaticVars.VISIBLE_RIGHT,
+//						AyirahStaticVars.SIDE_TILE_INVISIBLE,
+//						
+//						(vis_type==2 || vis_type==8) ? 
+//						AyirahStaticVars.FRONT_TILE_MOST_VISIBLE :
+//						vis_type==3 ? 
+//						AyirahStaticVars.FRONT_TILE_VISIBLE : 
+//						AyirahStaticVars.FRONT_TILE_MOST_INVISIBLE,
+//						
+//						vis_type==6 ? 
+//						AyirahStaticVars.SIDE_TILE_VISIBLE : 
+//						AyirahStaticVars.SIDE_TILE_INVISIBLE);
 					}
 				}
 				
@@ -1479,45 +1463,45 @@ public abstract class HumanLikeCreature extends Creature {
 					// Fall: Wand SWW
 					if (getPosY()+getPosX()>y+x)
 					{
-						removeEvenDirectionWallInvisible
-						(getLayer(), x, y+(vis_type==3 ? -1 : 0), 
-						AyirahStaticVars.DIRECTION_WEST, 
-						AyirahStaticVars.VISIBLE_LEFT | 
-						(vis_type==3 ? 0 : 
-						AyirahStaticVars.VISIBLE_CENTER),
-						vis_type==3 ? 
-						AyirahStaticVars.SIDE_TILE_VISIBLE : 
-						AyirahStaticVars.SIDE_TILE_INVISIBLE,
-						
-						(vis_type==2 || vis_type==8) ? 
-						AyirahStaticVars.FRONT_TILE_MOST_VISIBLE :
-						vis_type==6 ? 
-						AyirahStaticVars.FRONT_TILE_VISIBLE : 
-						AyirahStaticVars.FRONT_TILE_MOST_INVISIBLE,
-						
-						AyirahStaticVars.SIDE_TILE_INVISIBLE);
+//						removeEvenDirectionWallInvisible
+//						(getLayer(), x, y+(vis_type==3 ? -1 : 0), 
+//						AyirahStaticVars.DIRECTION_WEST, 
+//						AyirahStaticVars.VISIBLE_LEFT | 
+//						(vis_type==3 ? 0 : 
+//						AyirahStaticVars.VISIBLE_CENTER),
+//						vis_type==3 ? 
+//						AyirahStaticVars.SIDE_TILE_VISIBLE : 
+//						AyirahStaticVars.SIDE_TILE_INVISIBLE,
+//						
+//						(vis_type==2 || vis_type==8) ? 
+//						AyirahStaticVars.FRONT_TILE_MOST_VISIBLE :
+//						vis_type==6 ? 
+//						AyirahStaticVars.FRONT_TILE_VISIBLE : 
+//						AyirahStaticVars.FRONT_TILE_MOST_INVISIBLE,
+//						
+//						AyirahStaticVars.SIDE_TILE_INVISIBLE);
 					}
 					
 					// Fall: Wand SSW
 					else if (getPosY()+getPosX()<y+x)
 					{
-						removeEvenDirectionWallInvisible
-						(getLayer(), x+(vis_type==4 ? 1 : 0), y, 
-						AyirahStaticVars.DIRECTION_SOUTH, 
-						(vis_type==4 ? 0 : 
-						AyirahStaticVars.VISIBLE_CENTER) | 
-						AyirahStaticVars.VISIBLE_RIGHT,
-						AyirahStaticVars.SIDE_TILE_INVISIBLE,
-						
-						(vis_type==5 || vis_type==9) ? 
-						AyirahStaticVars.FRONT_TILE_MOST_VISIBLE :
-						vis_type==6 ? 
-						AyirahStaticVars.FRONT_TILE_VISIBLE : 
-						AyirahStaticVars.FRONT_TILE_MOST_INVISIBLE,
-						
-						vis_type==4 ? 
-						AyirahStaticVars.SIDE_TILE_VISIBLE : 
-						AyirahStaticVars.SIDE_TILE_INVISIBLE);
+//						removeEvenDirectionWallInvisible
+//						(getLayer(), x+(vis_type==4 ? 1 : 0), y, 
+//						AyirahStaticVars.DIRECTION_SOUTH, 
+//						(vis_type==4 ? 0 : 
+//						AyirahStaticVars.VISIBLE_CENTER) | 
+//						AyirahStaticVars.VISIBLE_RIGHT,
+//						AyirahStaticVars.SIDE_TILE_INVISIBLE,
+//						
+//						(vis_type==5 || vis_type==9) ? 
+//						AyirahStaticVars.FRONT_TILE_MOST_VISIBLE :
+//						vis_type==6 ? 
+//						AyirahStaticVars.FRONT_TILE_VISIBLE : 
+//						AyirahStaticVars.FRONT_TILE_MOST_INVISIBLE,
+//						
+//						vis_type==4 ? 
+//						AyirahStaticVars.SIDE_TILE_VISIBLE : 
+//						AyirahStaticVars.SIDE_TILE_INVISIBLE);
 					}
 				}
 				
@@ -1526,45 +1510,45 @@ public abstract class HumanLikeCreature extends Creature {
 					// Fall: SSO
 					if (getPosY()-getPosX()<y-x)
 					{
-						removeEvenDirectionWallInvisible
-						(getLayer(), x+(vis_type==6 ? -1 : 0), y, 
-						AyirahStaticVars.DIRECTION_SOUTH, 
-						AyirahStaticVars.VISIBLE_LEFT | 
-						(vis_type==6 ? 0 : 
-						AyirahStaticVars.VISIBLE_CENTER),
-						vis_type==6 ? 
-						AyirahStaticVars.SIDE_TILE_VISIBLE : 
-						AyirahStaticVars.SIDE_TILE_INVISIBLE,
-						
-						(vis_type==5 || vis_type==9) ? 
-						AyirahStaticVars.FRONT_TILE_MOST_VISIBLE :
-						vis_type==4 ? 
-						AyirahStaticVars.FRONT_TILE_VISIBLE : 
-						AyirahStaticVars.FRONT_TILE_MOST_INVISIBLE,
-						
-						AyirahStaticVars.SIDE_TILE_INVISIBLE);
+//						removeEvenDirectionWallInvisible
+//						(getLayer(), x+(vis_type==6 ? -1 : 0), y, 
+//						AyirahStaticVars.DIRECTION_SOUTH, 
+//						AyirahStaticVars.VISIBLE_LEFT | 
+//						(vis_type==6 ? 0 : 
+//						AyirahStaticVars.VISIBLE_CENTER),
+//						vis_type==6 ? 
+//						AyirahStaticVars.SIDE_TILE_VISIBLE : 
+//						AyirahStaticVars.SIDE_TILE_INVISIBLE,
+//						
+//						(vis_type==5 || vis_type==9) ? 
+//						AyirahStaticVars.FRONT_TILE_MOST_VISIBLE :
+//						vis_type==4 ? 
+//						AyirahStaticVars.FRONT_TILE_VISIBLE : 
+//						AyirahStaticVars.FRONT_TILE_MOST_INVISIBLE,
+//						
+//						AyirahStaticVars.SIDE_TILE_INVISIBLE);
 					}
 					
 					// Fall: SOO
 					else if (getPosY()-getPosX()>y-x)
 					{
-						removeEvenDirectionWallInvisible
-						(getLayer(), x, y+(vis_type==1 ? -1 : 0), 
-						AyirahStaticVars.DIRECTION_EAST, 
-						(vis_type==1 ? 0 : 
-						AyirahStaticVars.VISIBLE_CENTER) | 
-						AyirahStaticVars.VISIBLE_RIGHT,
-						AyirahStaticVars.SIDE_TILE_INVISIBLE,
-						
-						(vis_type==2 || vis_type==8) ? 
-						AyirahStaticVars.FRONT_TILE_MOST_VISIBLE :
-						vis_type==4 ? 
-						AyirahStaticVars.FRONT_TILE_VISIBLE : 
-						AyirahStaticVars.FRONT_TILE_MOST_INVISIBLE,
-						
-						vis_type==1 ? 
-						AyirahStaticVars.SIDE_TILE_VISIBLE : 
-						AyirahStaticVars.SIDE_TILE_INVISIBLE);
+//						removeEvenDirectionWallInvisible
+//						(getLayer(), x, y+(vis_type==1 ? -1 : 0), 
+//						AyirahStaticVars.DIRECTION_EAST, 
+//						(vis_type==1 ? 0 : 
+//						AyirahStaticVars.VISIBLE_CENTER) | 
+//						AyirahStaticVars.VISIBLE_RIGHT,
+//						AyirahStaticVars.SIDE_TILE_INVISIBLE,
+//						
+//						(vis_type==2 || vis_type==8) ? 
+//						AyirahStaticVars.FRONT_TILE_MOST_VISIBLE :
+//						vis_type==4 ? 
+//						AyirahStaticVars.FRONT_TILE_VISIBLE : 
+//						AyirahStaticVars.FRONT_TILE_MOST_INVISIBLE,
+//						
+//						vis_type==1 ? 
+//						AyirahStaticVars.SIDE_TILE_VISIBLE : 
+//						AyirahStaticVars.SIDE_TILE_INVISIBLE);
 					}
 				}
 				
@@ -1573,45 +1557,45 @@ public abstract class HumanLikeCreature extends Creature {
 					// Fall: Wand NOO
 					if (getPosY()+getPosX()<y+x)
 					{
-						removeEvenDirectionWallInvisible
-						(getLayer(), x, y+(vis_type==4 ? 1 : 0), 
-						AyirahStaticVars.DIRECTION_EAST, 
-						AyirahStaticVars.VISIBLE_LEFT | 
-						(vis_type==4 ? 0 : 
-						AyirahStaticVars.VISIBLE_CENTER),
-						vis_type==4 ? 
-						AyirahStaticVars.SIDE_TILE_VISIBLE : 
-						AyirahStaticVars.SIDE_TILE_INVISIBLE,
-						
-						(vis_type==2 || vis_type==8) ? 
-						AyirahStaticVars.FRONT_TILE_MOST_VISIBLE :
-						vis_type==1 ? 
-						AyirahStaticVars.FRONT_TILE_VISIBLE : 
-						AyirahStaticVars.FRONT_TILE_MOST_INVISIBLE,
-						
-						AyirahStaticVars.SIDE_TILE_INVISIBLE);
+//						removeEvenDirectionWallInvisible
+//						(getLayer(), x, y+(vis_type==4 ? 1 : 0), 
+//						AyirahStaticVars.DIRECTION_EAST, 
+//						AyirahStaticVars.VISIBLE_LEFT | 
+//						(vis_type==4 ? 0 : 
+//						AyirahStaticVars.VISIBLE_CENTER),
+//						vis_type==4 ? 
+//						AyirahStaticVars.SIDE_TILE_VISIBLE : 
+//						AyirahStaticVars.SIDE_TILE_INVISIBLE,
+//						
+//						(vis_type==2 || vis_type==8) ? 
+//						AyirahStaticVars.FRONT_TILE_MOST_VISIBLE :
+//						vis_type==1 ? 
+//						AyirahStaticVars.FRONT_TILE_VISIBLE : 
+//						AyirahStaticVars.FRONT_TILE_MOST_INVISIBLE,
+//						
+//						AyirahStaticVars.SIDE_TILE_INVISIBLE);
 					}
 					
 					// Fall: Wand NNO
 					else if (getPosY()+getPosX()>y+x)
 					{
-						removeEvenDirectionWallInvisible
-						(getLayer(), x+(vis_type==3 ? -1 : 0), y, 
-						AyirahStaticVars.DIRECTION_NORTH, 
-						(vis_type==3 ? 0 : 
-						AyirahStaticVars.VISIBLE_CENTER) | 
-						AyirahStaticVars.VISIBLE_RIGHT,
-						AyirahStaticVars.SIDE_TILE_INVISIBLE,
-						
-						(vis_type==5 || vis_type==9) ? 
-						AyirahStaticVars.FRONT_TILE_MOST_VISIBLE :
-						vis_type==1 ? 
-						AyirahStaticVars.FRONT_TILE_VISIBLE : 
-						AyirahStaticVars.FRONT_TILE_MOST_INVISIBLE,
-						
-						vis_type==3 ? 
-						AyirahStaticVars.SIDE_TILE_VISIBLE : 
-						AyirahStaticVars.SIDE_TILE_INVISIBLE);
+//						removeEvenDirectionWallInvisible
+//						(getLayer(), x+(vis_type==3 ? -1 : 0), y, 
+//						AyirahStaticVars.DIRECTION_NORTH, 
+//						(vis_type==3 ? 0 : 
+//						AyirahStaticVars.VISIBLE_CENTER) | 
+//						AyirahStaticVars.VISIBLE_RIGHT,
+//						AyirahStaticVars.SIDE_TILE_INVISIBLE,
+//						
+//						(vis_type==5 || vis_type==9) ? 
+//						AyirahStaticVars.FRONT_TILE_MOST_VISIBLE :
+//						vis_type==1 ? 
+//						AyirahStaticVars.FRONT_TILE_VISIBLE : 
+//						AyirahStaticVars.FRONT_TILE_MOST_INVISIBLE,
+//						
+//						vis_type==3 ? 
+//						AyirahStaticVars.SIDE_TILE_VISIBLE : 
+//						AyirahStaticVars.SIDE_TILE_INVISIBLE);
 					}
 				}
 			}
@@ -1624,19 +1608,13 @@ public abstract class HumanLikeCreature extends Creature {
 				if (vis_type==8) // senkrechte Tür
 				{
 					removeEvenDirectionWallInvisible(getLayer(), x, y-1, 
-					AyirahStaticVars.DIRECTION_NORTH, 
-					AyirahStaticVars.VISIBLE_LEFT | 
-					AyirahStaticVars.VISIBLE_CENTER | 
-					AyirahStaticVars.VISIBLE_RIGHT,
+					AyirahStaticVars.DIRECTION_NORTH,
 					AyirahStaticVars.SIDE_TILE_INVISIBLE,
 					AyirahStaticVars.FRONT_TILE_INVISIBLE,
 					AyirahStaticVars.SIDE_TILE_INVISIBLE);
 					
 					removeEvenDirectionWallInvisible(getLayer(), x, y+1, 
-					AyirahStaticVars.DIRECTION_SOUTH, 
-					AyirahStaticVars.VISIBLE_LEFT | 
-					AyirahStaticVars.VISIBLE_CENTER | 
-					AyirahStaticVars.VISIBLE_RIGHT,
+					AyirahStaticVars.DIRECTION_SOUTH,
 					AyirahStaticVars.SIDE_TILE_INVISIBLE,
 					AyirahStaticVars.FRONT_TILE_INVISIBLE,
 					AyirahStaticVars.SIDE_TILE_INVISIBLE);
@@ -1645,19 +1623,13 @@ public abstract class HumanLikeCreature extends Creature {
 				else if (vis_type==9) // waagrechte Tür
 				{
 					removeEvenDirectionWallInvisible(getLayer(), x-1, y, 
-					AyirahStaticVars.DIRECTION_WEST, 
-					AyirahStaticVars.VISIBLE_LEFT | 
-					AyirahStaticVars.VISIBLE_CENTER | 
-					AyirahStaticVars.VISIBLE_RIGHT,
+					AyirahStaticVars.DIRECTION_WEST,
 					AyirahStaticVars.SIDE_TILE_INVISIBLE,
 					AyirahStaticVars.FRONT_TILE_INVISIBLE,
 					AyirahStaticVars.SIDE_TILE_INVISIBLE);
 					
 					removeEvenDirectionWallInvisible(getLayer(), x+1, y, 
-					AyirahStaticVars.DIRECTION_EAST, 
-					AyirahStaticVars.VISIBLE_LEFT | 
-					AyirahStaticVars.VISIBLE_CENTER | 
-					AyirahStaticVars.VISIBLE_RIGHT,
+					AyirahStaticVars.DIRECTION_EAST,
 					AyirahStaticVars.SIDE_TILE_INVISIBLE,
 					AyirahStaticVars.FRONT_TILE_INVISIBLE,
 					AyirahStaticVars.SIDE_TILE_INVISIBLE);
@@ -1678,14 +1650,13 @@ public abstract class HumanLikeCreature extends Creature {
 			}
 	}
 	
-	// invisible_parts: left*2^2+center*2+right
 	protected void removeEvenDirectionWallInvisible(
-	int l, int x, int y, int direction, int invisible_parts,
+	int l, int x, int y, int direction,
 	int left_tile_type, int front_tile_type, int right_tile_type)
 	{
-		boolean visible_left=((invisible_parts & (1<<2))>>>2)==0;
-		boolean ignore_center=((invisible_parts & (1<<1))>>>1)==0;
-		boolean visible_right=((invisible_parts & (1<<0))>>>0)==0;
+		boolean visible_left;
+		boolean visible_front;
+		boolean visible_right;
 		
 		int max;
 		int line_type=-1; // waagrecht=2, senkrecht=0
@@ -1716,19 +1687,25 @@ public abstract class HumanLikeCreature extends Creature {
 		if (!map.isValidCoordPair(l, x, y))
 			return;
 		
-		int left_invisible;
-		int front_invisible;
-		int right_invisible;
+		int left_invisible=-1;
+		int front_invisible=-1;
+		int right_invisible=-1;
 		
 		switch (left_tile_type)
 		{
+			case AyirahStaticVars.SIDE_FULL_VISIBLE:
+				visible_left=true;
+				break;
 			case AyirahStaticVars.SIDE_TILE_INVISIBLE:
+				visible_left=false;
 				left_invisible=(1<<((direction%8)/2)) | (1<<(((direction+2)%8)/2));
 				break;
 			case AyirahStaticVars.SIDE_TILE_HALFVISIBLE:
+				visible_left=false;
 				left_invisible=(1<<(direction/2));
 				break;
 			case AyirahStaticVars.SIDE_TILE_VISIBLE:
+				visible_left=false;
 				left_invisible=AyirahStaticVars.VISIBLE_KNOWN_NONE;
 				break;
 			default:
@@ -1737,16 +1714,23 @@ public abstract class HumanLikeCreature extends Creature {
 		
 		switch (front_tile_type)
 		{
+			case AyirahStaticVars.SIDE_FULL_VISIBLE:
+				visible_front=true;
+				break;
 			case AyirahStaticVars.FRONT_TILE_INVISIBLE:
+				visible_front=false;
 				front_invisible=AyirahStaticVars.VISIBLE_KNOWN_ALL;
 				break;
 			case AyirahStaticVars.FRONT_TILE_MOST_INVISIBLE:
+				visible_front=false;
 				front_invisible=AyirahStaticVars.VISIBLE_KNOWN_ALL-(1<<(((direction+4)%8)/2));
 				break;
 			case AyirahStaticVars.FRONT_TILE_MOST_VISIBLE:
+				visible_front=false;
 				front_invisible=(1<<(direction/2));
 				break;
 			case AyirahStaticVars.FRONT_TILE_VISIBLE:
+				visible_front=false;
 				front_invisible=AyirahStaticVars.VISIBLE_KNOWN_NONE;
 				break;
 			default:
@@ -1755,13 +1739,19 @@ public abstract class HumanLikeCreature extends Creature {
 		
 		switch (right_tile_type)
 		{
+			case AyirahStaticVars.SIDE_FULL_VISIBLE:
+				visible_right=true;
+				break;
 			case AyirahStaticVars.SIDE_TILE_INVISIBLE:
+				visible_right=false;
 				right_invisible=(1<<((direction%8)/2)) | (1<<(((direction+6)%8)/2));
 				break;
 			case AyirahStaticVars.SIDE_TILE_HALFVISIBLE:
+				visible_right=false;
 				right_invisible=(1<<(direction/2));
 				break;
 			case AyirahStaticVars.SIDE_TILE_VISIBLE:
+				visible_right=false;
 				right_invisible=AyirahStaticVars.VISIBLE_KNOWN_NONE;
 				break;
 			default:
@@ -1772,7 +1762,9 @@ public abstract class HumanLikeCreature extends Creature {
 		
 		int dir_left=(direction+6)%8;
 		int dir_right=(direction+2)%8;
-			
+		
+		//System.out.println(left_tile_type+" Visible_Left"+visible_left);
+		
 		for (int i=0; i<=max; i++)
 			for (int j=(visible_right?0:(-i-1)); 
 			j<=(visible_left?0:(i+1)); j++)
@@ -1815,7 +1807,7 @@ public abstract class HumanLikeCreature extends Creature {
 								(1<<(((direction+2)%8)/2)));
 						}
 						
-						else if (!ignore_center || 
+						else if (!visible_front || 
 						(!(line_type==0 && x==actual_x) && 
 						!(line_type==2 && y==actual_y)))
 						{
