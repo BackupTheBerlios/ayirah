@@ -1,8 +1,9 @@
  /*
  * Created on 10.09.2003
+ * Last modified on 13.06.2004
  * 
  * Ayirah - a Java (tm)-based Roleplaying Game 
- * Copyright (C) 2003  Wolfgang Keller
+ * Copyright (C) 2003 Wolfgang Keller
  * Contact: http://ayirah.berlios.de | mail.wolfgang.keller@web.de
  * 
  * This program is free software; you can 

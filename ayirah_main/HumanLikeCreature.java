@@ -1,8 +1,9 @@
  /*
  * Created on 11.10.2003
+ * Last modified on 13.06.2004
  * 
  * Ayirah - a Java (tm)-based Roleplaying Game 
- * Copyright (C) 2003  Wolfgang Keller
+ * Copyright (C) 2003-2004 Wolfgang Keller
  * Contact: http://ayirah.berlios.de | mail.wolfgang.keller@web.de
  * 
  * This program is free software; you can 
@@ -48,6 +49,8 @@ public abstract class HumanLikeCreature extends Creature {
 					isVisible[i][j][k]=new VisibleKnownNode();
 					isKnown[i][j][k]=new VisibleKnownNode();
 				}
+		
+		this.calculateVisible();
 	}
 	
 	public int getVisible(int l, int zeile, int spalte)
@@ -165,10 +168,8 @@ public abstract class HumanLikeCreature extends Creature {
 	{
 		if (this.getViewDirection()%2==1 && 
 		getMap().isDoor(this.getLayer(),
-		this.getPosY()+
-		AyirahStaticVars.direction_modifier[this.getViewDirection()][1], 
-		this.getPosX()+
-		AyirahStaticVars.direction_modifier[this.getViewDirection()][0]))
+		this.getPosY()+AyirahStaticVars.direction_modifier[this.getViewDirection()][1], 
+		this.getPosX()+AyirahStaticVars.direction_modifier[this.getViewDirection()][0]))
 			throw new IllegalTurnException("Ungültige Richtung");
 		
 		char tile=getMap().getTile(
@@ -1701,12 +1702,6 @@ public abstract class HumanLikeCreature extends Creature {
 		}
 	}
 	
-	
-	/**
-	 * Die Methode calculateVisible() muss aus technischen 
-	 * Gründen nach der Konstruktion des Objektes manuell 
-	 * aufgerufen werden
-	 */
 	public void calculateVisible()
 	{
 		for (int i=0; i<map.getHeight(); i++)

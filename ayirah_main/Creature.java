@@ -1,8 +1,9 @@
  /*
  * Created on 11.10.2003
+ * Last modified on 13.06.2004
  * 
  * Ayirah - a Java (tm)-based Roleplaying Game 
- * Copyright (C) 2003  Wolfgang Keller
+ * Copyright (C) 2003-2004 Wolfgang Keller
  * Contact: http://ayirah.berlios.de | mail.wolfgang.keller@web.de * 
  * This program is free software; you can 
  * redistribute it and/or modify it under 
@@ -89,13 +90,7 @@ public abstract class Creature {
 	public void setViewDirection(int direction)
 	{
 		this.view_direction=direction;
-	}
-	
-	/**
-	 * Die Methode calculateVisible() muss aus technischen 
-	 * Gründen nach der Konstruktion des Objektes manuell 
-	 * aufgerufen werden
-	 */
+	}	
 	public void calculateVisible()
 	{
 		
