@@ -1085,10 +1085,6 @@ public abstract class HumanLikeCreature extends Creature {
 						
 						else
 						{
-//							if (!(ignore_center &&
-//							!((line_type==2 && x==actual_x) || 
-//							(line_type==1 && y==actual_y))))
-							
 							if (!ignore_center || (!(line_type==2 && x==actual_x) && 
 							!(line_type==1 && y==actual_y)))
 							removeVisible(l, actual_x, actual_y,
