@@ -120,15 +120,16 @@ public class GameMap {
 	
 	public HashMap object_pos;
 	
-	public GameMap(int characters_count)
+	public GameMap(int characters_count, HashMap objects)
 	{
 		object_pos=new HashMap();
+		Iterator it=objects.keySet().iterator();
 		
-		this.addItem(new CoordVector(0, 10, 9), 
-		new GameItem("box", "wooden_box", "open", "an open box", 0, false, false, 50000l));
-		
-		this.addItem(new CoordVector(0, 9, 11), 
-		new GameItem("box", "wooden_box", "closed", "a closed box", 0, false, false, 50000l));
+		while (it.hasNext())
+		{
+			CoordVector coord=(CoordVector) it.next();
+			addItem(coord, (GameItem) objects.get(coord));
+		}
 		
 		this.characters_count=Math.max(1, Math.abs(characters_count));
 		
