@@ -347,12 +347,14 @@ public class GameMap {
 	
 	public void addItem(CoordVector3 coords, GameItem gi)
 	{
-		object_pos.put(coords, gi);
+		if (coords!=null && gi!=null)
+			object_pos.put(coords, gi);
 	}
 	
 	public void removeItem(CoordVector3 coords)
 	{
-		object_pos.remove(coords);
+		if (coords!=null)
+			object_pos.remove(coords);
 	}
 	
 	public AyirahCharacter getCharacter(int i)
