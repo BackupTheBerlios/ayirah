@@ -46,7 +46,7 @@ public class Ayirah extends Frame implements KeyListener {
 		this.addKeyListener(this);
 		
 		MediaTracker mt=new MediaTracker(this);
-		Image ic=getToolkit().createImage("cursor/hand_sm.gif");
+		Image ic=getToolkit().createImage(AyirahStaticVars.cursor_name);
 		mt.addImage(ic, 0);
 		
 		try
