@@ -378,12 +378,13 @@ public class AyirahComponent extends Canvas
 		for (int zeile=0; zeile<17; zeile++)
 			for (int spalte=0; spalte<22; spalte++)
 			{
-				char[] actual_tile=map.getCreatureKnownTile
+				GameTile gt=map.getCreatureKnownTile
 				(map.getCharacter(), map.getCharacter().getLayer(), 
-				zeile+top_corner_y, spalte+top_corner_x).getTiles();
-				int visible=map.getCreatureKnownTile
-				(map.getCharacter(), map.getCharacter().getLayer(), 
-				zeile+top_corner_y, spalte+top_corner_x).getVisible();
+				zeile+top_corner_y, spalte+top_corner_x);
+				
+				char[] actual_tile=gt.getTiles();
+				
+				int visible=gt.getVisible();
 				
 				int[] array_index=new int[4];
 				
@@ -414,13 +415,12 @@ public class AyirahComponent extends Canvas
 						tile_height*zeile+delta_y+im_delta_y[i], this);
 				}
 				
-				String item=map.getCreatureKnownTile
-				(map.getCharacter(), map.getCharacter().getLayer(), 
-				zeile+top_corner_y, spalte+top_corner_x).getItem();
+				String item=gt.getItem();
 				
 				if (item!="")
 				{
 					int item_index=-1;
+					
 					
 					if (item=="box_open")
 					{
@@ -435,11 +435,14 @@ public class AyirahComponent extends Canvas
 					if (item_index!=-1)
 						for (int i=0; i<array_index.length; i++)
 						{
+							int known=gt.getKnown();
+							System.out.println("Known="+known);
+							
 							boolean isVisible=(visible & (1 << i))!=0;
 							
-							g.drawImage(items[item_index][i][isVisible?1:0], 
-							tile_width*spalte+delta_x+im_delta_x[i], 
-							tile_height*zeile+delta_y+im_delta_y[i], this);
+								g.drawImage(items[item_index][i][isVisible?1:0], 
+								tile_width*spalte+delta_x+im_delta_x[i], 
+								tile_height*zeile+delta_y+im_delta_y[i], this);
 						}
 				}
 			}

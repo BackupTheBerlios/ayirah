@@ -5,7 +5,7 @@
 
 /** * @author Wolfgang */
 public class VisibleKnownNode implements Cloneable {
-	protected int main_type;
+	public int main_type;
 	
 	VisibleKnownNode()
 	{

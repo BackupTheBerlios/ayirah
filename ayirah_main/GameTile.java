@@ -31,12 +31,14 @@
 public class GameTile {
 
 	protected char[] directionParts;
-	protected int vis;
+	protected int visibility;
+	protected int known;
+	
 	protected String item;
 	
-	GameTile(char t_north, char t_east, char t_south, char t_west, int visible, String item)
+	GameTile(char t_north, char t_east, char t_south, char t_west, int visible, int known, String item)
 	{
-		this.vis=visible;
+		this.visibility=visible;
 		directionParts=new char[4];
 		this.item=item;
 		
@@ -46,9 +48,9 @@ public class GameTile {
 		directionParts[3]=t_west;
 	}
 	
-	GameTile(char[] direction_parts, int vis, String item)
+	GameTile(char[] direction_parts, int vis, int known, String item)
 	{
-		this.vis=vis;
+		this.visibility=vis;
 		directionParts=new char[4];
 		
 		if (direction_parts.length>=4)
@@ -75,7 +77,12 @@ public class GameTile {
 	
 	public int getVisible()
 	{
-		return vis;
+		return visibility;
+	}
+	
+	public int getKnown()
+	{
+		return known;
 	}
 	
 	public String getItem()
