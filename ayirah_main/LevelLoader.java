@@ -51,6 +51,8 @@ public final class LevelLoader extends DefaultHandler {
 	
 	protected HashMap hm;
 	
+	protected boolean inMapTile;
+	
 	protected LevelLoader()
 	{
 		hm=new HashMap();
@@ -153,10 +155,12 @@ public final class LevelLoader extends DefaultHandler {
 				}
 			}
 			
+			inMapTile=true;
+			
 			actual_coords=new CoordVector(l, x, y);
 		}
 		
-		else if (eName.equals("object"))
+		else if (eName.equals("object") && inMapTile)
 		{
 			reinitItem();
 		
@@ -212,6 +216,11 @@ public final class LevelLoader extends DefaultHandler {
 			gi=new GameItem(type, sub_type, state, name, vis_type, take_able,
 			walk_on_able, weight);
 		}
+		
+		else if (eName.equals("object") && !inMapTile)
+		{
+			System.out.println("<object>-Tags dürfen nur in <maptile>-Tags benutzt werden");
+		}
 	}
 	
 	public void endElement(String namespaceURI,
@@ -226,6 +235,7 @@ public final class LevelLoader extends DefaultHandler {
 		if (eName.equals("maptile"))
 		{
 			hm.put(actual_coords, gi);
+			inMapTile=false;
 		}
 	}
 	
@@ -240,10 +250,10 @@ public final class LevelLoader extends DefaultHandler {
 	protected void reinitItem()
 	{
 		gi=null;
-		type=null;
-		sub_type=null;
-		state=null;
-		name=null;
+		type="";
+		sub_type="";
+		state="";
+		name="";
 		vis_type=0;
 		take_able=false;
 		walk_on_able=false;
