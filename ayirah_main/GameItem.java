@@ -43,7 +43,7 @@ public class GameItem implements Cloneable {
 	private boolean takeable; // kann der Character das Objekt aufnehmen (rein theoretisch!)
 	
 	GameItem(String type, String sub_type, String state, String name, 
-	int vis_type, boolean takeable, boolean move_on_able, long weight)
+	int vis_type, boolean takeable, boolean walk_on_able, long weight)
 	{
 		setType(type);
 		setSubType(sub_type);
@@ -51,7 +51,7 @@ public class GameItem implements Cloneable {
 		setName(name);
 		setVisibilityType(vis_type);
 		setWeight(Math.abs(weight));
-		setWalkOnAble(move_on_able);
+		setWalkOnAble(walk_on_able);
 		setTakeable(takeable);
 	}
 	
