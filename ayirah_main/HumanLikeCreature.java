@@ -156,6 +156,42 @@ public abstract class HumanLikeCreature extends Creature {
 		}
 	}
 	
+	public boolean openThing() throws IllegalTurnException
+	{
+		GameItem gami;
+		
+		CoordVector cvect=new CoordVector(
+		this.getLayer(),
+		this.getPosX()+AyirahStaticVars.direction_modifier[this.getViewDirection()][0],
+		this.getPosY()+AyirahStaticVars.direction_modifier[this.getViewDirection()][1]
+		);
+		
+		if ( (gami=map.getItem(cvect ))!=null && isReachable(this.getViewDirection()) )
+		{
+			if (gami.getState()=="closed")
+			{
+				gami.setState("open");
+				map.addItem(cvect, gami);
+				return true;
+			}
+			
+			else
+				return false;
+		}
+		
+		else
+		{
+			try
+			{
+				return openOldFashionedThing();
+			}
+			catch (IllegalTurnException exc)
+			{
+				throw exc;
+			}
+		}
+	}
+	
 	/**
 	 * 
 	 * @param c
@@ -164,7 +200,7 @@ public abstract class HumanLikeCreature extends Creature {
 	 * false, wenn Misserfolg
 	 * @throws IllegalTurnException
 	 */
-	public boolean openThing() throws IllegalTurnException
+	public boolean openOldFashionedThing() throws IllegalTurnException
 	{
 		if (this.getViewDirection()%2==1 && 
 		getMap().isDoor(this.getLayer(),
@@ -177,7 +213,7 @@ public abstract class HumanLikeCreature extends Creature {
 		this.getPosY()+AyirahStaticVars.direction_modifier[this.getViewDirection()][1], 
 		this.getPosX()+AyirahStaticVars.direction_modifier[this.getViewDirection()][0]);
 	
-		if (!(tile=='-' || tile=='I' || tile=='X'))
+		if (!(tile=='-' || tile=='I'))
 			throw new IllegalTurnException("Keine geschlossenes Ding");
 	
 		if (tile=='-' && !(this.getViewDirection()==AyirahStaticVars.DIRECTION_NORTH || 
@@ -209,20 +245,46 @@ public abstract class HumanLikeCreature extends Creature {
 			this.calculateVisible();
 			return true;
 		}
-		
-		else if (tile=='X' && isReachable(this.getViewDirection()))
-		{
-			getMap().setTile(this.getLayer(),
-			this.getPosY()+AyirahStaticVars.direction_modifier
-			[this.getViewDirection()][1], 
-			this.getPosX()+AyirahStaticVars.direction_modifier
-			[this.getViewDirection()][0], 'x');
-			return true;
-		}
 	
 		else return false;
 	}
-
+	
+	public boolean closeThing() throws IllegalTurnException
+	{
+		GameItem gami;
+	
+		CoordVector cvect=new CoordVector(
+		this.getLayer(),
+		this.getPosX()+AyirahStaticVars.direction_modifier[this.getViewDirection()][0],
+		this.getPosY()+AyirahStaticVars.direction_modifier[this.getViewDirection()][1]
+		);
+	
+		if ( (gami=map.getItem(cvect ))!=null && isReachable(this.getViewDirection()) )
+		{
+			if (gami.getState()=="open")
+			{
+				gami.setState("closed");
+				map.addItem(cvect, gami);
+				return true;
+			}
+		
+			else
+				return false;
+		}
+	
+		else
+		{
+			try
+			{
+				return closeOldFashionedThing();
+			}
+			catch (IllegalTurnException exc)
+			{
+				throw exc;
+			}
+		}
+	}
+	
 	/**
 	 * 
 	 * @param c
@@ -231,7 +293,7 @@ public abstract class HumanLikeCreature extends Creature {
 	 * false, wenn Misserfolg
 	 * @throws IllegalTurnException
 	 */
-	public boolean closeThing() throws IllegalTurnException
+	public boolean closeOldFashionedThing() throws IllegalTurnException
 	{
 		if (this.getViewDirection()%2==1 && 
 		getMap().isDoor(this.getLayer(),
@@ -247,7 +309,7 @@ public abstract class HumanLikeCreature extends Creature {
 		this.getPosX()+AyirahStaticVars.direction_modifier
 		[this.getViewDirection()][0]);
 
-		if (!(tile=='_' || tile=='i' || tile=='x'))
+		if (!(tile=='_' || tile=='i'))
 			throw new IllegalTurnException("Keine offenes Ding");
 
 		if (tile=='_' && 
@@ -282,15 +344,15 @@ public abstract class HumanLikeCreature extends Creature {
 			return true;
 		}
 		
-		else if (tile=='x' && isReachable(this.getViewDirection()))
-		{
-			getMap().setTile(this.getLayer(),
-			this.getPosY()+AyirahStaticVars.direction_modifier
-			[this.getViewDirection()][1], 
-			this.getPosX()+AyirahStaticVars.direction_modifier
-			[this.getViewDirection()][0], 'X');
-			return true;
-		}
+//		else if (tile=='x' && isReachable(this.getViewDirection()))
+//		{
+//			getMap().setTile(this.getLayer(),
+//			this.getPosY()+AyirahStaticVars.direction_modifier
+//			[this.getViewDirection()][1], 
+//			this.getPosX()+AyirahStaticVars.direction_modifier
+//			[this.getViewDirection()][0], 'X');
+//			return true;
+//		}
 	
 		else return false;
 	}
