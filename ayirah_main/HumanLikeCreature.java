@@ -23,20 +23,15 @@
  * Free Software Foundation, Inc., 
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA. 
  */
-
 /**
  * @author Wolfgang Keller
  */
 public abstract class HumanLikeCreature extends Creature {
 	public VisibleKnownNode[][][] isVisible;
 	public VisibleKnownNode[][][] isKnown;
-	protected boolean[][][] visibleWalls;
-	/**
-	 * @param map
-	 */
+	protected boolean[][][] visibleWalls;	
 	public HumanLikeCreature(GameMap map, int l, int x, int y, int direction) {
-		super(map, l, x, y, direction);
-		
+		super(map, l, x, y, direction);		
 		isVisible=new VisibleKnownNode[map.getLayersCount()][map.getHeight()][map.getWidth()];
 		isKnown=new VisibleKnownNode[map.getLayersCount()][map.getHeight()][map.getWidth()];
 		visibleWalls=new boolean[map.getLayersCount()][map.getHeight()][map.getWidth()];
@@ -50,47 +45,44 @@ public abstract class HumanLikeCreature extends Creature {
 				}
 	}
 	
-	public VisibleKnownNode getVisible(int l, int zeile, int spalte)
+	public int getVisible(int l, int zeile, int spalte)
 	{
 		//in return 15; zu Testzwecken ersetzen
 		if ((zeile >= map.getHeight()) || (zeile<0) || 
 		(spalte>=map.getWidth()) || (spalte<0))
-			return new VisibleKnownNode(AyirahStaticVars.VISIBLE_NONE,0);
-		else return isVisible[l][zeile][spalte];
+			return AyirahStaticVars.VISIBLE_KNOWN_NONE;
+		else return isVisible[l][zeile][spalte].getMainType(); 		// wenn durch return (VisibleKnownNode) [...] .clone() ersetzt wird, kommt es zu Grafikfehlern
 	}
 	
-	protected void addVisible(int l, int x, int y, int main_type, int diagonal_visible)
+	protected void addVisible(int l, int x, int y, int main_type)
 	{
 		if (map.isValidCoordPair(l, x,y))
 		{
-			isVisible[l][y][x].addType(main_type, diagonal_visible);
-			
-			int act_tile=map.getTile(l, y,x);
-		
+			isVisible[l][y][x].addType(main_type);				
+			int act_tile=map.getTile(l, y,x);			
 			if (map.isWall(l, y,x))
 			{
 				visibleWalls[l][y][x]=true;
 			}
-		}
+		}		
 		else
 			System.out.println("Ungültige Koordinate: x="+x+" y="+y);
 	}
-		
-	public VisibleKnownNode getKnown(int l, int zeile, int spalte)
+	
+	public int getKnown(int l, int zeile, int spalte)
 	{
 		if ((spalte >= map.getWidth()) || (spalte<0) || 
 		(zeile>=map.getHeight()) || (zeile<0))
-				return new VisibleKnownNode(AyirahStaticVars.VISIBLE_NONE,0);
-		else return isKnown[l][zeile][spalte];
+				return AyirahStaticVars.VISIBLE_KNOWN_NONE;
+		else return isKnown[l][zeile][spalte].getMainType();		// (vermutlich) wenn durch return (VisibleKnownNode) [...] .clone() ersetzt wird, kommt es zu Grafikfehlern
 	}
 	
-	protected void removeVisible(int l, int x, int y, int main_type, int diagonal_visible)
+	protected void removeVisible(int l, int x, int y, int main_type)
 	{
 		if (map.isValidCoordPair(l, x,y))
 		{
-			isVisible[l][y][x].removeType(main_type, diagonal_visible);
-	
-			if (map.isWall(l, y,x) && getVisible(l, y, x).getMainType()==0)
+			isVisible[l][y][x].removeType(main_type);			
+			if (map.isWall(l, y,x) && getVisible(l, y, x)==0)
 			{
 				visibleWalls[l][y][x]=false;
 			}
@@ -103,9 +95,8 @@ public abstract class HumanLikeCreature extends Creature {
 	{
 		if (map.isValidCoordPair(l,x,y))
 		{
-			isVisible[l][y][x].setType(main_type, diagonal_visible);
-		
-			if (map.isWall(l, y,x) && getVisible(l,y,x).getMainType()==0)
+			isVisible[l][y][x].setType(main_type);			
+			if (map.isWall(l, y,x) && getVisible(l,y,x)==0)
 			{
 				visibleWalls[l][y][x]=false;
 			}
@@ -115,11 +106,11 @@ public abstract class HumanLikeCreature extends Creature {
 			System.out.println("Ungültige Koordinate: x="+x+" y="+y);
 	}
 	
-	protected void addKnown(int l, int x, int y, int main_type, int sub_type)
+	protected void addKnown(int l, int x, int y, int main_type)
 	{
 		if (map.isValidCoordPair(l,x,y))
 		{
-			isKnown[l][y][x].addType(main_type, sub_type);
+			isKnown[l][y][x].addType(main_type);
 		}
 		else
 			System.out.println("Ungültige Koordinate: x="+x+" y="+y);
@@ -135,8 +126,6 @@ public abstract class HumanLikeCreature extends Creature {
 		else if (getLayer()<=0) // <=: nur zur Sicherheit; eigentlich reichte ==
 			throw new IllegalTurnException("GoUp(): Oberste Ebene");
 		
-		
-		
 		setLayer(getLayer()-1);
 		calculateVisible();
 	}
@@ -150,8 +139,6 @@ public abstract class HumanLikeCreature extends Creature {
 			
 		else if (getLayer()>=(map.getLayersCount()-1)) // >=: nur zur Sicherheit; eigentlich reichte ==
 			throw new IllegalTurnException("GoDown(): Unterste Ebene");
-			
-		
 		
 		setLayer(getLayer()+1);
 		calculateVisible();
@@ -159,73 +146,15 @@ public abstract class HumanLikeCreature extends Creature {
 	
 	protected void makeVisibleKnown()
 	{
-		// erst einmal eine Grobbereinigung (Sichtbarkeitsartefakte entfernen)
+		// alles Sichtbare dem Bekannten zufügen
 		for (int zeile=0; zeile<map.getHeight(); zeile++)
 			for (int spalte=0; spalte<map.getWidth(); spalte++)
 			{
-				int visible=getVisible(getLayer(), zeile, spalte).getMainType();
+				int visible=getVisible(getLayer(), zeile, spalte);
 				
 				isKnown[getLayer()][zeile][spalte].addType
-				(isVisible[getLayer()][zeile][spalte].getMainType(),
-				isVisible[getLayer()][zeile][spalte].getDiagonalType()
+				(isVisible[getLayer()][zeile][spalte].getMainType()
 				);
-			}
-			
-		// anschließend alles bekannt machen (später auch erratbare Dinge)
-		for (int zeile=0; zeile<map.getHeight(); zeile++)
-			for (int spalte=0; spalte<map.getWidth(); spalte++)
-			{
-				int known=getKnown(getLayer(), zeile, spalte).getMainType();
-				int visible=getVisible(getLayer(), zeile, spalte).getMainType();
-				
-				int tile=map.getTile(getLayer(), zeile, spalte);
-				
-				final int north_east=AyirahStaticVars.KNOWN_NORTH_EAST;
-				final int south_east=AyirahStaticVars.KNOWN_SOUTH_EAST;
-				final int south_west=AyirahStaticVars.KNOWN_SOUTH_WEST;
-				final int north_west=AyirahStaticVars.KNOWN_NORTH_WEST;
-				
-				if (tile=='1' || tile=='3')
-				{
-					if (known==north_west || known==south_east)
-					isKnown[getLayer()][zeile][spalte].setType
-					(AyirahStaticVars.VISIBLE_ALL, 0);
-				}
-				
-				if (tile=='2' || tile=='4')
-				{
-					if (known==north_east || known==south_west)
-					isKnown[getLayer()][zeile][spalte].setType
-					(AyirahStaticVars.VISIBLE_ALL, 0);
-				}
-				
-				if (known!=0 && (tile=='I' || tile=='i' || tile=='-' || tile=='_'))
-				{
-					isKnown[getLayer()][zeile][spalte].setType
-					(AyirahStaticVars.KNOWN_ALL,0);
-				}
-			}
-	}
-	
-	/** Diese Methode hat den Zweck, Dinge die bekannt sind
-	 * aus ästhetischen Gründen schöner darzustellen, solange sie keinen
-	 * Einfluss auf das eigentliche Spiel haben
-	 */
-	protected void cleanUpVisible() {
-	
-		for (int zeile=0; zeile<map.getHeight();zeile++)
-			for (int spalte=0; spalte<map.getWidth(); spalte++)
-			{
-				int vis=getVisible(getLayer(), zeile, spalte).getMainType();
-				int known=getKnown(getLayer(), zeile, spalte).getMainType();
-				int tile=map.getTile(getLayer(), zeile, spalte);
-				
-				if (tile=='#' || tile=='-' || tile=='I')
-				{
-					 if (known==AyirahStaticVars.KNOWN_ALL && 
-					 vis!=AyirahStaticVars.VISIBLE_NONE)
-						setVisible(getLayer(), spalte, zeile, AyirahStaticVars.VISIBLE_ALL,0);
-				}
 			}
 	}
 	
@@ -237,224 +166,173 @@ public abstract class HumanLikeCreature extends Creature {
 				if (visibleWalls[getLayer()][zeile][spalte] &&  !(zeile==map.getCharacter().getPosY() &&
 				spalte==map.getCharacter().getPosX()))
 				{
-					char wall_type=map.getTile(getLayer(), zeile, spalte);
-					
+					char wall_type=map.getTile(getLayer(), zeile, spalte);					
 					if (spalte==this.getPosX())
-					{
+					{						// Fall: Wand nördlich vom Character
 						if (this.getPosY()-zeile>0)
 						{
 							if (this.getPosY()-zeile==1)
 							{
 								if (!(wall_type=='1' || wall_type=='4' || wall_type=='_'))
 								removeEvenDirectionWallInvisible(getLayer(), spalte, zeile, 
-								AyirahStaticVars.DIRECTION_NORTH, false, false,0,0,
-								AyirahStaticVars.DIAGONAL_HALFVISIBLE, 
-								AyirahStaticVars.DIAGONAL_HALFVISIBLE);
+								AyirahStaticVars.DIRECTION_NORTH, false, false,0,0);
 								
 								if (wall_type=='1')
 								removeEvenDirectionWallInvisible(getLayer(), spalte, zeile, 
-								AyirahStaticVars.DIRECTION_NORTH, true, false, 0,0,
-								AyirahStaticVars.DIAGONAL_HALFVISIBLE, 
-								AyirahStaticVars.DIAGONAL_HALFVISIBLE);
+								AyirahStaticVars.DIRECTION_NORTH, true, false, 0,0);
 								
 								if (wall_type=='2')
 								removeVisible(getLayer(), spalte, zeile, 
-								AyirahStaticVars.VISIBLE_NORTH_WEST, 
-								AyirahStaticVars.DIAGONAL_INVISIBLE);
+								AyirahStaticVars.VISIBLE_KNOWN_NORTH_WEST);
 								
 								if (wall_type=='3')
 								removeVisible(getLayer(), spalte, zeile, 
-								AyirahStaticVars.VISIBLE_NORTH_EAST, 
-								AyirahStaticVars.DIAGONAL_INVISIBLE);
+								AyirahStaticVars.VISIBLE_KNOWN_NORTH_EAST);
 								
 								if (wall_type=='4')
 								removeEvenDirectionWallInvisible(getLayer(), spalte, zeile, 
-								AyirahStaticVars.DIRECTION_NORTH, false, true, 0,0,
-								AyirahStaticVars.DIAGONAL_HALFVISIBLE, 
-								AyirahStaticVars.DIAGONAL_HALFVISIBLE);
+								AyirahStaticVars.DIRECTION_NORTH, false, true, 0,0);
 							}
-						
+							
 							else
 							{
 								if (!(wall_type=='_'))
 								removeEvenDirectionWallInvisible(getLayer(), spalte, zeile, 
-								AyirahStaticVars.DIRECTION_NORTH, true, true,0,0,
-								AyirahStaticVars.DIAGONAL_HALFVISIBLE, 
-								AyirahStaticVars.DIAGONAL_HALFVISIBLE);
+								AyirahStaticVars.DIRECTION_NORTH, true, true,0,0);
 								
 								if (wall_type=='2')
 								removeVisible(getLayer(), spalte, zeile, 
-								AyirahStaticVars.VISIBLE_NORTH_WEST, 
-								AyirahStaticVars.DIAGONAL_INVISIBLE);
+								AyirahStaticVars.VISIBLE_KNOWN_NORTH_WEST);
 								
 								if (wall_type=='3')
 								removeVisible(getLayer(), spalte, zeile, 
-								AyirahStaticVars.VISIBLE_NORTH_EAST, 
-								AyirahStaticVars.DIAGONAL_INVISIBLE);
+								AyirahStaticVars.VISIBLE_KNOWN_NORTH_EAST);
 							}
 						}
-					
+												// Fall: Wand südlich vom Character
 						else
 						{
 							if (getPosY()-zeile==-1)
 							{
 								if (!(wall_type=='2' || wall_type=='3' || wall_type=='_'))
 								removeEvenDirectionWallInvisible(getLayer(), spalte, zeile, 
-								AyirahStaticVars.DIRECTION_SOUTH, false, false,0,0,
-								AyirahStaticVars.DIAGONAL_HALFVISIBLE, 
-								AyirahStaticVars.DIAGONAL_HALFVISIBLE);
+								AyirahStaticVars.DIRECTION_SOUTH, false, false,0,0);
 								
 								if (wall_type=='1')
 								removeVisible(getLayer(), spalte, zeile, 
-								AyirahStaticVars.VISIBLE_SOUTH_WEST, 
-								AyirahStaticVars.DIAGONAL_INVISIBLE);
+								AyirahStaticVars.VISIBLE_KNOWN_SOUTH_WEST);
 								
 								if (wall_type=='2')
 								removeEvenDirectionWallInvisible(getLayer(), spalte, zeile, 
-								AyirahStaticVars.DIRECTION_SOUTH, false, true,0,0,
-								AyirahStaticVars.DIAGONAL_HALFVISIBLE, 
-								AyirahStaticVars.DIAGONAL_HALFVISIBLE);
+								AyirahStaticVars.DIRECTION_SOUTH, false, true,0,0);
 								
 								if (wall_type=='3')
 								removeEvenDirectionWallInvisible(getLayer(), spalte, zeile, 
-								AyirahStaticVars.DIRECTION_SOUTH, true, false,0,0,
-								AyirahStaticVars.DIAGONAL_HALFVISIBLE, 
-								AyirahStaticVars.DIAGONAL_HALFVISIBLE);
+								AyirahStaticVars.DIRECTION_SOUTH, true, false,0,0);
 								
 								if (wall_type=='4')
 								removeVisible(getLayer(), spalte, zeile, 
-								AyirahStaticVars.VISIBLE_SOUTH_EAST, 
-								AyirahStaticVars.DIAGONAL_INVISIBLE);
-								
+								AyirahStaticVars.VISIBLE_KNOWN_SOUTH_EAST);
 							}
-					
+							
 							else
 							{
 								if (!(wall_type=='_'))
 								removeEvenDirectionWallInvisible(getLayer(), spalte, zeile, 
-								AyirahStaticVars.DIRECTION_SOUTH, true, true,0,0,
-								AyirahStaticVars.DIAGONAL_HALFVISIBLE, 
-								AyirahStaticVars.DIAGONAL_HALFVISIBLE);
+								AyirahStaticVars.DIRECTION_SOUTH, true, true,0,0);
 								
 								if (wall_type=='1')
 								removeVisible(getLayer(), spalte, zeile, 
-								AyirahStaticVars.VISIBLE_SOUTH_WEST, 
-								AyirahStaticVars.DIAGONAL_INVISIBLE);
+								AyirahStaticVars.VISIBLE_KNOWN_SOUTH_WEST);
 								
 								if (wall_type=='4')
 								removeVisible(getLayer(), spalte, zeile, 
-								AyirahStaticVars.VISIBLE_SOUTH_EAST, 
-								AyirahStaticVars.DIAGONAL_INVISIBLE);
+								AyirahStaticVars.VISIBLE_KNOWN_SOUTH_EAST);
 							}
-					
 						}
 					}
-				
-					else if (zeile==getPosY()) 				
-					{
+					
+					else if (zeile==getPosY())
+					{						// Fall: Wand westlich vom Character
 						if (getPosX()-spalte>0)
 						{
 							if (getPosX()-spalte==1)
 							{
 								if (!(wall_type=='3' || wall_type=='4' || wall_type=='i'))
 								removeEvenDirectionWallInvisible(getLayer(), spalte, zeile, 
-								AyirahStaticVars.DIRECTION_WEST, false, false,0,0,
-								AyirahStaticVars.DIAGONAL_HALFVISIBLE, 
-								AyirahStaticVars.DIAGONAL_HALFVISIBLE);
+								AyirahStaticVars.DIRECTION_WEST, false, false,0,0);
 								
 								if (wall_type=='1')
 								removeVisible(getLayer(), spalte, zeile, 
-								AyirahStaticVars.VISIBLE_SOUTH_WEST, 
-								AyirahStaticVars.DIAGONAL_INVISIBLE);
+								AyirahStaticVars.VISIBLE_KNOWN_SOUTH_WEST);
 								
 								if (wall_type=='2')
 								removeVisible(getLayer(), spalte, zeile, 
-								AyirahStaticVars.VISIBLE_NORTH_WEST, 
-								AyirahStaticVars.DIAGONAL_INVISIBLE);
+								AyirahStaticVars.VISIBLE_KNOWN_NORTH_WEST);
 								
 								if (wall_type=='3')
 								removeEvenDirectionWallInvisible(getLayer(), spalte, zeile, 
-								AyirahStaticVars.DIRECTION_WEST, false, true,0,0,
-								AyirahStaticVars.DIAGONAL_HALFVISIBLE, 
-								AyirahStaticVars.DIAGONAL_HALFVISIBLE);
+								AyirahStaticVars.DIRECTION_WEST, false, true,0,0);
 								
 								if (wall_type=='4')
 								removeEvenDirectionWallInvisible(getLayer(), spalte, zeile, 
-								AyirahStaticVars.DIRECTION_WEST, true, false,0,0,
-								AyirahStaticVars.DIAGONAL_HALFVISIBLE, 
-								AyirahStaticVars.DIAGONAL_HALFVISIBLE);
+								AyirahStaticVars.DIRECTION_WEST, true, false,0,0);
 							}
-						
+							
 							else
 							{
 								if (!(wall_type=='i'))
 								removeEvenDirectionWallInvisible(getLayer(), spalte, zeile, 
-								AyirahStaticVars.DIRECTION_WEST, true, true,0,0,
-								AyirahStaticVars.DIAGONAL_HALFVISIBLE, 
-								AyirahStaticVars.DIAGONAL_HALFVISIBLE);
+								AyirahStaticVars.DIRECTION_WEST, true, true,0,0);
 								
 								if (wall_type=='1')
 								removeVisible(getLayer(), spalte, zeile, 
-								AyirahStaticVars.VISIBLE_SOUTH_WEST, 
-								AyirahStaticVars.DIAGONAL_INVISIBLE);
+								AyirahStaticVars.VISIBLE_KNOWN_SOUTH_WEST);
 								
 								if (wall_type=='2')
 								removeVisible(getLayer(), spalte, zeile, 
-								AyirahStaticVars.VISIBLE_NORTH_WEST, 
-								AyirahStaticVars.DIAGONAL_INVISIBLE);
+								AyirahStaticVars.VISIBLE_KNOWN_NORTH_WEST);
 							}
 						}
-					
+												// Fall: Wand östlich vom Character
 						else
 						{
 							if (getPosX()-spalte==-1)
 							{
 								if (!(wall_type=='1' || wall_type=='2' || wall_type=='i'))
 								removeEvenDirectionWallInvisible(getLayer(), spalte, zeile, 
-								AyirahStaticVars.DIRECTION_EAST, false, false,0,0,
-								AyirahStaticVars.DIAGONAL_HALFVISIBLE, 
-								AyirahStaticVars.DIAGONAL_HALFVISIBLE);
+								AyirahStaticVars.DIRECTION_EAST, false, false,0,0);
 								
 								if (wall_type=='1')
 								removeEvenDirectionWallInvisible(getLayer(), spalte, zeile, 
-								AyirahStaticVars.DIRECTION_EAST, false, true,0,0,
-								AyirahStaticVars.DIAGONAL_HALFVISIBLE, 
-								AyirahStaticVars.DIAGONAL_HALFVISIBLE);
+								AyirahStaticVars.DIRECTION_EAST, false, true,0,0);
 								
 								if (wall_type=='2')
 								removeEvenDirectionWallInvisible(getLayer(), spalte, zeile, 
-								AyirahStaticVars.DIRECTION_EAST, true, false,0,0,
-								AyirahStaticVars.DIAGONAL_HALFVISIBLE, 
-								AyirahStaticVars.DIAGONAL_HALFVISIBLE);
+								AyirahStaticVars.DIRECTION_EAST, true, false,0,0);
 								
 								if (wall_type=='3')
 								removeVisible(getLayer(), spalte, zeile, 
-								AyirahStaticVars.VISIBLE_NORTH_EAST, 
-								AyirahStaticVars.DIAGONAL_INVISIBLE);
+								AyirahStaticVars.VISIBLE_KNOWN_NORTH_EAST);
 								
 								if (wall_type=='4')
 								removeVisible(getLayer(), spalte, zeile, 
-								AyirahStaticVars.VISIBLE_SOUTH_EAST, 
-								AyirahStaticVars.DIAGONAL_INVISIBLE);
+								AyirahStaticVars.VISIBLE_KNOWN_SOUTH_EAST);
 							}
-						
+							
 							else
 							{
 								if (!(wall_type=='i'))
 								removeEvenDirectionWallInvisible(getLayer(), spalte, zeile, 
-								AyirahStaticVars.DIRECTION_EAST, true, true,0,0,
-								AyirahStaticVars.DIAGONAL_HALFVISIBLE, 
-								AyirahStaticVars.DIAGONAL_HALFVISIBLE);
+								AyirahStaticVars.DIRECTION_EAST, true, true,0,0);
 								
 								if (wall_type=='3')
 								removeVisible(getLayer(), spalte, zeile, 
-								AyirahStaticVars.VISIBLE_NORTH_EAST, 
-								AyirahStaticVars.DIAGONAL_INVISIBLE);
+								AyirahStaticVars.VISIBLE_KNOWN_NORTH_EAST);
 								
 								if (wall_type=='4')
 								removeVisible(getLayer(), spalte, zeile, 
-								AyirahStaticVars.VISIBLE_SOUTH_EAST, 
-								AyirahStaticVars.DIAGONAL_INVISIBLE);
+								AyirahStaticVars.VISIBLE_KNOWN_SOUTH_EAST);
 							}
 						}
 					}
@@ -463,7 +341,7 @@ public abstract class HumanLikeCreature extends Creature {
 					/* Jetzt die Diagonalen */
 					if (getPosX()-spalte==getPosY()-zeile)
 					{
-						// Fall Diagonale links oben -> rechts unten
+						// Fall Diagonale NW -> SO
 						if (getPosX()-spalte<0)
 						{
 							if (getPosX()-spalte==-1)
@@ -474,20 +352,17 @@ public abstract class HumanLikeCreature extends Creature {
 								
 								if (wall_type=='4')
 								removeVisible(getLayer(), spalte, zeile, 
-								AyirahStaticVars.VISIBLE_SOUTH_EAST, 
-								AyirahStaticVars.DIAGONAL_INVISIBLE);
+								AyirahStaticVars.VISIBLE_KNOWN_SOUTH_EAST);
 								
 								if (wall_type=='1')
 								removeEvenDirectionWallInvisible(getLayer(), spalte, zeile, 
-								AyirahStaticVars.DIRECTION_EAST, true, false, 0, -1,
-								AyirahStaticVars.DIAGONAL_VISIBLE, AyirahStaticVars.DIAGONAL_VISIBLE);
+								AyirahStaticVars.DIRECTION_EAST, true, false, 0, -1);
 								
 								if (wall_type=='3')
 								removeEvenDirectionWallInvisible(getLayer(), spalte, zeile, 
-								AyirahStaticVars.DIRECTION_SOUTH, false, true, -1, 0,
-								AyirahStaticVars.DIAGONAL_VISIBLE, AyirahStaticVars.DIAGONAL_VISIBLE);
+								AyirahStaticVars.DIRECTION_SOUTH, false, true, -1, 0);
 							}
-						
+							
 							else
 							{
 								if (!(wall_type=='1' || wall_type=='3'))
@@ -496,15 +371,13 @@ public abstract class HumanLikeCreature extends Creature {
 								{
 									if (!(i==0) && map.isValidCoordPair(getLayer(), spalte+i, zeile+i))
 										removeVisible(getLayer(), spalte+i, zeile+i,
-										AyirahStaticVars.VISIBLE_ALL,0);
+										AyirahStaticVars.VISIBLE_KNOWN_ALL);
 									if (map.isValidCoordPair(getLayer(), spalte+i+1, zeile+i))
 										removeVisible(getLayer(), spalte+i+1, zeile+i,
-										AyirahStaticVars.VISIBLE_SOUTH_WEST,
-										AyirahStaticVars.DIAGONAL_HALFVISIBLE);
+										AyirahStaticVars.VISIBLE_KNOWN_SOUTH_WEST);
 									if (map.isValidCoordPair(getLayer(), spalte+i, zeile+i+1))
 										removeVisible(getLayer(), spalte+i, zeile+i+1,
-										AyirahStaticVars.VISIBLE_NORTH_EAST,
-										AyirahStaticVars.DIAGONAL_HALFVISIBLE);
+										AyirahStaticVars.VISIBLE_KNOWN_NORTH_EAST);
 								}
 								
 								if (wall_type=='1')
@@ -513,12 +386,10 @@ public abstract class HumanLikeCreature extends Creature {
 								{
 									if (!(i==0) && map.isValidCoordPair(getLayer(), spalte+i, zeile+i))
 										removeVisible(getLayer(), spalte+i, zeile+i,
-										AyirahStaticVars.VISIBLE_NORTH_EAST,
-										AyirahStaticVars.DIAGONAL_VISIBLE);
+										AyirahStaticVars.VISIBLE_KNOWN_NORTH_EAST);
 									if (map.isValidCoordPair(getLayer(), spalte+i+1, zeile+i))
 										removeVisible(getLayer(), spalte+i+1, zeile+i,
-										AyirahStaticVars.VISIBLE_SOUTH_WEST,
-										AyirahStaticVars.DIAGONAL_HALFVISIBLE);
+										AyirahStaticVars.VISIBLE_KNOWN_SOUTH_WEST);
 								}
 								
 								if (wall_type=='3')
@@ -527,25 +398,22 @@ public abstract class HumanLikeCreature extends Creature {
 								{
 									if (!(i==0) && map.isValidCoordPair(getLayer(), spalte+i, zeile+i))
 										removeVisible(getLayer(), spalte+i, zeile+i,
-										AyirahStaticVars.VISIBLE_SOUTH_WEST,
-										AyirahStaticVars.DIAGONAL_VISIBLE);
+										AyirahStaticVars.VISIBLE_KNOWN_SOUTH_WEST);
 										
 									if (map.isValidCoordPair(getLayer(), spalte+i, zeile+i+1))
 										removeVisible(getLayer(), spalte+i, zeile+i+1,
-										AyirahStaticVars.VISIBLE_NORTH_EAST,
-										AyirahStaticVars.DIAGONAL_HALFVISIBLE);
+										AyirahStaticVars.VISIBLE_KNOWN_NORTH_EAST);
 								}
 								
 								if (wall_type=='4')
 								removeVisible(getLayer(), spalte, zeile, 
-								AyirahStaticVars.VISIBLE_SOUTH_EAST, 
-								AyirahStaticVars.DIAGONAL_INVISIBLE);
+								AyirahStaticVars.VISIBLE_KNOWN_SOUTH_EAST);
 								
 								
 							}
 						}
 						
-						// Fall Diagonale rechts unten -> links oben
+						// Fall Diagonale SO -> NW
 						else // if (charpos_x-spalte)>0 danach ist verzeichtbar
 						{
 							if (getPosX()-spalte==1)
@@ -556,20 +424,17 @@ public abstract class HumanLikeCreature extends Creature {
 								
 								if (wall_type=='2')
 								removeVisible(getLayer(), spalte, zeile, 
-								AyirahStaticVars.VISIBLE_NORTH_WEST, 
-								AyirahStaticVars.DIAGONAL_INVISIBLE);
+								AyirahStaticVars.VISIBLE_KNOWN_NORTH_WEST);
 								
 								if (wall_type=='1')
 								removeEvenDirectionWallInvisible(getLayer(), spalte, zeile,
-								AyirahStaticVars.DIRECTION_NORTH, false, true, -1, 0, 
-								AyirahStaticVars.DIAGONAL_VISIBLE, AyirahStaticVars.DIAGONAL_VISIBLE);
+								AyirahStaticVars.DIRECTION_NORTH, false, true, -1, 0);
 								
 								if (wall_type=='3')
 								removeEvenDirectionWallInvisible(getLayer(), spalte, zeile,
-								AyirahStaticVars.DIRECTION_WEST, true, false, 0, -1,
-								AyirahStaticVars.DIAGONAL_VISIBLE, AyirahStaticVars.DIAGONAL_VISIBLE);
+								AyirahStaticVars.DIRECTION_WEST, true, false, 0, -1);
 							}
-						
+							
 							else
 							{
 								if (!(wall_type=='1' || wall_type=='3'))
@@ -577,15 +442,13 @@ public abstract class HumanLikeCreature extends Creature {
 								{
 									if (!(i==0) && map.isValidCoordPair(getLayer(), spalte-i, zeile-i))
 										removeVisible(getLayer(), spalte-i, zeile-i,
-										AyirahStaticVars.VISIBLE_ALL,0);
+										AyirahStaticVars.VISIBLE_KNOWN_ALL);
 									if (map.isValidCoordPair(getLayer(), spalte-i-1, zeile-i))
 										removeVisible(getLayer(), spalte-i-1, zeile-i,
-										AyirahStaticVars.VISIBLE_NORTH_EAST,
-										AyirahStaticVars.DIAGONAL_HALFVISIBLE);
+										AyirahStaticVars.VISIBLE_KNOWN_NORTH_EAST);
 									if (map.isValidCoordPair(getLayer(), spalte-i, zeile-i-1))
 										removeVisible(getLayer(), spalte-i, zeile-i-1,
-										AyirahStaticVars.VISIBLE_SOUTH_WEST,
-										AyirahStaticVars.DIAGONAL_HALFVISIBLE);
+										AyirahStaticVars.VISIBLE_KNOWN_SOUTH_WEST);
 								}
 								
 								if (wall_type=='1')
@@ -593,37 +456,32 @@ public abstract class HumanLikeCreature extends Creature {
 								{
 									if (!(i==0) && map.isValidCoordPair(getLayer(), spalte-i, zeile-i))
 										removeVisible(getLayer(), spalte-i, zeile-i,
-										AyirahStaticVars.VISIBLE_NORTH_EAST,
-										AyirahStaticVars.DIAGONAL_VISIBLE);
+										AyirahStaticVars.VISIBLE_KNOWN_NORTH_EAST);
 										
 									if (map.isValidCoordPair(getLayer(), spalte-i, zeile-i-1))
 										removeVisible(getLayer(), spalte-i, zeile-i-1,
-										AyirahStaticVars.VISIBLE_SOUTH_WEST,
-										AyirahStaticVars.DIAGONAL_HALFVISIBLE);
+										AyirahStaticVars.VISIBLE_KNOWN_SOUTH_WEST);
 								}
 								
 								if (wall_type=='2')
 								removeVisible(getLayer(), spalte, zeile, 
-								AyirahStaticVars.VISIBLE_NORTH_WEST, 
-								AyirahStaticVars.DIAGONAL_INVISIBLE);
+								AyirahStaticVars.VISIBLE_KNOWN_NORTH_WEST);
 								
 								if (wall_type=='3')
 								for (int i=0; i<=Math.min(spalte, zeile); i++)
 								{
 									if (!(i==0) && map.isValidCoordPair(getLayer(), spalte-i, zeile-i))
 										removeVisible(getLayer(), spalte-i, zeile-i,
-										AyirahStaticVars.VISIBLE_SOUTH_WEST,
-										AyirahStaticVars.DIAGONAL_VISIBLE);
+										AyirahStaticVars.VISIBLE_KNOWN_SOUTH_WEST);
 									if (map.isValidCoordPair(getLayer(), spalte-i-1, zeile-i))
 										removeVisible(getLayer(), spalte-i-1, zeile-i,
-										AyirahStaticVars.VISIBLE_NORTH_EAST,
-										AyirahStaticVars.DIAGONAL_HALFVISIBLE);			
+										AyirahStaticVars.VISIBLE_KNOWN_NORTH_EAST);			
 								}
 							}
 						}
 					}
 					
-					// Fall: Diagonale -> NO
+					// Fall: Diagonale SW -> NO
 					else if (getPosX()-spalte==zeile-getPosY())
 					{
 						if (getPosX()-spalte<0)
@@ -636,20 +494,17 @@ public abstract class HumanLikeCreature extends Creature {
 								
 								if (wall_type=='3')
 								removeVisible(getLayer(), spalte, zeile, 
-								AyirahStaticVars.VISIBLE_NORTH_EAST, 
-								AyirahStaticVars.DIAGONAL_INVISIBLE);
+								AyirahStaticVars.VISIBLE_KNOWN_NORTH_EAST);
 								
 								if (wall_type=='4')
 								removeEvenDirectionWallInvisible(getLayer(), spalte, zeile,
-								AyirahStaticVars.DIRECTION_NORTH, true, false, 0, -1,
-								AyirahStaticVars.DIAGONAL_VISIBLE, AyirahStaticVars.DIAGONAL_VISIBLE);
+								AyirahStaticVars.DIRECTION_NORTH, true, false, 0, -1);
 								
 								if (wall_type=='2')
 								removeEvenDirectionWallInvisible(getLayer(), spalte, zeile,
-								AyirahStaticVars.DIRECTION_EAST, false, true, -1, 0, 
-								AyirahStaticVars.DIAGONAL_VISIBLE, AyirahStaticVars.DIAGONAL_VISIBLE);
+								AyirahStaticVars.DIRECTION_EAST, false, true, -1, 0);
 							}
-						
+							
 							else
 							{
 								if (!(wall_type=='2' || wall_type=='4'))
@@ -657,15 +512,13 @@ public abstract class HumanLikeCreature extends Creature {
 								{
 									if (!(i==0) && map.isValidCoordPair(getLayer(), spalte+i, zeile-i))
 										removeVisible(getLayer(), spalte+i, zeile-i,
-										AyirahStaticVars.VISIBLE_ALL,0);
+										AyirahStaticVars.VISIBLE_KNOWN_ALL);
 									if (map.isValidCoordPair(getLayer(), spalte+i+1, zeile-i))
 										removeVisible(getLayer(), spalte+i+1, zeile-i,
-										AyirahStaticVars.VISIBLE_NORTH_WEST,
-										AyirahStaticVars.DIAGONAL_HALFVISIBLE);
+										AyirahStaticVars.VISIBLE_KNOWN_NORTH_WEST);
 									if (map.isValidCoordPair(getLayer(), spalte+i, zeile-i-1))
 										removeVisible(getLayer(), spalte+i, zeile-i-1,
-										AyirahStaticVars.VISIBLE_SOUTH_EAST,
-										AyirahStaticVars.DIAGONAL_HALFVISIBLE);
+										AyirahStaticVars.VISIBLE_KNOWN_SOUTH_EAST);
 								}
 								
 								if (wall_type=='4')
@@ -673,13 +526,11 @@ public abstract class HumanLikeCreature extends Creature {
 								{
 									if (!(i==0) && map.isValidCoordPair(getLayer(), spalte+i, zeile-i))
 										removeVisible(getLayer(), spalte+i, zeile-i,
-										AyirahStaticVars.VISIBLE_NORTH_WEST,
-										AyirahStaticVars.DIAGONAL_VISIBLE);
+										AyirahStaticVars.VISIBLE_KNOWN_NORTH_WEST);
 										
 									if (map.isValidCoordPair(getLayer(), spalte+i, zeile-i-1))
 										removeVisible(getLayer(), spalte+i, zeile-i-1,
-										AyirahStaticVars.VISIBLE_SOUTH_EAST,
-										AyirahStaticVars.DIAGONAL_HALFVISIBLE);
+										AyirahStaticVars.VISIBLE_KNOWN_SOUTH_EAST);
 								}
 								
 								if (wall_type=='2')
@@ -687,22 +538,19 @@ public abstract class HumanLikeCreature extends Creature {
 								{
 									if (!(i==0) && map.isValidCoordPair(getLayer(), spalte+i, zeile-i))
 										removeVisible(getLayer(), spalte+i, zeile-i,
-										AyirahStaticVars.VISIBLE_SOUTH_EAST,
-										AyirahStaticVars.DIAGONAL_VISIBLE);
+										AyirahStaticVars.VISIBLE_KNOWN_SOUTH_EAST);
 									if (map.isValidCoordPair(getLayer(), spalte+i+1, zeile-i))
 										removeVisible(getLayer(), spalte+i+1, zeile-i,
-										AyirahStaticVars.VISIBLE_NORTH_WEST,
-										AyirahStaticVars.DIAGONAL_HALFVISIBLE);
+										AyirahStaticVars.VISIBLE_KNOWN_NORTH_WEST);
 								}
 								
 								if (wall_type=='3')
 								removeVisible(getLayer(), spalte, zeile, 
-								AyirahStaticVars.VISIBLE_NORTH_EAST, 
-								AyirahStaticVars.DIAGONAL_INVISIBLE);
+								AyirahStaticVars.VISIBLE_KNOWN_NORTH_EAST);
 							}
 						}
 						
-						// Fall: Diagonale -> SW
+						// Fall: Diagonale NO -> SW
 						else // if (charpos_x-spalte)>0 danach ist verzeichtbar
 						{
 							if (getPosX()-spalte==1)
@@ -713,20 +561,17 @@ public abstract class HumanLikeCreature extends Creature {
 								
 								if (wall_type=='1')
 								removeVisible(getLayer(), spalte, zeile, 
-								AyirahStaticVars.VISIBLE_SOUTH_WEST, 
-								AyirahStaticVars.DIAGONAL_INVISIBLE);
+								AyirahStaticVars.VISIBLE_KNOWN_SOUTH_WEST);
 								
 								if (wall_type=='2')
 								removeEvenDirectionWallInvisible(getLayer(), spalte, zeile,
-								AyirahStaticVars.DIRECTION_SOUTH, true, false, 0, -1,
-								AyirahStaticVars.DIAGONAL_VISIBLE, AyirahStaticVars.DIAGONAL_VISIBLE);
+								AyirahStaticVars.DIRECTION_SOUTH, true, false, 0, -1);
 								
 								if (wall_type=='4')
 								removeEvenDirectionWallInvisible(getLayer(), spalte, zeile,
-								AyirahStaticVars.DIRECTION_WEST, false, true, -1, 0,
-								AyirahStaticVars.DIAGONAL_VISIBLE, AyirahStaticVars.DIAGONAL_VISIBLE);
+								AyirahStaticVars.DIRECTION_WEST, false, true, -1, 0);
 							}
-						
+							
 							else
 							{
 								if (!(wall_type=='2' || wall_type=='4'))
@@ -734,33 +579,28 @@ public abstract class HumanLikeCreature extends Creature {
 								{
 									if (!(i==0) && map.isValidCoordPair(getLayer(), spalte-i, zeile+i))
 										removeVisible(getLayer(), spalte-i, zeile+i,
-										AyirahStaticVars.VISIBLE_ALL,0);
+										AyirahStaticVars.VISIBLE_KNOWN_ALL);
 									if (map.isValidCoordPair(getLayer(), spalte-i-1, zeile+i))
 										removeVisible(getLayer(), spalte-i-1, zeile+i,
-										AyirahStaticVars.VISIBLE_SOUTH_EAST,
-										AyirahStaticVars.DIAGONAL_HALFVISIBLE);
+										AyirahStaticVars.VISIBLE_KNOWN_SOUTH_EAST);
 									if (map.isValidCoordPair(getLayer(), spalte-i, zeile+i+1))
 										removeVisible(getLayer(), spalte-i, zeile+i+1,
-										AyirahStaticVars.VISIBLE_NORTH_WEST,
-										AyirahStaticVars.DIAGONAL_HALFVISIBLE);
+										AyirahStaticVars.VISIBLE_KNOWN_NORTH_WEST);
 								}
 								
 								if (wall_type=='1')
 								removeVisible(getLayer(), spalte, zeile, 
-								AyirahStaticVars.VISIBLE_SOUTH_WEST, 
-								AyirahStaticVars.DIAGONAL_INVISIBLE);
+								AyirahStaticVars.VISIBLE_KNOWN_SOUTH_WEST);
 								
 								if (wall_type=='2')
 								for (int i=0; i<=Math.min(spalte, (map.getHeight()-1-zeile)); i++)
 								{
 									if (!(i==0) && map.isValidCoordPair(getLayer(), spalte-i, zeile+i))
 										removeVisible(getLayer(), spalte-i, zeile+i,
-										AyirahStaticVars.VISIBLE_SOUTH_EAST,
-										AyirahStaticVars.DIAGONAL_VISIBLE);
+										AyirahStaticVars.VISIBLE_KNOWN_SOUTH_EAST);
 									if (map.isValidCoordPair(getLayer(), spalte-i, zeile+i+1))
 										removeVisible(getLayer(), spalte-i, zeile+i+1,
-										AyirahStaticVars.VISIBLE_NORTH_WEST,
-										AyirahStaticVars.DIAGONAL_HALFVISIBLE);
+										AyirahStaticVars.VISIBLE_KNOWN_NORTH_WEST);
 								}
 								
 								if (wall_type=='4')
@@ -768,12 +608,10 @@ public abstract class HumanLikeCreature extends Creature {
 								{
 									if (!(i==0) && map.isValidCoordPair(getLayer(), spalte-i, zeile+i))
 										removeVisible(getLayer(), spalte-i, zeile+i,
-										AyirahStaticVars.VISIBLE_NORTH_WEST,
-										AyirahStaticVars.DIAGONAL_VISIBLE);
+										AyirahStaticVars.VISIBLE_KNOWN_NORTH_WEST);
 									if (map.isValidCoordPair(getLayer(), spalte-i-1, zeile+i))
 										removeVisible(getLayer(), spalte-i-1, zeile+i,
-										AyirahStaticVars.VISIBLE_SOUTH_EAST,
-										AyirahStaticVars.DIAGONAL_HALFVISIBLE);
+										AyirahStaticVars.VISIBLE_KNOWN_SOUTH_EAST);
 								}
 							}
 						}
@@ -786,193 +624,161 @@ public abstract class HumanLikeCreature extends Creature {
 						{
 							if (!(wall_type=='1'))
 							removeEvenDirectionWallInvisible(getLayer(), spalte, zeile, 
-							AyirahStaticVars.DIRECTION_NORTH, false, true,0,0, 
-							AyirahStaticVars.DIAGONAL_VISIBLE, AyirahStaticVars.DIAGONAL_VISIBLE);
+							AyirahStaticVars.DIRECTION_NORTH, false, true,0,0);
 							
 							if (wall_type=='2')
 							removeVisible(getLayer(), spalte, zeile, 
-							AyirahStaticVars.VISIBLE_NORTH_WEST, 
-							AyirahStaticVars.DIAGONAL_INVISIBLE);
+							AyirahStaticVars.VISIBLE_KNOWN_NORTH_WEST);
 							
 							if (wall_type=='3')
 							removeVisible(getLayer(), spalte, zeile, 
-							AyirahStaticVars.VISIBLE_NORTH_EAST, 
-							AyirahStaticVars.DIAGONAL_INVISIBLE);
+							AyirahStaticVars.VISIBLE_KNOWN_NORTH_EAST);
 							
 							if (wall_type=='1')
 							removeEvenDirectionWallInvisible(getLayer(), spalte, zeile, 
-							AyirahStaticVars.DIRECTION_NORTH, false, true,-1,0, 
-							AyirahStaticVars.DIAGONAL_VISIBLE, AyirahStaticVars.DIAGONAL_VISIBLE);
+							AyirahStaticVars.DIRECTION_NORTH, false, true,-1,0);
 						}
-					
+						
 						else if (getPosY()-getPosX()<zeile-spalte)
 						{
 							if (!(wall_type=='3'))
 							removeEvenDirectionWallInvisible(getLayer(), spalte, zeile, 
-							AyirahStaticVars.DIRECTION_WEST, true, false,0,0,
-							AyirahStaticVars.DIAGONAL_VISIBLE, AyirahStaticVars.DIAGONAL_VISIBLE);
+							AyirahStaticVars.DIRECTION_WEST, true, false,0,0);
 							
 							if (wall_type=='1')
 							removeVisible(getLayer(), spalte, zeile, 
-							AyirahStaticVars.VISIBLE_SOUTH_WEST, 
-							AyirahStaticVars.DIAGONAL_INVISIBLE);
+							AyirahStaticVars.VISIBLE_KNOWN_SOUTH_WEST);
 							
 							if (wall_type=='2')
 							removeVisible(getLayer(), spalte, zeile, 
-							AyirahStaticVars.VISIBLE_NORTH_WEST, 
-							AyirahStaticVars.DIAGONAL_INVISIBLE);
+							AyirahStaticVars.VISIBLE_KNOWN_NORTH_WEST);
 							
 							if (wall_type=='3')
 							removeEvenDirectionWallInvisible(getLayer(), spalte, zeile, 
-							AyirahStaticVars.DIRECTION_WEST, true, false,0,-1,
-							AyirahStaticVars.DIAGONAL_VISIBLE, AyirahStaticVars.DIAGONAL_VISIBLE);
+							AyirahStaticVars.DIRECTION_WEST, true, false,0,-1);
 						}
 					}
-				
+					
 					else if (getPosX()>spalte && getPosY()<zeile)
 					{
 						if (getPosY()+getPosX()>zeile+spalte)
 						{
 							if (!(wall_type=='4'))
 							removeEvenDirectionWallInvisible(getLayer(), spalte, zeile, 
-							AyirahStaticVars.DIRECTION_WEST, false, true,0,0,
-							AyirahStaticVars.DIAGONAL_VISIBLE, AyirahStaticVars.DIAGONAL_VISIBLE);
+							AyirahStaticVars.DIRECTION_WEST, false, true,0,0);
 							
 							if (wall_type=='1')
 							removeVisible(getLayer(), spalte, zeile, 
-							AyirahStaticVars.VISIBLE_SOUTH_WEST, 
-							AyirahStaticVars.DIAGONAL_INVISIBLE);
+							AyirahStaticVars.VISIBLE_KNOWN_SOUTH_WEST);
 							
 							if (wall_type=='2')
 							removeVisible(getLayer(), spalte, zeile, 
-							AyirahStaticVars.VISIBLE_NORTH_WEST, 
-							AyirahStaticVars.DIAGONAL_INVISIBLE);
+							AyirahStaticVars.VISIBLE_KNOWN_NORTH_WEST);
 							
 							if (wall_type=='4')
 							removeEvenDirectionWallInvisible(getLayer(), spalte, zeile, 
-							AyirahStaticVars.DIRECTION_WEST, false, true,-1,0,
-							AyirahStaticVars.DIAGONAL_VISIBLE, AyirahStaticVars.DIAGONAL_VISIBLE);
+							AyirahStaticVars.DIRECTION_WEST, false, true,-1,0);
 						}
 					
 						else if (getPosY()+getPosX()<zeile+spalte)
 						{
 							if (!(wall_type=='2'))
 							removeEvenDirectionWallInvisible(getLayer(), spalte, zeile, 
-							AyirahStaticVars.DIRECTION_SOUTH, true, false,0,0,
-							AyirahStaticVars.DIAGONAL_VISIBLE, AyirahStaticVars.DIAGONAL_VISIBLE);
+							AyirahStaticVars.DIRECTION_SOUTH, true, false,0,0);
 							
 							if (wall_type=='1')
 							removeVisible(getLayer(), spalte, zeile, 
-							AyirahStaticVars.VISIBLE_SOUTH_WEST, 
-							AyirahStaticVars.DIAGONAL_INVISIBLE);
+							AyirahStaticVars.VISIBLE_KNOWN_SOUTH_WEST);
 							
 							if (wall_type=='4')
 							removeVisible(getLayer(), spalte, zeile, 
-							AyirahStaticVars.VISIBLE_SOUTH_EAST, 
-							AyirahStaticVars.DIAGONAL_INVISIBLE);
+							AyirahStaticVars.VISIBLE_KNOWN_SOUTH_EAST);
 							
 							if (wall_type=='2')
 							removeEvenDirectionWallInvisible(getLayer(), spalte, zeile, 
-							AyirahStaticVars.DIRECTION_SOUTH, true, false,0,-1,
-							AyirahStaticVars.DIAGONAL_VISIBLE, AyirahStaticVars.DIAGONAL_VISIBLE);
+							AyirahStaticVars.DIRECTION_SOUTH, true, false,0,-1);
 						}
 					}
-				
+					
 					else if (getPosX()<spalte && getPosY()<zeile)
 					{
 						if (getPosY()-getPosX()>zeile-spalte)
 						{
 							if (!(wall_type=='1'))
 							removeEvenDirectionWallInvisible(getLayer(), spalte, zeile, 
-							AyirahStaticVars.DIRECTION_EAST, true, false,0,0,
-							AyirahStaticVars.DIAGONAL_VISIBLE, AyirahStaticVars.DIAGONAL_VISIBLE);
+							AyirahStaticVars.DIRECTION_EAST, true, false,0,0);
 							
 							if (wall_type=='4')
 							removeVisible(getLayer(), spalte, zeile, 
-							AyirahStaticVars.VISIBLE_SOUTH_EAST, 
-							AyirahStaticVars.DIAGONAL_INVISIBLE);
+							AyirahStaticVars.VISIBLE_KNOWN_SOUTH_EAST);
 							
 							if (wall_type=='3')
 							removeVisible(getLayer(), spalte, zeile, 
-							AyirahStaticVars.VISIBLE_NORTH_EAST, 
-							AyirahStaticVars.DIAGONAL_INVISIBLE);
+							AyirahStaticVars.VISIBLE_KNOWN_NORTH_EAST);
 							
 							if (wall_type=='1')
 							removeEvenDirectionWallInvisible(getLayer(), spalte, zeile, 
-							AyirahStaticVars.DIRECTION_EAST, true, false,0,-1,
-							AyirahStaticVars.DIAGONAL_VISIBLE, AyirahStaticVars.DIAGONAL_VISIBLE);
+							AyirahStaticVars.DIRECTION_EAST, true, false,0,-1);
 						}
-					
+						
 						else if (getPosY()-getPosX()<zeile-spalte)
 						{
 							if (!(wall_type=='3'))
 							removeEvenDirectionWallInvisible(getLayer(), spalte, zeile, 
-							AyirahStaticVars.DIRECTION_SOUTH, false, true,0,0,
-							AyirahStaticVars.DIAGONAL_VISIBLE, AyirahStaticVars.DIAGONAL_VISIBLE);
+							AyirahStaticVars.DIRECTION_SOUTH, false, true,0,0);
 							
 							if (wall_type=='4')
 							removeVisible(getLayer(), spalte, zeile, 
-							AyirahStaticVars.VISIBLE_SOUTH_EAST, 
-							AyirahStaticVars.DIAGONAL_INVISIBLE);
+							AyirahStaticVars.VISIBLE_KNOWN_SOUTH_EAST);
 							
 							if (wall_type=='1')
 							removeVisible(getLayer(), spalte, zeile, 
-							AyirahStaticVars.VISIBLE_SOUTH_WEST, 
-							AyirahStaticVars.DIAGONAL_INVISIBLE);
+							AyirahStaticVars.VISIBLE_KNOWN_SOUTH_WEST);
 							
 							if (wall_type=='3')
 							removeEvenDirectionWallInvisible(getLayer(), spalte, zeile, 
-							AyirahStaticVars.DIRECTION_SOUTH, false, true,-1,0,
-							AyirahStaticVars.DIAGONAL_VISIBLE, AyirahStaticVars.DIAGONAL_VISIBLE);
+							AyirahStaticVars.DIRECTION_SOUTH, false, true,-1,0);
 						}
 					}
-				
+					
 					else if (getPosX()<spalte && getPosY()>zeile)
 					{
 						if (getPosY()+getPosX()>zeile+spalte)
 						{
 							if (!(wall_type=='4'))
 							removeEvenDirectionWallInvisible(getLayer(), spalte, zeile, 
-							AyirahStaticVars.DIRECTION_NORTH, true, false,0,0,
-							AyirahStaticVars.DIAGONAL_VISIBLE, AyirahStaticVars.DIAGONAL_VISIBLE);
+							AyirahStaticVars.DIRECTION_NORTH, true, false,0,0);
 							
 							if (wall_type=='2')
 							removeVisible(getLayer(), spalte, zeile, 
-							AyirahStaticVars.VISIBLE_NORTH_WEST, 
-							AyirahStaticVars.DIAGONAL_INVISIBLE);
+							AyirahStaticVars.VISIBLE_KNOWN_NORTH_WEST);
 							
 							if (wall_type=='3')
 							removeVisible(getLayer(), spalte, zeile, 
-							AyirahStaticVars.VISIBLE_NORTH_EAST, 
-							AyirahStaticVars.DIAGONAL_INVISIBLE);
+							AyirahStaticVars.VISIBLE_KNOWN_NORTH_EAST);
 							
 							if (wall_type=='4')
 							removeEvenDirectionWallInvisible(getLayer(), spalte, zeile, 
-							AyirahStaticVars.DIRECTION_NORTH, true, false,0,-1, 
-							AyirahStaticVars.DIAGONAL_VISIBLE, AyirahStaticVars.DIAGONAL_VISIBLE);
+							AyirahStaticVars.DIRECTION_NORTH, true, false,0,-1);
 						}
-					
+						
 						else if (getPosY()+getPosX()<zeile+spalte)
 						{
 							if (!(wall_type=='2'))
 							removeEvenDirectionWallInvisible(getLayer(), spalte, zeile, 
-							AyirahStaticVars.DIRECTION_EAST, false, true,0,0,
-							AyirahStaticVars.DIAGONAL_VISIBLE, AyirahStaticVars.DIAGONAL_VISIBLE);
+							AyirahStaticVars.DIRECTION_EAST, false, true,0,0);
 							
 							if (wall_type=='2')
 							removeEvenDirectionWallInvisible(getLayer(), spalte, zeile, 
-							AyirahStaticVars.DIRECTION_EAST, false, true,-1,0,
-							AyirahStaticVars.DIAGONAL_VISIBLE, AyirahStaticVars.DIAGONAL_VISIBLE);
+							AyirahStaticVars.DIRECTION_EAST, false, true,-1,0);
 							
 							if (wall_type=='3')
 							removeVisible(getLayer(), spalte, zeile, 
-							AyirahStaticVars.VISIBLE_NORTH_EAST, 
-							AyirahStaticVars.DIAGONAL_INVISIBLE);
+							AyirahStaticVars.VISIBLE_KNOWN_NORTH_EAST);
 							
 							if (wall_type=='4')
 							removeVisible(getLayer(), spalte, zeile, 
-							AyirahStaticVars.VISIBLE_SOUTH_EAST, 
-							AyirahStaticVars.DIAGONAL_INVISIBLE);
+							AyirahStaticVars.VISIBLE_KNOWN_SOUTH_EAST);
 						}
 					}
 				}
@@ -980,8 +786,7 @@ public abstract class HumanLikeCreature extends Creature {
 	}
 		
 	protected void removeEvenDirectionWallInvisible(int l, int x, int y, int direction, 
-	boolean visible_left, boolean visible_right, int delta_left, int delta_right, 
-	int diagonal_visible_left, int diagonal_visible_right)
+	boolean visible_left, boolean visible_right, int delta_left, int delta_right)
 	{
 		int max;
 		
@@ -1019,8 +824,7 @@ public abstract class HumanLikeCreature extends Creature {
 						j*AyirahStaticVars.direction_modifier[dir_left][0], 
 						y+i*AyirahStaticVars.direction_modifier[direction][1]+
 						j*AyirahStaticVars.direction_modifier[dir_left][1],
-						AyirahStaticVars.dir_right_visible_modifier[direction/2], 
-						diagonal_visible_right); 
+						AyirahStaticVars.dir_right_visible_modifier[direction/2]); 
 					}
 					
 					// links
@@ -1031,8 +835,7 @@ public abstract class HumanLikeCreature extends Creature {
 						j*AyirahStaticVars.direction_modifier[dir_left][0], 
 						y+i*AyirahStaticVars.direction_modifier[direction][1]+
 						j*AyirahStaticVars.direction_modifier[dir_left][1],
-						AyirahStaticVars.dir_left_visible_modifier[direction/2], 
-						diagonal_visible_left);
+						AyirahStaticVars.dir_left_visible_modifier[direction/2]);
 					}
 							
 					else
@@ -1041,7 +844,7 @@ public abstract class HumanLikeCreature extends Creature {
 						j*AyirahStaticVars.direction_modifier[dir_left][0], 
 						y+i*AyirahStaticVars.direction_modifier[direction][1]+
 						j*AyirahStaticVars.direction_modifier[dir_left][1],
-						AyirahStaticVars.VISIBLE_ALL, 0);
+						AyirahStaticVars.VISIBLE_KNOWN_ALL);
 					}
 				}
 			}
@@ -1061,7 +864,7 @@ public abstract class HumanLikeCreature extends Creature {
 			spalte+=AyirahStaticVars.direction_modifier[direction][0])
 			{
 				if (!((spalte==x) && (zeile==y)))
-					removeVisible(l, spalte, zeile, AyirahStaticVars.VISIBLE_ALL, 0);
+					removeVisible(l, spalte, zeile, AyirahStaticVars.VISIBLE_KNOWN_ALL);
 			}
 	}
 		
@@ -1075,11 +878,11 @@ public abstract class HumanLikeCreature extends Creature {
 		for (int i=0; i<map.getHeight(); i++)
 			for (int j=0; j<map.getWidth(); j++)
 			{
-				setVisible(getLayer(), j, i, AyirahStaticVars.VISIBLE_NONE, 0);
+				setVisible(getLayer(), j, i, AyirahStaticVars.VISIBLE_KNOWN_NONE, 0);
 				visibleWalls[getLayer()][i][j]=false;
 			}
 		
-		addVisible(getLayer(), getPosX(), getPosY(), AyirahStaticVars.VISIBLE_ALL,0);
+		addVisible(getLayer(), getPosX(), getPosY(), AyirahStaticVars.VISIBLE_KNOWN_ALL);
 		
 		if ((this.getViewDirection()%2)==0)
 		{
@@ -1116,8 +919,7 @@ public abstract class HumanLikeCreature extends Creature {
 							j*AyirahStaticVars.direction_modifier[dir_left][0], 
 							y+i*AyirahStaticVars.direction_modifier[direction][1]+
 							j*AyirahStaticVars.direction_modifier[dir_left][1],
-							AyirahStaticVars.dir_right_visible_modifier[getViewDirection()/2], 
-							AyirahStaticVars.DIAGONAL_HALFVISIBLE); 
+							AyirahStaticVars.dir_right_visible_modifier[getViewDirection()/2]); 
 						}
 						
 						else if (j==(i+2))
@@ -1127,8 +929,7 @@ public abstract class HumanLikeCreature extends Creature {
 							j*AyirahStaticVars.direction_modifier[dir_left][0], 
 							y+i*AyirahStaticVars.direction_modifier[direction][1]+
 							j*AyirahStaticVars.direction_modifier[dir_left][1],
-							AyirahStaticVars.dir_left_visible_modifier[getViewDirection()/2], 
-							AyirahStaticVars.DIAGONAL_HALFVISIBLE);
+							AyirahStaticVars.dir_left_visible_modifier[getViewDirection()/2]);
 						}
 							
 						else if (!(j==0 && i==0))
@@ -1137,7 +938,7 @@ public abstract class HumanLikeCreature extends Creature {
 							j*AyirahStaticVars.direction_modifier[dir_left][0], 
 							y+i*AyirahStaticVars.direction_modifier[direction][1]+
 							j*AyirahStaticVars.direction_modifier[dir_left][1],
-						AyirahStaticVars.VISIBLE_ALL,0);
+							AyirahStaticVars.VISIBLE_KNOWN_ALL);
 				}
 			}
 	}
@@ -1162,7 +963,7 @@ public abstract class HumanLikeCreature extends Creature {
 					(col==getPosX()-AyirahStaticVars.direction_modifier
 					[getViewDirection()][0])))
 						addVisible(getLayer(), col, row, 
-						AyirahStaticVars.VISIBLE_ALL, 0);
+						AyirahStaticVars.VISIBLE_KNOWN_ALL);
 			
 					if (row==getPosY()-AyirahStaticVars.direction_modifier
 					[getViewDirection()][1] && 
@@ -1170,8 +971,7 @@ public abstract class HumanLikeCreature extends Creature {
 					{
 						removeVisible(getLayer(), col, row, 
 						AyirahStaticVars.invert_visible
-						[AyirahStaticVars.diagonal_view_visible[(getViewDirection()-1)/2]], 
-						AyirahStaticVars.DIAGONAL_HALFVISIBLE);
+						[AyirahStaticVars.diagonal_view_visible[(getViewDirection()-1)/2]]);
 					}
 			
 					else if (row==getPosY() && 
@@ -1180,15 +980,13 @@ public abstract class HumanLikeCreature extends Creature {
 					{
 						removeVisible(getLayer(), col, row, 
 						AyirahStaticVars.invert_visible
-						[AyirahStaticVars.diagonal_view_visible[(getViewDirection()-1)/2]], 
-						AyirahStaticVars.DIAGONAL_HALFVISIBLE);
+						[AyirahStaticVars.diagonal_view_visible[(getViewDirection()-1)/2]]);
 					}
 				}
 		}
 		
 		removeWallHiddenTiles();
 		makeVisibleKnown();
-		cleanUpVisible();
 	}
 
 	/*

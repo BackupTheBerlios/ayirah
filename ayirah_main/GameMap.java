@@ -157,18 +157,18 @@ public class GameMap {
 		if ((zeile >= mapsize_y) || (zeile<0) || 
 		(spalte>=mapsize_x) || (spalte<0))
 			return ' ';
-		else if (getCharacter().getKnown(l, zeile, spalte).getMainType()		==AyirahStaticVars.VISIBLE_NONE)
+		else if (getCharacter().getKnown(l, zeile, spalte)		==AyirahStaticVars.VISIBLE_KNOWN_NONE)
 			return ' ';
 		else
 		{
 			char r=map[l][zeile].charAt(spalte);
-			int known=getCharacter().getKnown(l, zeile, spalte).getMainType();
+			int known=getCharacter().getKnown(l, zeile, spalte);
 			
 			if (r=='1')
 			{
-				if (known==(AyirahStaticVars.KNOWN_NORTH_EAST))
+				if (known==(AyirahStaticVars.VISIBLE_KNOWN_NORTH_EAST))
 				return '#';
-				else if (known==(AyirahStaticVars.KNOWN_SOUTH_WEST))
+				else if (known==(AyirahStaticVars.VISIBLE_KNOWN_SOUTH_WEST))
 				return '.';
 				else
 				return r;
@@ -176,9 +176,9 @@ public class GameMap {
 			
 			else if (r=='2')
 			{
-				if (known==(AyirahStaticVars.KNOWN_SOUTH_EAST))
+				if (known==(AyirahStaticVars.VISIBLE_KNOWN_SOUTH_EAST))
 				return '#';
-				else if (known==(AyirahStaticVars.KNOWN_NORTH_WEST))
+				else if (known==(AyirahStaticVars.VISIBLE_KNOWN_NORTH_WEST))
 				return '.';
 				else
 				return r;
@@ -186,9 +186,9 @@ public class GameMap {
 			
 			else if (r=='3')
 			{
-				if (known==(AyirahStaticVars.KNOWN_SOUTH_WEST))
+				if (known==(AyirahStaticVars.VISIBLE_KNOWN_SOUTH_WEST))
 				return '#';
-				else if (known==(AyirahStaticVars.KNOWN_NORTH_EAST))
+				else if (known==(AyirahStaticVars.VISIBLE_KNOWN_NORTH_EAST))
 				return '.';
 				else
 				return r;
@@ -196,9 +196,9 @@ public class GameMap {
 			
 			else if (r=='4')
 			{
-				if (known==(AyirahStaticVars.KNOWN_NORTH_WEST))
+				if (known==(AyirahStaticVars.VISIBLE_KNOWN_NORTH_WEST))
 				return '#';
-				else if (known==(AyirahStaticVars.KNOWN_SOUTH_EAST))
+				else if (known==(AyirahStaticVars.VISIBLE_KNOWN_SOUTH_EAST))
 				return '.';
 				else
 				return r;
@@ -216,8 +216,7 @@ public class GameMap {
 	public int getWidth()
 	{
 		return this.mapsize_x;
-	}
-	
+	}	
 	public int getHeight()
 	{
 		return this.mapsize_y;

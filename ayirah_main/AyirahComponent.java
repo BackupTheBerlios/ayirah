@@ -24,6 +24,7 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA. 
  */
 
+
 /**
  * @author Wolfgang Keller
  */
@@ -154,6 +155,7 @@ public class AyirahComponent extends Canvas
 		(delta_x-AyirahStaticVars.direction_modifier[direction][0]>-tile_width)
 		&& (delta_y-AyirahStaticVars.direction_modifier[direction][1]<=0)
 		&& (delta_y-AyirahStaticVars.direction_modifier[direction][1]>-tile_height)*/
+		
 		this.top_corner_x+AyirahStaticVars.direction_modifier[direction][0]>=0 &&
 		this.top_corner_x+
 		AyirahStaticVars.direction_modifier[direction][0]<map.getWidth()-15 &&
@@ -310,78 +312,78 @@ public class AyirahComponent extends Canvas
 				}
 				
 				int visible=map.getCharacter().getVisible
-				(map.getCharacter().getLayer(), zeile+top_corner_y, spalte+top_corner_x)				.getMainType();
+				(map.getCharacter().getLayer(), zeile+top_corner_y, spalte+top_corner_x);
 				
-				if (visible==AyirahStaticVars.VISIBLE_NONE)
+				if (visible==AyirahStaticVars.VISIBLE_KNOWN_NONE)
 				{
 					g.setColor(AyirahStaticVars.color_invisible);
 					this.fillRect(g,tile_width*spalte, tile_height*zeile, 
 					tile_width, tile_height);
 				}
-				else if (visible==AyirahStaticVars.VISIBLE_SOUTH_WEST)
+				else if (visible==AyirahStaticVars.VISIBLE_KNOWN_SOUTH_WEST)
 				{
 					int[] arx={tile_width*spalte, tile_width*(spalte+1), tile_width*(spalte+1)};
 					int[] ary={tile_height*zeile, tile_height*zeile, tile_height*(zeile+1)};
 					g.setColor(AyirahStaticVars.color_invisible);
 					this.fillPolygon(g,arx, ary, arx.length);
 				}
-				else if (visible==AyirahStaticVars.VISIBLE_NORTH_EAST)
+				else if (visible==AyirahStaticVars.VISIBLE_KNOWN_NORTH_EAST)
 				{
 					int[] arx={tile_width*spalte, tile_width*(spalte+1), tile_width*spalte};
 					int[] ary={tile_height*zeile, tile_height*(zeile+1), tile_height*(zeile+1)};
 					g.setColor(AyirahStaticVars.color_invisible);
 					this.fillPolygon(g,arx, ary, arx.length);
 				}
-				else if (visible==AyirahStaticVars.VISIBLE_NORTH_WEST)
+				else if (visible==AyirahStaticVars.VISIBLE_KNOWN_NORTH_WEST)
 				{
 					int[] arx={tile_width*spalte, tile_width*(spalte+1), tile_width*(spalte+1)};
 					int[] ary={tile_height*(zeile+1), tile_height*(zeile+1), tile_height*zeile};
 					g.setColor(AyirahStaticVars.color_invisible);
 					this.fillPolygon(g, arx, ary, arx.length);
 				}
-				else if (visible==AyirahStaticVars.VISIBLE_SOUTH_EAST)
+				else if (visible==AyirahStaticVars.VISIBLE_KNOWN_SOUTH_EAST)
 				{
 					int[] arx={tile_width*spalte, tile_width*(spalte+1), tile_width*spalte};
 					int[] ary={tile_height*zeile, tile_height*zeile, tile_height*(zeile+1)};
 					g.setColor(AyirahStaticVars.color_invisible);
 					this.fillPolygon(g, arx, ary, arx.length);
 				}
-				else if (visible!=AyirahStaticVars.VISIBLE_ALL)
+				else if (visible!=AyirahStaticVars.VISIBLE_KNOWN_ALL)
 					System.out.println("Visible:"+visible+" wird nicht unterstützt");
 					
 					
 				
 				int known=map.getCharacter().getKnown
-				(map.getCharacter().getLayer(), zeile+top_corner_y, spalte+top_corner_x)				.getMainType();
+				(map.getCharacter().getLayer(), zeile+top_corner_y, spalte+top_corner_x);
 				
-				if (known==AyirahStaticVars.KNOWN_NONE)
+				if (known==AyirahStaticVars.VISIBLE_KNOWN_NONE)
 				{
 					g.setColor(AyirahStaticVars.color_invisible);
 					this.fillRect(g,tile_width*spalte, tile_height*zeile, 
 					tile_width, tile_height);
 				}
-				else if (known==(AyirahStaticVars.KNOWN_SOUTH_WEST))
+				else if (known==(AyirahStaticVars.VISIBLE_KNOWN_SOUTH_WEST))
 				{
 					int[] arx={tile_width*spalte, tile_width*(spalte+1), tile_width*(spalte+1)};
 					int[] ary={tile_height*zeile, tile_height*zeile, tile_height*(zeile+1)};
 					g.setColor(AyirahStaticVars.color_unknown);
 					this.fillPolygon(g, arx, ary, arx.length);
 				}
-				else if (known==(AyirahStaticVars.KNOWN_NORTH_EAST))
+				else if (known==(AyirahStaticVars.VISIBLE_KNOWN_NORTH_EAST))
 				{
 					int[] arx={tile_width*spalte, tile_width*(spalte+1), tile_width*spalte};
 					int[] ary={tile_height*zeile, tile_height*(zeile+1), tile_height*(zeile+1)};
 					g.setColor(AyirahStaticVars.color_unknown);
 					this.fillPolygon(g, arx, ary, arx.length);
 				}
-				else if (known==(AyirahStaticVars.KNOWN_NORTH_WEST))
+				else if (known==(AyirahStaticVars.VISIBLE_KNOWN_NORTH_WEST))
 				{
 					int[] arx={tile_width*spalte, tile_width*(spalte+1), tile_width*(spalte+1)};
 					int[] ary={tile_height*(zeile+1), tile_height*(zeile+1), tile_height*zeile};
 					g.setColor(AyirahStaticVars.color_unknown);
 					this.fillPolygon(g, arx, ary, arx.length);
 				}
-				else if (known==(AyirahStaticVars.KNOWN_SOUTH_EAST))
+				else if (known==(AyirahStaticVars.VISIBLE_KNOWN_SOUTH_EAST))
 				{
 					int[] arx={tile_width*spalte, tile_width*(spalte+1), tile_width*spalte};
 					int[] ary={tile_height*zeile, tile_height*zeile, tile_height*(zeile+1)};
@@ -389,7 +391,7 @@ public class AyirahComponent extends Canvas
 					this.fillPolygon(g, arx, ary, arx.length);
 				}
 				
-				else if (known!=AyirahStaticVars.KNOWN_ALL)
+				else if (known!=AyirahStaticVars.VISIBLE_KNOWN_ALL)
 					System.out.println("Known:"+known+" wird nicht unterstützt");
 				
 			}
