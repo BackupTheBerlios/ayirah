@@ -364,22 +364,21 @@ public class AyirahComponent extends Canvas
 	public void paint (Graphics g)
 	{
 		if (dbImage == null || map_changed) {
-			/* Diese Zeile verursacht den Fehler bei der Soundwiedergabe
-			 * (seltsamerweise stört sie in der alten Version nicht)
-			 */
+			// Diese Zeile verursacht den Fehler bei der Soundwiedergabe
+			// (seltsamerweise störte sie in der alten Version nicht)
 			dbImage = createImage(map.getWidth()*tile_width, 
 			map.getHeight()*tile_height);
-			
-			dbGraphics = dbImage.getGraphics();
 		}
 		
 		if (actualize)
 		{
-			//Hintergrund löschen
+			dbGraphics = dbImage.getGraphics();
+			
+			// Hintergrund löschen
 			dbGraphics.setColor(Color.BLACK);
 			dbGraphics.fillRect(0,0,this.getSize().width,this.getSize().height);
 			
-			//Vordergrund zeichnen
+			// Vordergrund zeichnen
 			dbGraphics.setColor(getForeground());
 			paintIt(dbGraphics);
 			actualize=false;
@@ -452,7 +451,6 @@ public class AyirahComponent extends Canvas
 				{
 					int item_index=-1;
 					
-					
 					if (item=="box_open")
 					{
 						item_index=0;
@@ -481,12 +479,20 @@ public class AyirahComponent extends Canvas
 		int character_width=30;
 		int character_height=48;
 		
+//		Code zum transparenten Zeichnen eines Bildes
+//		Graphics2D g2=(Graphics2D) g;
+//		
+//		AlphaComposite ac=AlphaComposite.getInstance(
+//		AlphaComposite.SRC_OVER, 0.5f);
+//		
+//		g2.setComposite(ac); 
+//		g2.drawImage(<foo>);
+		
 		g.drawImage(
 		character[map.getCharacter().getViewDirection()][0], 
 		tile_width*(map.getCharacter().getPosX())
 		+(tile_width-character_width)/2, 
 		tile_height*(map.getCharacter().getPosY())
 		+(tile_height-character_height)/2, character_width, character_height, this);
-		
 	}
 }
