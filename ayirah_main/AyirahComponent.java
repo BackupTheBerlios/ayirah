@@ -45,15 +45,12 @@ public class AyirahComponent extends Canvas
 	
 	private GameMap map;
 	
-	// obere Ecke des angezeigten Bereichs der Map
-	private int top_corner_x=0;
-	private int top_corner_y=0;
+	private int top_x, top_y;
 	
-	private int max_top_corner_x, max_top_corner_y;	
-	// Ist immer <=0
-	private int delta_x, delta_y;
+	private int max_top_x, max_top_y;
 	private static final int tile_width=48;
 	private static final int tile_height=48;
+	
 	private static final char[] sprite_name={'a', 'b', 'c', 'd'};
 	
 	private Image dbImage;
@@ -66,6 +63,9 @@ public class AyirahComponent extends Canvas
 		0, 0, tile_height/2, 0
 	};
 	
+	boolean map_changed=false;
+	boolean actualize=true;
+	
 	AyirahComponent()
 	{
 		map=new GameMap();
@@ -77,8 +77,8 @@ public class AyirahComponent extends Canvas
 		Image[] prepareImage=new Image[21];
 		Image[] prepareItems=new Image[4];
 		
-		max_top_corner_x=map.getWidth()-16;
-		max_top_corner_y=map.getHeight()-16;
+		max_top_x=map.getWidth()*tile_width-1024;
+		max_top_y=map.getHeight()*tile_height-768;
 		
 		prepareImage[0]=getToolkit().getImage(AyirahStaticVars.tile_prefix+"unknown1.gif");
 		m_tiles.addImage(prepareImage[0], 0);
@@ -311,128 +311,89 @@ public class AyirahComponent extends Canvas
 		
 		if (direction==AyirahStaticVars.DIRECTION_SOUTH)
 		{
-			delta_y--;
-			if (delta_y<=-tile_height)
-			{
-				delta_y=0;
-				top_corner_y++;
-			}
+			top_y++;
 			
-			if (top_corner_y>=max_top_corner_y)
-			{
-				top_corner_y=max_top_corner_y;
-				delta_y=0;
-			}
+			if (top_y>max_top_y)
+				top_y=max_top_y;
 		}
 		
 		else if (direction==AyirahStaticVars.DIRECTION_NORTH)
 		{
-			delta_y++;
-			if (delta_y>0)
-			{
-				delta_y=delta_y-tile_height;
-				top_corner_y--;
-			}
+			top_y--;
 			
-			if (top_corner_y<0)
-			{
-				top_corner_y=0;
-				delta_y=0;
-			}
+			if (top_y<0)
+				top_y=0;
 		}
 		
 		else if (direction==AyirahStaticVars.DIRECTION_EAST)
 		{
-			delta_x--;
-			if (delta_x<=-tile_width)
-			{
-				delta_x=0;
-				top_corner_x++;
-			}
-		
-			if (top_corner_x>=max_top_corner_x)
-			{
-				top_corner_x=max_top_corner_x;
-				delta_x=0;
-			}
+			top_x++;
+			
+			if (top_x>max_top_x)
+				top_x=max_top_x;
 		}
 		
 		else if (direction==AyirahStaticVars.DIRECTION_WEST)
 		{
-			delta_x++;
-			if (delta_x>0)
-			{
-				delta_x=delta_x-tile_width;
-				top_corner_x--;
-			}
-		
-			if (top_corner_x<0)
-			{
-				top_corner_x=0;
-				delta_x=0;
-			}
-		}
-	}
-	
-	public void update (Graphics g)
-	{
-		if (dbImage == null) {
-			/* Diese Zeile verursacht den Fehler bei der Soundwiedergabe
-			 * (seltsamerweise stört sie in der alten Version nicht)
-			 */
-			dbImage = createImage(this.getSize().width,this.getSize().height);
+			top_x--;
 			
-			dbGraphics = dbImage.getGraphics();
+			if (top_x<0)
+				top_x=0;
 		}
-		
-		//Hintergrund löschen
-		dbGraphics.setColor(Color.BLACK);
-		dbGraphics.fillRect(
-		0,
-		0,
-		this.getSize().width,
-		this.getSize().height
-		);
-		
-		//Vordergrund zeichnen
-		dbGraphics.setColor(getForeground());
-		paint(dbGraphics);
-		//Offscreen anzeigen
-		g.drawImage(dbImage,0,0,this);
 	}
 	
-	public void fillRect(Graphics g, int x, int y, int width, int height)
+	public void actualize()
 	{
-		g.fillRect(x+delta_x, y+delta_y, width,height);
+		this.actualize=true;
+		repaint();
 	}
 	
-	public void fillPolygon(Graphics g, int[] argx, int[] argy, int length)
+	public void update(Graphics g)
 	{
-		for (int i=0; i<argx.length; i++)
-		{
-			argx[i]+=delta_x;
-		}
-		
-		for (int i=0; i<argy.length; i++)
-		{
-			argy[i]+=delta_y;
-		}
-		
-		g.fillPolygon(argx, argy, length);
+		paint(g);
 	}
 	
 	public void paint (Graphics g)
 	{
+		if (dbImage == null || map_changed) {
+			/* Diese Zeile verursacht den Fehler bei der Soundwiedergabe
+			 * (seltsamerweise stört sie in der alten Version nicht)
+			 */
+			dbImage = createImage(map.getWidth()*tile_width, 
+			map.getHeight()*tile_height);
+			
+			dbGraphics = dbImage.getGraphics();
+		}
+		
+		if (actualize)
+		{
+			//Hintergrund löschen
+			dbGraphics.setColor(Color.BLACK);
+			dbGraphics.fillRect(0,0,this.getSize().width,this.getSize().height);
+			
+			//Vordergrund zeichnen
+			dbGraphics.setColor(getForeground());
+			paintIt(dbGraphics);
+			actualize=false;
+		}
+		
+		g.drawImage(dbImage,-top_x,-top_y,this);
+	}
+
+	
+	public void paintIt (Graphics g)
+	{
 		g.setColor(Color.BLACK);
 		g.fillRect(
-		0,0,this.getSize().width,this.getSize().height);
+		0,0,map.getWidth()*tile_width, 
+		map.getHeight()*tile_height);
 		
-		for (int zeile=0; zeile<17; zeile++)
-			for (int spalte=0; spalte<22; spalte++)
+		for (int zeile=0; zeile<map.getHeight(); zeile++)
+			for (int spalte=0; spalte<map.getWidth(); spalte++)
 			{
 				GameTile gt=map.getCreatureKnownTile
 				(map.getCharacter(), map.getCharacter().getLayer(), 
-				zeile+top_corner_y, spalte+top_corner_x);
+				zeile, spalte);
 				
 				char[] actual_tile=gt.getTiles();
 				
@@ -469,12 +430,12 @@ public class AyirahComponent extends Canvas
 					
 					if (!(array_index[i]==0))
 						g.drawImage(tiles[array_index[i]][i][isVisible?1:0], 
-						tile_width*spalte+delta_x+im_delta_x[i], 
-						tile_height*zeile+delta_y+im_delta_y[i], this);
+						tile_width*spalte+im_delta_x[i], 
+						tile_height*zeile+im_delta_y[i], this);
 					else
 						g.drawImage(tiles[array_index[i]][i][0], 
-						tile_width*spalte+delta_x+im_delta_x[i], 
-						tile_height*zeile+delta_y+im_delta_y[i], this);
+						tile_width*spalte+im_delta_x[i], 
+						tile_height*zeile+im_delta_y[i], this);
 				}
 				
 				String item=gt.getItem();
@@ -503,8 +464,8 @@ public class AyirahComponent extends Canvas
 							
 							if ((known & (1 << i))!=0)
 								g.drawImage(items[item_index][i][isVisible?1:0], 
-								tile_width*spalte+delta_x+im_delta_x[i], 
-								tile_height*zeile+delta_y+im_delta_y[i], this);
+								tile_width*spalte+im_delta_x[i], 
+								tile_height*zeile+im_delta_y[i], this);
 						}
 				}
 			}
@@ -514,10 +475,10 @@ public class AyirahComponent extends Canvas
 		
 		g.drawImage(
 		character[map.getCharacter().getViewDirection()][0], 
-		tile_width*(map.getCharacter().getPosX()-top_corner_x)
-		+(tile_width-character_width)/2+delta_x, 
-		tile_height*(map.getCharacter().getPosY()-top_corner_y)
-		+(tile_height-character_height)/2+delta_y, character_width, character_height, this);
+		tile_width*(map.getCharacter().getPosX())
+		+(tile_width-character_width)/2, 
+		tile_height*(map.getCharacter().getPosY())
+		+(tile_height-character_height)/2, character_width, character_height, this);
 		
 	}
 }
