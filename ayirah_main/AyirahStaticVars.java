@@ -71,8 +71,6 @@ public class AyirahStaticVars {
 	public static final int DIAGONAL_TILE_HALFVISIBLE=2;
 	public static final int DIAGONAL_TILE_VISIBLE=3;
 	
-	
-	
 	public static char[][] non_block_tiles_tile_parts=
 	{
 		{'#', '#', '.', '.'},
