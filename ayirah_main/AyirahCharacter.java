@@ -29,9 +29,7 @@
  */
 public class AyirahCharacter extends HumanLikeCreature {
 	
-	
 	public AyirahCharacter(GameMap map, int layer, int x, int y, int direction) {
 		super(map, layer, x, y, direction);
-		
 	}
 }
