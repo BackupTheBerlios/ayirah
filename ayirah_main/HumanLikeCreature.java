@@ -1902,24 +1902,15 @@ public abstract class HumanLikeCreature extends Creature {
 						addVisible(getLayer(), col, row, 
 						AyirahStaticVars.VISIBLE_KNOWN_ALL);
 			
-					if (row==getPosY()-AyirahStaticVars.direction_modifier
-					[getViewDirection()][1] && 
-					col==getPosX())
+					if ((row==getPosY()-AyirahStaticVars.direction_modifier
+					[getViewDirection()][1] && col==getPosX()) || 
+					(row==getPosY() && (col==getPosX()-AyirahStaticVars.
+					direction_modifier[getViewDirection()][0])))
 					{
 						removeVisible(getLayer(), col, row, 
 						AyirahStaticVars.VISIBLE_KNOWN_ALL
-						-(AyirahStaticVars.diagonal_view_visible
-						[(getViewDirection()-1)/2]));
-					}
-			
-					else if (row==getPosY() && 
-					(col==getPosX()-AyirahStaticVars.direction_modifier
-					[getViewDirection()][0]))
-					{
-						removeVisible(getLayer(), col, row, 
-						AyirahStaticVars.VISIBLE_KNOWN_ALL
-						-(AyirahStaticVars.diagonal_view_visible
-						[(getViewDirection()-1)/2]));
+						-((1<<(((getViewDirection()+1)%8)/2))
+						+(1<<(((getViewDirection()+7)%8)/2))));
 					}
 				}
 		}

@@ -50,13 +50,13 @@ public class AyirahStaticVars {
 		
 	public static final int VISIBLE_KNOWN_NONE=0;
 	public static final int VISIBLE_KNOWN_NORTH=1;
-	//public static final int VISIBLE_KNOWN_NORTH_EAST=3;
+	public static final int VISIBLE_KNOWN_NORTH_EAST=3;
 	public static final int VISIBLE_KNOWN_EAST=2;
-	//public static final int VISIBLE_KNOWN_SOUTH_EAST=6;
+	public static final int VISIBLE_KNOWN_SOUTH_EAST=6;
 	public static final int VISIBLE_KNOWN_SOUTH=4;
-	//public static final int VISIBLE_KNOWN_SOUTH_WEST=12;
+	public static final int VISIBLE_KNOWN_SOUTH_WEST=12;
 	public static final int VISIBLE_KNOWN_WEST=8;
-	//public static final int VISIBLE_KNOWN_NORTH_WEST=9;
+	public static final int VISIBLE_KNOWN_NORTH_WEST=9;
 	public static final int VISIBLE_KNOWN_ALL=15;
 	
 	public static final int[] dir_left_visible_modifier=
@@ -73,18 +73,6 @@ public class AyirahStaticVars {
 		VISIBLE_KNOWN_NORTH+VISIBLE_KNOWN_EAST, 
 		VISIBLE_KNOWN_SOUTH+VISIBLE_KNOWN_EAST,
 		VISIBLE_KNOWN_SOUTH+VISIBLE_KNOWN_WEST
-	};
-	
-	public static final int[] diagonal_view_visible=
-	{
-		AyirahStaticVars.VISIBLE_KNOWN_NORTH+
-		AyirahStaticVars.VISIBLE_KNOWN_EAST,
-		AyirahStaticVars.VISIBLE_KNOWN_SOUTH+
-		AyirahStaticVars.VISIBLE_KNOWN_EAST,
-		AyirahStaticVars.VISIBLE_KNOWN_SOUTH+
-		AyirahStaticVars.VISIBLE_KNOWN_WEST,
-		AyirahStaticVars.VISIBLE_KNOWN_NORTH+
-		AyirahStaticVars.VISIBLE_KNOWN_WEST
 	};
 	
 	public static char[][] non_block_tiles_tile_parts=
