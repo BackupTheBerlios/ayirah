@@ -66,10 +66,10 @@ public class AyirahComponent extends Canvas
 	{
 		map=new GameMap();
 		m_tiles=new MediaTracker(this);
-		tiles=new Image[4][4][2];
+		tiles=new Image[5][4][2];
 		character=new Image[8][4];
 		
-		Image[] prepareImage=new Image[7];
+		Image[] prepareImage=new Image[9];
 		
 		prepareImage[0]=getToolkit().getImage(AyirahStaticVars.tile_prefix+"unknown1.gif");
 		m_tiles.addImage(prepareImage[0], 0);
@@ -95,14 +95,20 @@ public class AyirahComponent extends Canvas
 		prepareImage[6]=getToolkit().getImage(AyirahStaticVars.tile_prefix+"placeholder1_visible.gif");
 		m_tiles.addImage(prepareImage[6], 6);
 		
+		prepareImage[7]=getToolkit().getImage(AyirahStaticVars.tile_prefix+"tuer_waagrecht_offen_invisible.gif");
+		m_tiles.addImage(prepareImage[7], 7);
+		
+		prepareImage[8]=getToolkit().getImage(AyirahStaticVars.tile_prefix+"tuer_waagrecht_offen_visible.gif");
+		m_tiles.addImage(prepareImage[8], 8);
+		
 		try {
 			m_tiles.waitForAll();
 		} catch (InterruptedException e) { }
 		
 		ImageFilter filter_north=new CropImageFilter(0,0, 48, 24);
-		ImageFilter filter_west=new CropImageFilter(48, 0, 24, 48);;
-		ImageFilter filter_south=new CropImageFilter(0, 24, 48, 24);;
-		ImageFilter filter_east=new CropImageFilter(72, 0, 24, 48);;;
+		ImageFilter filter_west=new CropImageFilter(48, 0, 24, 48);
+		ImageFilter filter_south=new CropImageFilter(0, 24, 48, 24);
+		ImageFilter filter_east=new CropImageFilter(72, 0, 24, 48);
 		
 		ImageProducer collectionProducer=prepareImage[0].getSource();
 		tiles[0][0][0]=createImage(new FilteredImageSource(
@@ -118,7 +124,7 @@ public class AyirahComponent extends Canvas
 		collectionProducer,filter_west));
 		m_tiles.addImage(tiles[0][3][0], 7);
 		
-		for (int i=1; i<4; i++)
+		for (int i=1; i<5; i++)
 		{
 			for (int j=0; j<2; j++)
 			{
@@ -303,6 +309,10 @@ public class AyirahComponent extends Canvas
 	
 	public void paint (Graphics g)
 	{
+		g.setColor(Color.BLACK);
+		g.fillRect(
+		0,0,this.getSize().width,this.getSize().height);
+		
 		for (int zeile=0; zeile<17; zeile++)
 			for (int spalte=0; spalte<22; spalte++)
 			{
@@ -325,6 +335,8 @@ public class AyirahComponent extends Canvas
 						array_index[i]=1;
 					else if (actual_tile[i]=='#')
 						array_index[i]=2;
+					else if (actual_tile[i]=='_')
+						array_index[i]=4;
 					else
 						array_index[i]=3;
 					
