@@ -259,8 +259,6 @@ public class GameMap {
 	{
 		return this.layers_count;
 	}
-	
-	
 	public boolean isValidCoordPair(int l, int x, int y)
 	{
 		return (l>=0 && y>=0 && x>=0 && y<getHeight() && x<getWidth() && l<getLayersCount());
@@ -275,6 +273,55 @@ public class GameMap {
 		act_tile=='-' || act_tile=='_');
 	}
 	
+	public int getVisiblityType(int l, int zeile, int spalte)
+	{
+		if (isValidCoordPair(l, spalte, zeile))
+		{
+			char t=getTile(l, zeile, spalte);
+			
+			switch (t)
+			{
+				case '.':
+					return 0;
+				case ' ':
+					return 0;
+				case 'x':
+					return 0;
+				case 'X':
+					return 0;
+				case '<':
+					return 0;
+				case '>':
+					return 0;
+				case '|':
+					return 0;
+				case '1':
+					return 1;
+				case '4':
+					return 3;
+				case '2':
+					return 4;
+				case '3':
+					return 6;
+				case '#':
+					return 7;
+				case 'I':
+					return 2;
+				case 'i':
+					return 8;
+				case '-':
+					return 5;
+				case '_':
+					return 9;
+				default:
+					return -1;	
+			}
+		}
+		else
+		{
+			return -1;
+		}
+	}
 	public void move(int direction, Creature c) throws IllegalTurnException
 	{
 		if (isMovePossible(direction, c))
@@ -544,126 +591,125 @@ public class GameMap {
 	
 	
 	protected boolean isReachable(int direction, Creature c)
+	{
+		if (direction<0 || direction>=8)
+			return false;
+		
+		char tile_to=this.getTile(getCharacter().getLayer(),
+		c.getPosY()+AyirahStaticVars.direction_modifier[direction][1],
+		c.getPosX()+AyirahStaticVars.direction_modifier[direction][0]);
+		
+		if (direction%2==1)
 		{
-			if (direction<0 || direction>=8)
-				return false;
-		
-			char tile_to=this.getTile(getCharacter().getLayer(),
-			c.getPosY()+AyirahStaticVars.direction_modifier[direction][1],
-			c.getPosX()+AyirahStaticVars.direction_modifier[direction][0]);
-		
-				if (direction%2==1)
-				{
-					char tile_before=this.getTile(getCharacter().getLayer(),
-					c.getPosY()+AyirahStaticVars.direction_modifier[(direction+7)%8][1],
-					c.getPosX()+AyirahStaticVars.direction_modifier[(direction+7)%8][0] );
-				
-					char tile_after=this.getTile(getCharacter().getLayer(),
-					c.getPosY()+AyirahStaticVars.direction_modifier[(direction+1)%8][1],
-					c.getPosX()+AyirahStaticVars.direction_modifier[(direction+1)%8][0] );
-				
-					if (tile_before=='.' || tile_before=='>' || 
-					tile_after=='.' || tile_after=='>') 
-					// nur an leeren Tiles oder nach unten gehenden Treppen kann sich easy
-					// vorbeigeschlichen werden
-						return true;
-					
-					else
-					{
-						if (direction==AyirahStaticVars.DIRECTION_NORTH_EAST)
-						{
-							if (
-							this.getTile(getCharacter().getLayer(),
-							c.getPosY()+AyirahStaticVars.direction_modifier
-							[AyirahStaticVars.DIRECTION_NORTH][1],
-							c.getPosX()+AyirahStaticVars.direction_modifier
-							[AyirahStaticVars.DIRECTION_NORTH][0])=='4' || 
-							this.getTile(getCharacter().getLayer(),
-							c.getPosY()+AyirahStaticVars.direction_modifier
-							[AyirahStaticVars.DIRECTION_EAST][1],
-							c.getPosX()+AyirahStaticVars.direction_modifier
-							[AyirahStaticVars.DIRECTION_EAST][0])=='2')
-								return true;
-							else return false;
-						}
-					
-						else if (direction==AyirahStaticVars.DIRECTION_SOUTH_WEST)
-						{
-							if (
-							this.getTile(getCharacter().getLayer(),
-							c.getPosY()+AyirahStaticVars.direction_modifier
-							[AyirahStaticVars.DIRECTION_WEST][1],
-							c.getPosX()+AyirahStaticVars.direction_modifier
-							[AyirahStaticVars.DIRECTION_WEST][0])=='4' || 
-							this.getTile(getCharacter().getLayer(),
-							c.getPosY()+AyirahStaticVars.direction_modifier
-							[AyirahStaticVars.DIRECTION_SOUTH][1],
-							c.getPosX()+AyirahStaticVars.direction_modifier
-							[AyirahStaticVars.DIRECTION_SOUTH][0])=='2')
-								 return true;
-							else return false;
-						}
-					
-						else if (direction==AyirahStaticVars.DIRECTION_NORTH_WEST)
-						{
-							if (
-							this.getTile(getCharacter().getLayer(),
-							c.getPosY()+AyirahStaticVars.direction_modifier
-							[AyirahStaticVars.DIRECTION_WEST][1],
-							c.getPosX()+AyirahStaticVars.direction_modifier
-							[AyirahStaticVars.DIRECTION_WEST][0])=='3' || 
-							this.getTile(getCharacter().getLayer(),
-							c.getPosY()+AyirahStaticVars.direction_modifier
-							[AyirahStaticVars.DIRECTION_NORTH][1],
-							c.getPosX()+AyirahStaticVars.direction_modifier
-							[AyirahStaticVars.DIRECTION_NORTH][0])=='1')
-								return true;
-							else return false;
-						}
-					
-						else if (direction==AyirahStaticVars.DIRECTION_SOUTH_EAST)
-						{
-							if (
-							this.getTile(getCharacter().getLayer(),
-							c.getPosY()+AyirahStaticVars.direction_modifier
-							[AyirahStaticVars.DIRECTION_EAST][1],
-							c.getPosX()+AyirahStaticVars.direction_modifier
-							[AyirahStaticVars.DIRECTION_EAST][0])=='1' || 
-							this.getTile(getCharacter().getLayer(),
-							c.getPosY()+AyirahStaticVars.direction_modifier
-							[AyirahStaticVars.DIRECTION_SOUTH][1],
-							c.getPosX()+AyirahStaticVars.direction_modifier
-							[AyirahStaticVars.DIRECTION_SOUTH][0])=='3')
-								return true;
-							else return false;
-						}
-					
-						else return false;
-					}
-				}
+			char tile_before=this.getTile(getCharacter().getLayer(),
+			c.getPosY()+AyirahStaticVars.direction_modifier[(direction+7)%8][1],
+			c.getPosX()+AyirahStaticVars.direction_modifier[(direction+7)%8][0] );
 			
-				else // if (direction%2==0)
+			char tile_after=this.getTile(getCharacter().getLayer(),
+			c.getPosY()+AyirahStaticVars.direction_modifier[(direction+1)%8][1],
+			c.getPosX()+AyirahStaticVars.direction_modifier[(direction+1)%8][0] );
+				
+			if (tile_before=='.' || tile_before=='>' || 
+			tile_after=='.' || tile_after=='>') 
+			// nur an leeren Tiles oder nach unten gehenden Treppen kann sich easy
+			// vorbeigeschlichen werden
+				return true;
+			
+			else
+			{
+				if (direction==AyirahStaticVars.DIRECTION_NORTH_EAST)
 				{
-					char tile_from=this.getTile(getCharacter().getLayer(),
-					c.getPosY(), c.getPosX());
-				
-					if (tile_from=='_' && (direction==AyirahStaticVars.DIRECTION_EAST ||
-					direction==AyirahStaticVars.DIRECTION_WEST))
-						return false;
-				
-					else if (tile_from=='i' && (direction==AyirahStaticVars.DIRECTION_NORTH || 
-					direction==AyirahStaticVars.DIRECTION_SOUTH))
-						return false;
-				
-					if (tile_to=='_' && (direction==AyirahStaticVars.DIRECTION_EAST ||
-					direction==AyirahStaticVars.DIRECTION_WEST))
-						return false;
-				
-					else if (tile_to=='i' && (direction==AyirahStaticVars.DIRECTION_NORTH || 
-					direction==AyirahStaticVars.DIRECTION_SOUTH))
-						return false;
-					
-					else return true;
+					if (
+					this.getTile(getCharacter().getLayer(),
+					c.getPosY()+AyirahStaticVars.direction_modifier
+					[AyirahStaticVars.DIRECTION_NORTH][1],
+					c.getPosX()+AyirahStaticVars.direction_modifier
+					[AyirahStaticVars.DIRECTION_NORTH][0])=='4' || 
+					this.getTile(getCharacter().getLayer(),
+					c.getPosY()+AyirahStaticVars.direction_modifier
+					[AyirahStaticVars.DIRECTION_EAST][1],
+					c.getPosX()+AyirahStaticVars.direction_modifier
+					[AyirahStaticVars.DIRECTION_EAST][0])=='2')
+						return true;
+					else return false;
 				}
+				
+				else if (direction==AyirahStaticVars.DIRECTION_SOUTH_WEST)
+				{
+					if (
+					this.getTile(getCharacter().getLayer(),					c.getPosY()+AyirahStaticVars.direction_modifier
+					[AyirahStaticVars.DIRECTION_WEST][1],
+					c.getPosX()+AyirahStaticVars.direction_modifier
+					[AyirahStaticVars.DIRECTION_WEST][0])=='4' || 
+					this.getTile(getCharacter().getLayer(),
+					c.getPosY()+AyirahStaticVars.direction_modifier
+					[AyirahStaticVars.DIRECTION_SOUTH][1],
+					c.getPosX()+AyirahStaticVars.direction_modifier
+					[AyirahStaticVars.DIRECTION_SOUTH][0])=='2')
+						return true;
+					else return false;
+				}
+				
+				else if (direction==AyirahStaticVars.DIRECTION_NORTH_WEST)
+				{
+					if (
+					this.getTile(getCharacter().getLayer(),
+					c.getPosY()+AyirahStaticVars.direction_modifier
+					[AyirahStaticVars.DIRECTION_WEST][1],
+					c.getPosX()+AyirahStaticVars.direction_modifier
+					[AyirahStaticVars.DIRECTION_WEST][0])=='3' || 
+					this.getTile(getCharacter().getLayer(),
+					c.getPosY()+AyirahStaticVars.direction_modifier
+					[AyirahStaticVars.DIRECTION_NORTH][1],
+					c.getPosX()+AyirahStaticVars.direction_modifier
+					[AyirahStaticVars.DIRECTION_NORTH][0])=='1')
+						return true;
+					else return false;
+				}
+				
+				else if (direction==AyirahStaticVars.DIRECTION_SOUTH_EAST)
+				{
+					if (
+					this.getTile(getCharacter().getLayer(),
+					c.getPosY()+AyirahStaticVars.direction_modifier
+					[AyirahStaticVars.DIRECTION_EAST][1],
+					c.getPosX()+AyirahStaticVars.direction_modifier
+					[AyirahStaticVars.DIRECTION_EAST][0])=='1' || 
+					this.getTile(getCharacter().getLayer(),
+					c.getPosY()+AyirahStaticVars.direction_modifier
+					[AyirahStaticVars.DIRECTION_SOUTH][1],
+					c.getPosX()+AyirahStaticVars.direction_modifier
+					[AyirahStaticVars.DIRECTION_SOUTH][0])=='3')
+						return true;
+					else return false;
+				}
+				
+				else return false;
+			}
 		}
+		
+		else // if (direction%2==0)
+		{
+			char tile_from=this.getTile(getCharacter().getLayer(),
+			c.getPosY(), c.getPosX());
+			
+			if (tile_from=='_' && (direction==AyirahStaticVars.DIRECTION_EAST ||
+			direction==AyirahStaticVars.DIRECTION_WEST))
+				return false;
+			
+			else if (tile_from=='i' && (direction==AyirahStaticVars.DIRECTION_NORTH || 
+			direction==AyirahStaticVars.DIRECTION_SOUTH))
+				return false;
+			
+			if (tile_to=='_' && (direction==AyirahStaticVars.DIRECTION_EAST ||
+			direction==AyirahStaticVars.DIRECTION_WEST))
+				return false;
+			
+			else if (tile_to=='i' && (direction==AyirahStaticVars.DIRECTION_NORTH || 
+			direction==AyirahStaticVars.DIRECTION_SOUTH))
+				return false;
+			
+			else return true;
+		}
+	 }
 }

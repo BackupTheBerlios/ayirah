@@ -52,8 +52,9 @@ public abstract class HumanLikeCreature extends Creature {
 		if ((zeile >= map.getHeight()) || (zeile<0) || 
 		(spalte>=map.getWidth()) || (spalte<0))
 			return AyirahStaticVars.VISIBLE_KNOWN_NONE;
-		else return isVisible[l][zeile][spalte].getMainType(); 		// wenn durch return (VisibleKnownNode) [...] .clone() ersetzt wird, kommt es zu Grafikfehlern
+		else return isVisible[l][zeile][spalte].getType(); 		// wenn durch return (VisibleKnownNode) [...] .clone() ersetzt wird, kommt es zu Grafikfehlern
 	}
+	
 	
 	protected void addVisible(int l, int x, int y, int main_type)
 	{
@@ -75,7 +76,7 @@ public abstract class HumanLikeCreature extends Creature {
 		if ((spalte >= map.getWidth()) || (spalte<0) || 
 		(zeile>=map.getHeight()) || (zeile<0))
 				return AyirahStaticVars.VISIBLE_KNOWN_NONE;
-		else return isKnown[l][zeile][spalte].getMainType();		// (vermutlich) wenn durch return (VisibleKnownNode) [...] .clone() ersetzt wird, kommt es zu Grafikfehlern
+		else return isKnown[l][zeile][spalte].getType();		// (vermutlich) wenn durch return (VisibleKnownNode) [...] .clone() ersetzt wird, kommt es zu Grafikfehlern
 	}
 	
 	protected void removeVisible(int l, int x, int y, int main_type)
@@ -154,7 +155,7 @@ public abstract class HumanLikeCreature extends Creature {
 				int visible=getVisible(getLayer(), zeile, spalte);
 				
 				isKnown[getLayer()][zeile][spalte].addType
-				(isVisible[getLayer()][zeile][spalte].getMainType()
+				(isVisible[getLayer()][zeile][spalte].getType()
 				);
 			}
 	}
@@ -164,7 +165,11 @@ public abstract class HumanLikeCreature extends Creature {
 		for (int zeile=0; zeile<map.getHeight();zeile++)
 			for (int spalte=0; spalte<map.getWidth(); spalte++)
 			{
-				if (visibleWalls[getLayer()][zeile][spalte] &&  !(zeile==map.getCharacter().getPosY() &&
+				int vis_type=map.getVisiblityType(getLayer(), zeile, spalte);
+				
+				if (vis_type>0
+				/*visibleWalls[getLayer()][zeile][spalte] */
+				&&  !(zeile==map.getCharacter().getPosY() &&
 				spalte==map.getCharacter().getPosX()))
 				{
 					char wall_type=map.getTile(getLayer(), zeile, spalte);					
@@ -871,6 +876,13 @@ public abstract class HumanLikeCreature extends Creature {
 							AyirahStaticVars.DIRECTION_NORTH, true, false,0,-1);
 						}
 					}
+				}
+				
+				else if (vis_type>0 && /*visibleWalls[getLayer()][zeile][spalte] && */
+				zeile==map.getCharacter().getPosY() &&
+				spalte==map.getCharacter().getPosX())
+				{
+					// noch auszufüllen (offene Türen)
 				}
 			}
 	}
