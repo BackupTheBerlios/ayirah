@@ -100,6 +100,5 @@ public abstract class Creature {
 	{
 		
 	}
-	
-	public abstract int getTurn();
+		public int getTurn() {		return AyirahStaticVars.TURN_INVALID_TURN;	}	public GameMap getMap() {		return this.map;	}
 }
