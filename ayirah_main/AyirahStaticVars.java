@@ -24,7 +24,6 @@
  * Free Software Foundation, Inc., 
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA. 
  */
-
 /**
  * @author Wolfgang Keller
  */
@@ -101,6 +100,7 @@ public class AyirahStaticVars {
 	
 	public static final String avtr_prefix="avatars/avtr2";
 	public static final String tile_prefix="tiles/";
+	public static final String item_prefix="items/";
 	
 	public static final Color color_invisible=new Color(0,0,0,127);
 	public static final Color color_unknown=new Color(0,0,0,255);
