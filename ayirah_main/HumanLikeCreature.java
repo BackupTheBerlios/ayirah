@@ -1742,6 +1742,7 @@ public abstract class HumanLikeCreature extends Creature {
 				y+i*AyirahStaticVars.direction_modifier[direction][1],
 				AyirahStaticVars.VISIBLE_KNOWN_ALL);
 			
+			// rechts
 			if (map.isValidCoordPair(l, 
 			x+i*AyirahStaticVars.direction_modifier[direction][0]
 			+AyirahStaticVars.direction_modifier[(direction+1)%8][0],
@@ -1754,6 +1755,7 @@ public abstract class HumanLikeCreature extends Creature {
 				+AyirahStaticVars.direction_modifier[(direction+1)%8][1],
 				(1<<(((direction+7))%8)/2) | (1<<(((direction+5))%8)/2));
 			
+			// links
 			if (map.isValidCoordPair
 			(l, x+i*AyirahStaticVars.direction_modifier[direction][0]
 			+AyirahStaticVars.direction_modifier[(direction+7)%8][0],
