@@ -1,6 +1,6 @@
 /*
  * Created on 04.07.2004
- * Last modified on 14.07.2004
+ * Last modified on 16.07.2004
  *
  * Ayirah - a Java (tm)-based Roleplaying Game 
  * Copyright (C) 2003 Wolfgang Keller
@@ -47,7 +47,7 @@ public final class LevelLoader extends DefaultHandler {
 	private GameItem gi;
 	private String gi_type, gi_sub_type, gi_state, gi_description;
 	private int gi_vis_type, gi_using_directions;
-	private boolean gi_take_able, gi_walk_on_able;
+	private boolean gi_takeable, gi_walk_on_able;
 	private long gi_weight;
 	
 	private HashMap coords_items;
@@ -55,10 +55,15 @@ public final class LevelLoader extends DefaultHandler {
 	private GameItem def;
 	private String def_name, def_type, def_sub_type, def_state, def_description;
 	private int def_vis_type, def_using_directions;
-	private boolean def_take_able, def_walk_on_able;
+	private boolean def_takeable, def_walk_on_able;
 	private long def_weight;
 	
+	private boolean use_type, use_sub_type, use_state, use_description,
+	use_vis_type, use_using_directions, use_takeable, use_walk_on_able, use_weight;
+	
 	private HashMap names_objects;
+	
+	private String use_name;
 	
 	private boolean inMapTile;
 	
@@ -89,10 +94,10 @@ public final class LevelLoader extends DefaultHandler {
 					+ ", uri " + spe.getSystemId());
 			System.out.println("   " + spe.getMessage() );
 			
-//			Exception  x = spe;
-//			if (spe.getException() != null)
-//				x = spe.getException();
-//			x.printStackTrace();
+			/*Exception  x = spe;
+			if (spe.getException() != null)
+				x = spe.getException();
+			x.printStackTrace();*/
 		}
 		
 		catch (SAXException sxe) {
@@ -218,7 +223,7 @@ public final class LevelLoader extends DefaultHandler {
 					
 					else if (aName.equals("take_able"))
 					{
-						gi_take_able=Boolean.getBoolean(attrs.getValue(i));
+						gi_takeable=Boolean.getBoolean(attrs.getValue(i));
 					}
 					
 					else if (aName.equals("walk_on_able"))
@@ -234,7 +239,7 @@ public final class LevelLoader extends DefaultHandler {
 			}
 			
 			gi=new GameItem(gi_type, gi_sub_type, gi_state, gi_description, gi_vis_type, gi_using_directions,
-			gi_take_able,gi_walk_on_able, gi_weight);
+			gi_takeable,gi_walk_on_able, gi_weight);
 		}
 		
 		else if (eName.equals("object") && !inMapTile)
@@ -288,7 +293,7 @@ public final class LevelLoader extends DefaultHandler {
 					
 					else if (aName.equals("take_able"))
 					{
-						def_take_able=Boolean.getBoolean(attrs.getValue(i));
+						def_takeable=Boolean.getBoolean(attrs.getValue(i));
 					}
 					
 					else if (aName.equals("walk_on_able"))
@@ -305,8 +310,8 @@ public final class LevelLoader extends DefaultHandler {
 			
 			if (def_name!=null)
 			{
-				def=new GameItem(gi_type, gi_sub_type, gi_state, gi_description, 
-				gi_vis_type, gi_using_directions, gi_take_able,gi_walk_on_able, gi_weight);
+				def=new GameItem(def_type, def_sub_type, def_state, def_description, 
+				def_vis_type, def_using_directions, def_takeable,def_walk_on_able, def_weight);
 				
 				names_objects.put(def_name, def);
 			}
@@ -316,6 +321,123 @@ public final class LevelLoader extends DefaultHandler {
 				System.out.println("<defobject> muss ein name-Attribut besitzen");
 			}
 		}
+		
+		else if (eName.equals("useobject") && inMapTile)
+		{
+			reinitUseItem();
+		
+			if (attrs != null) 
+			{
+				for (int i = 0; i < attrs.getLength(); i++) {
+					String aName = attrs.getLocalName(i); // Attr name 
+					if ("".equals(aName)) 
+						aName = attrs.getQName(i);
+					
+					if (aName.equals("name"))
+					{
+						use_name=attrs.getValue(i);
+					}
+					
+					else if (aName.equals("type"))
+					{
+						gi_type=attrs.getValue(i);
+						use_type=true;
+					}
+			
+					else if (aName.equals("sub_type"))
+					{
+						gi_sub_type=attrs.getValue(i);
+						use_sub_type=true;
+					}
+		
+					else if (aName.equals("state"))
+					{
+						gi_state=attrs.getValue(i);
+						use_state=true;
+					}
+					
+					else if (aName.equals("description"))
+					{
+						gi_description=attrs.getValue(i);
+						use_description=true;
+					}
+					
+					else if (aName.equals("vis_type"))
+					{
+						gi_vis_type=Integer.parseInt(attrs.getValue(i));
+						use_vis_type=true;
+					}
+					
+					else if (aName.equals("using_directions"))
+					{
+						gi_using_directions=Integer.parseInt(attrs.getValue(i));
+						use_using_directions=true;
+					}
+					
+					else if (aName.equals("take_able"))
+					{
+						gi_takeable=Boolean.getBoolean(attrs.getValue(i));
+						use_takeable=true;
+					}
+					
+					else if (aName.equals("walk_on_able"))
+					{
+						gi_walk_on_able=Boolean.getBoolean(attrs.getValue(i));
+						use_walk_on_able=true;
+					}
+					
+					else if (aName.equals("weight"))
+					{
+						gi_weight=Long.parseLong(attrs.getValue(i));
+						use_weight=true;
+					}
+				}
+			}
+			
+			if (use_name!=null)
+			{
+				if (names_objects.containsKey(use_name))
+				{
+					GameItem foo=(GameItem) (names_objects.get(use_name));
+					
+					if (foo != null)
+					{
+						gi=new GameItem(
+							use_type ? gi_type : foo.getType(),
+							use_sub_type ? gi_sub_type : foo.getSubType(),
+							use_state ? gi_state : foo.getState(),
+							use_description ? gi_description : foo.getDescription(),
+							use_vis_type ? gi_vis_type : foo.getVisibilityType(),
+							use_using_directions ? gi_using_directions : foo.getUsingDirections(),
+							use_takeable ? gi_takeable : foo.isTakeable(),
+							use_walk_on_able ? gi_walk_on_able : foo.isWalkOnAble(),
+							use_weight ? gi_weight : foo.getWeight());
+					}
+					
+					else
+					{
+						System.out.print("Ein Objekt mit dem Namen ");
+						System.out.print(use_name);
+						System.out.println(" zeigt auf null");
+					}
+				}
+				
+				else
+				{
+					System.out.print("Ein Objekt mit dem Namen ");
+					System.out.print(use_name);
+					System.out.println(" existiert nicht.");
+				}
+			}
+			
+			else
+			{
+				System.out.println("<useobject> muss ein name-Attribut besitzen");
+			}
+		}
+		
+		else if (eName.equals("useobject") && !inMapTile)
+			System.out.println("<useobject>-Tags dürfen nur in <maptile>-Tags benutzt werden");
 	}
 	
 	public void endElement(String namespaceURI,
@@ -327,9 +449,9 @@ public final class LevelLoader extends DefaultHandler {
 		String eName = sName; // element name
 		if ("".equals(eName)) eName = qName; // namespaceAware = false
 		
-		if (eName.equals("maptile"))
+		if (eName.equals("maptile") && gi!=null)
 		{
-			coords_items.put(actual_coords, gi);
+			coords_items.put(actual_coords, (GameItem) gi.clone());
 			inMapTile=false;
 		}
 	}
@@ -351,7 +473,7 @@ public final class LevelLoader extends DefaultHandler {
 		gi_description="";
 		gi_vis_type=0;
 		gi_using_directions=15;
-		gi_take_able=false;
+		gi_takeable=false;
 		gi_walk_on_able=false;
 		gi_weight=0;
 	}
@@ -366,8 +488,24 @@ public final class LevelLoader extends DefaultHandler {
 		def_description="";
 		def_vis_type=0;
 		def_using_directions=15;
-		def_take_able=false;
+		def_takeable=false;
 		def_walk_on_able=false;
 		def_weight=0;
+	}
+	
+	protected void reinitUseItem()
+	{
+		reinitItem();
+		use_name=null;
+		
+		use_type=false;
+		use_sub_type=false;
+		use_state=false;
+		use_description=false;
+		use_vis_type=false;
+		use_using_directions=false;
+		use_takeable=false;
+		use_walk_on_able=false;
+		use_weight=false;
 	}
 }
