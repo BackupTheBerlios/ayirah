@@ -408,11 +408,11 @@ public class GameMap {
 				case 'I':
 					return AyirahStaticVars.VIS_TYPE_INVISIBLE_NORTH_SOUTH;
 				case 'i':
-					return AyirahStaticVars.VIS_TYPE_INVISIBLE_VERTICAL_OPEN_DOOR;
+					return AyirahStaticVars.VIS_TYPE_INVISIBLE_NONE;
 				case '-':
 					return AyirahStaticVars.VIS_TYPE_INVISIBLE_EAST_WEST;
 				case '_':
-					return AyirahStaticVars.VIS_TYPE_INVISIBLE_HORIZONTAL_OPEN_DOOR;
+					return AyirahStaticVars.VIS_TYPE_INVISIBLE_NONE;
 				default:
 					return AyirahStaticVars.VIS_TYPE_INVISIBLE_NONE;
 			}
