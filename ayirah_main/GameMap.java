@@ -3,6 +3,7 @@
  * 
  * Ayirah - a Java (tm)-based Roleplaying Game 
  * Copyright (C) 2003  Wolfgang Keller
+ * Contact: http://ayirah.berlios.de | mail.wolfgang.keller@web.de
  * 
  * This program is free software; you can 
  * redistribute it and/or modify it under 
@@ -169,7 +170,7 @@ public class GameMap {
 		char tile_south= known_south ? tile_type : ' ';
 		char tile_west= known_west ? tile_type : ' ';
 		
-		return new GameTile(tile_north, tile_east, tile_south, tile_west, visible);
+		return new GameTile(tile_north, tile_east, tile_south, tile_west, visible, "");
 	}
 	
 	public GameTile getCreatureKnownTile(HumanLikeCreature c, int l, int zeile, int spalte)
@@ -223,8 +224,20 @@ public class GameMap {
 				}
 				
 				return new GameTile(tile_part[0], tile_part[1], 
-				tile_part[2], tile_part[3], c.getVisible(l, zeile, spalte));
+				tile_part[2], tile_part[3], c.getVisible(l, zeile, spalte), "");
 			}
+			
+			else if (r=='X' || r=='x')
+			{
+				GameTile gt=createGameTile('.', c.getVisible(l, zeile, spalte), 
+				c.getKnown(l, zeile, spalte));
+				if (r=='x')
+					gt.setItem("box_open");
+				else
+					gt.setItem("box_closed");
+				return gt;
+			}
+			
 			else
 			{
 				return createGameTile(getTile(l, zeile, spalte), 

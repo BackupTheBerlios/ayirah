@@ -1,8 +1,10 @@
-/*
+/* 
+ * 
  * Created on 10.09.2003
  * 
  * Ayirah - a Java (tm)-based Roleplaying Game 
  * Copyright (C) 2003  Wolfgang Keller
+ * Contact: http://ayirah.berlios.de | mail.wolfgang.keller@web.de
  * 
  * This program is free software; you can 
  * redistribute it and/or modify it under 
@@ -265,32 +267,32 @@ public class AyirahComponent extends Canvas
 	
 	public void update (Graphics g)
 	{
-//		if (dbImage == null) {
-//			/* Diese Zeile verursacht den Fehler bei der Soundwiedergabe
-//			 * (seltsamerweise stört sie in der alten Version nicht)
-//			 */
-//			dbImage = createImage(this.getSize().width,this.getSize().height);
-//			
-//			dbGraphics = dbImage.getGraphics();
-//		}
+		if (dbImage == null) {
+			/* Diese Zeile verursacht den Fehler bei der Soundwiedergabe
+			 * (seltsamerweise stört sie in der alten Version nicht)
+			 */
+			dbImage = createImage(this.getSize().width,this.getSize().height);
+			
+			dbGraphics = dbImage.getGraphics();
+		}
 		
-//		//Hintergrund löschen
-//		dbGraphics.setColor(Color.BLACK);
-//		dbGraphics.fillRect(
-//		0,
-//		0,
-//		this.getSize().width,
-//		this.getSize().height
-//		);
+		//Hintergrund löschen
+		dbGraphics.setColor(Color.BLACK);
+		dbGraphics.fillRect(
+		0,
+		0,
+		this.getSize().width,
+		this.getSize().height
+		);
 		
-//		//Vordergrund zeichnen
-//		dbGraphics.setColor(getForeground());
-//		paint(dbGraphics);
-//		//Offscreen anzeigen
-//		g.drawImage(dbImage,0,0,this);
+		//Vordergrund zeichnen
+		dbGraphics.setColor(getForeground());
+		paint(dbGraphics);
+		//Offscreen anzeigen
+		g.drawImage(dbImage,0,0,this);
 		
-		// Provisorium
-		paint(g);
+//		// Provisorium
+//		paint(g);
 	}
 	
 	public void fillRect(Graphics g, int x, int y, int width, int height)

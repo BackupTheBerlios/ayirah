@@ -3,6 +3,7 @@
  * 
  * Ayirah - a Java (tm)-based Roleplaying Game 
  * Copyright (C) 2003  Wolfgang Keller
+ * Contact: http://ayirah.berlios.de | mail.wolfgang.keller@web.de
  * 
  * This program is free software; you can 
  * redistribute it and/or modify it under 
@@ -31,11 +32,13 @@ public class GameTile {
 
 	protected char[] directionParts;
 	protected int vis;
+	protected String item;
 	
-	GameTile(char t_north, char t_east, char t_south, char t_west, int visible)
+	GameTile(char t_north, char t_east, char t_south, char t_west, int visible, String item)
 	{
 		this.vis=visible;
 		directionParts=new char[4];
+		this.item=item;
 		
 		directionParts[0]=t_north;
 		directionParts[1]=t_east;
@@ -43,7 +46,7 @@ public class GameTile {
 		directionParts[3]=t_west;
 	}
 	
-	GameTile(char[] direction_parts, int vis)
+	GameTile(char[] direction_parts, int vis, String item)
 	{
 		this.vis=vis;
 		directionParts=new char[4];
@@ -73,5 +76,15 @@ public class GameTile {
 	public int getVisible()
 	{
 		return vis;
+	}
+	
+	public String getItem()
+	{
+		return item;
+	}
+	
+	public void setItem(String item)
+	{
+		this.item=item;
 	}
 }

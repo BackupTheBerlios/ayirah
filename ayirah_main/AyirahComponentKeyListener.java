@@ -3,7 +3,8 @@
  * 
  * Ayirah - a Java (tm)-based Roleplaying Game 
  * Copyright (C) 2003  Wolfgang Keller
- * 
+ * Contact: http://ayirah.berlios.de | mail.wolfgang.keller@web.de
+ *
  * This program is free software; you can 
  * redistribute it and/or modify it under 
  * the terms of the GNU General Public License 

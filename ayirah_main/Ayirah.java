@@ -3,6 +3,7 @@
  * 
  * Ayirah - a Java (tm)-based Roleplaying Game 
  * Copyright (C) 2003  Wolfgang Keller
+ * Contact: http://ayirah.berlios.de | mail.wolfgang.keller@web.de
  * 
  * This program is free software; you can 
  * redistribute it and/or modify it under 
@@ -43,6 +44,8 @@ public class Ayirah extends Frame implements KeyListener {
 		ac=new AyirahComponent();
 		this.add(ac);
 		this.addKeyListener(this);
+		
+		
 	}
 	
 	public void keyPressed(KeyEvent e)
@@ -67,15 +70,15 @@ public class Ayirah extends Frame implements KeyListener {
 		mainFrame.pack();
 		mainFrame.setVisible(true);
 		
-		try
-		{
-			AudioClip ac = Applet.newAudioClip(
-			new URL("file:////C:\\eclipse\\workspace\\Ayirah\\bg.wav"));
-			ac.loop();
-		}
-		catch(MalformedURLException e)
-		{
-			System.out.println(e.toString());
-		}
+//		try
+//		{
+//			AudioClip ac = Applet.newAudioClip(
+//			new URL( "file:" + System.getProperty( "user.dir" ) + "/sound/bg.wav" ));
+//			ac.loop();
+//		}
+//		catch(MalformedURLException e)
+//		{
+//			System.out.println(e.toString());
+//		}
 	}
 }
