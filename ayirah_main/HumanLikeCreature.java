@@ -327,69 +327,91 @@ public abstract class HumanLikeCreature extends Creature {
 							if (getPosX()-spalte==-1)
 							{
 								if (!(wall_type=='1' || wall_type=='3'))
-								removeOddDirectionWallInvisible(getLayer(), spalte, zeile, 
-								AyirahStaticVars.DIRECTION_SOUTH_EAST);
-								
-								if (wall_type=='4')
-								removeVisible(getLayer(), spalte, zeile, 
-								AyirahStaticVars.VISIBLE_KNOWN_SOUTH_EAST);
+								{
+									removeOddDirectionWallInvisible(getLayer(), spalte, zeile, 
+									AyirahStaticVars.DIRECTION_SOUTH_EAST);
+									
+									if (wall_type!='2')
+									removeVisible(getLayer(), spalte, zeile, 
+									AyirahStaticVars.VISIBLE_KNOWN_SOUTH_EAST);
+								}
 								
 								if (wall_type=='1')
-								removeEvenDirectionWallInvisible(getLayer(), spalte, zeile, 
-								AyirahStaticVars.DIRECTION_EAST, true, false, 0, -1);
+								{
+									removeEvenDirectionWallInvisible(getLayer(), spalte, zeile, 
+									AyirahStaticVars.DIRECTION_EAST, true, false, 0, -1);
+									
+									removeVisible(getLayer(), spalte, zeile, 
+									AyirahStaticVars.VISIBLE_KNOWN_EAST);
+								}
 								
 								if (wall_type=='3')
-								removeEvenDirectionWallInvisible(getLayer(), spalte, zeile, 
-								AyirahStaticVars.DIRECTION_SOUTH, false, true, -1, 0);
+								{
+									removeEvenDirectionWallInvisible(getLayer(), spalte, zeile, 
+									AyirahStaticVars.DIRECTION_SOUTH, false, true, -1, 0);
+									
+									removeVisible(getLayer(), spalte, zeile, 
+									AyirahStaticVars.VISIBLE_KNOWN_SOUTH);
+								}
 							}
 							
 							else
 							{
 								if (!(wall_type=='1' || wall_type=='3'))
-								for (int i=0; i<=Math.min(map.getWidth()-1-spalte, 
-								map.getHeight()-1-zeile); i++)
 								{
-									if (!(i==0) && map.isValidCoordPair(getLayer(), spalte+i, zeile+i))
-										removeVisible(getLayer(), spalte+i, zeile+i,
-										AyirahStaticVars.VISIBLE_KNOWN_ALL);
-									if (map.isValidCoordPair(getLayer(), spalte+i+1, zeile+i))
-										removeVisible(getLayer(), spalte+i+1, zeile+i,
-										AyirahStaticVars.VISIBLE_KNOWN_SOUTH_WEST);
-									if (map.isValidCoordPair(getLayer(), spalte+i, zeile+i+1))
-										removeVisible(getLayer(), spalte+i, zeile+i+1,
-										AyirahStaticVars.VISIBLE_KNOWN_NORTH_EAST);
+									for (int i=0; i<=Math.min(map.getWidth()-1-spalte, 
+									map.getHeight()-1-zeile); i++)
+									{
+										if (!(i==0) && map.isValidCoordPair(getLayer(), spalte+i, zeile+i))
+											removeVisible(getLayer(), spalte+i, zeile+i,
+											AyirahStaticVars.VISIBLE_KNOWN_ALL);
+										if (map.isValidCoordPair(getLayer(), spalte+i+1, zeile+i))
+											removeVisible(getLayer(), spalte+i+1, zeile+i,
+											AyirahStaticVars.VISIBLE_KNOWN_SOUTH_WEST);
+										if (map.isValidCoordPair(getLayer(), spalte+i, zeile+i+1))
+											removeVisible(getLayer(), spalte+i, zeile+i+1,
+											AyirahStaticVars.VISIBLE_KNOWN_NORTH_EAST);
+									}
+									
+									if (wall_type!='2')
+									removeVisible(getLayer(), spalte, zeile, 
+									AyirahStaticVars.VISIBLE_KNOWN_SOUTH_EAST);
 								}
 								
 								if (wall_type=='1')
-								for (int i=0; i<=Math.min(map.getWidth()-1-spalte, 
-								map.getHeight()-1-zeile); i++)
 								{
-									if (!(i==0) && map.isValidCoordPair(getLayer(), spalte+i, zeile+i))
-										removeVisible(getLayer(), spalte+i, zeile+i,
-										AyirahStaticVars.VISIBLE_KNOWN_NORTH_EAST);
-									if (map.isValidCoordPair(getLayer(), spalte+i+1, zeile+i))
-										removeVisible(getLayer(), spalte+i+1, zeile+i,
-										AyirahStaticVars.VISIBLE_KNOWN_SOUTH_WEST);
+									for (int i=0; i<=Math.min(map.getWidth()-1-spalte, 
+									map.getHeight()-1-zeile); i++)
+									{
+										if (!(i==0) && map.isValidCoordPair(getLayer(), spalte+i, zeile+i))
+											removeVisible(getLayer(), spalte+i, zeile+i,
+											AyirahStaticVars.VISIBLE_KNOWN_NORTH_EAST);
+										if (map.isValidCoordPair(getLayer(), spalte+i+1, zeile+i))
+											removeVisible(getLayer(), spalte+i+1, zeile+i,
+											AyirahStaticVars.VISIBLE_KNOWN_SOUTH_WEST);
+									}
+									
+									removeVisible(getLayer(), spalte, zeile, 
+									AyirahStaticVars.VISIBLE_KNOWN_EAST);
 								}
 								
 								if (wall_type=='3')
-								for (int i=0; i<=Math.min(map.getWidth()-1-spalte, 
-								map.getHeight()-1-zeile); i++)
 								{
-									if (!(i==0) && map.isValidCoordPair(getLayer(), spalte+i, zeile+i))
-										removeVisible(getLayer(), spalte+i, zeile+i,
-										AyirahStaticVars.VISIBLE_KNOWN_SOUTH_WEST);
-										
-									if (map.isValidCoordPair(getLayer(), spalte+i, zeile+i+1))
-										removeVisible(getLayer(), spalte+i, zeile+i+1,
-										AyirahStaticVars.VISIBLE_KNOWN_NORTH_EAST);
+									for (int i=0; i<=Math.min(map.getWidth()-1-spalte, 
+									map.getHeight()-1-zeile); i++)
+									{
+										if (!(i==0) && map.isValidCoordPair(getLayer(), spalte+i, zeile+i))
+											removeVisible(getLayer(), spalte+i, zeile+i,
+											AyirahStaticVars.VISIBLE_KNOWN_SOUTH_WEST);
+											
+										if (map.isValidCoordPair(getLayer(), spalte+i, zeile+i+1))
+											removeVisible(getLayer(), spalte+i, zeile+i+1,
+											AyirahStaticVars.VISIBLE_KNOWN_NORTH_EAST);
+									}
+									
+									removeVisible(getLayer(), spalte, zeile, 
+									AyirahStaticVars.VISIBLE_KNOWN_SOUTH);
 								}
-								
-								if (wall_type=='4')
-								removeVisible(getLayer(), spalte, zeile, 
-								AyirahStaticVars.VISIBLE_KNOWN_SOUTH_EAST);
-								
-								
 							}
 						}
 						
@@ -399,63 +421,87 @@ public abstract class HumanLikeCreature extends Creature {
 							if (getPosX()-spalte==1)
 							{
 								if (!(wall_type=='1' || wall_type=='3'))
-								removeOddDirectionWallInvisible(getLayer(), spalte, zeile, 
-								AyirahStaticVars.DIRECTION_NORTH_WEST);
-								
-								if (wall_type=='2')
-								removeVisible(getLayer(), spalte, zeile, 
-								AyirahStaticVars.VISIBLE_KNOWN_NORTH_WEST);
+								{
+									removeOddDirectionWallInvisible(getLayer(), spalte, zeile, 
+									AyirahStaticVars.DIRECTION_NORTH_WEST);
+									
+									if (wall_type!='4')
+									removeVisible(getLayer(), spalte, zeile, 
+									AyirahStaticVars.VISIBLE_KNOWN_NORTH_WEST);
+								}
 								
 								if (wall_type=='1')
-								removeEvenDirectionWallInvisible(getLayer(), spalte, zeile,
-								AyirahStaticVars.DIRECTION_NORTH, false, true, -1, 0);
+								{
+									removeEvenDirectionWallInvisible(getLayer(), spalte, zeile,
+									AyirahStaticVars.DIRECTION_NORTH, false, true, -1, 0);
+								
+									removeVisible(getLayer(), spalte, zeile, 
+									AyirahStaticVars.VISIBLE_KNOWN_NORTH);
+								}
 								
 								if (wall_type=='3')
-								removeEvenDirectionWallInvisible(getLayer(), spalte, zeile,
-								AyirahStaticVars.DIRECTION_WEST, true, false, 0, -1);
+								{
+									removeEvenDirectionWallInvisible(getLayer(), spalte, zeile,
+									AyirahStaticVars.DIRECTION_WEST, true, false, 0, -1);
+									
+									removeVisible(getLayer(), spalte, zeile, 
+									AyirahStaticVars.VISIBLE_KNOWN_WEST);
+								}
 							}
 							
 							else
 							{
 								if (!(wall_type=='1' || wall_type=='3'))
-								for (int i=0; i<=Math.min(spalte, zeile); i++)
 								{
-									if (!(i==0) && map.isValidCoordPair(getLayer(), spalte-i, zeile-i))
-										removeVisible(getLayer(), spalte-i, zeile-i,
-										AyirahStaticVars.VISIBLE_KNOWN_ALL);
-									if (map.isValidCoordPair(getLayer(), spalte-i-1, zeile-i))
-										removeVisible(getLayer(), spalte-i-1, zeile-i,
-										AyirahStaticVars.VISIBLE_KNOWN_NORTH_EAST);
-									if (map.isValidCoordPair(getLayer(), spalte-i, zeile-i-1))
-										removeVisible(getLayer(), spalte-i, zeile-i-1,
-										AyirahStaticVars.VISIBLE_KNOWN_SOUTH_WEST);
+									for (int i=0; i<=Math.min(spalte, zeile); i++)
+									{
+										if (!(i==0) && map.isValidCoordPair(getLayer(), spalte-i, zeile-i))
+											removeVisible(getLayer(), spalte-i, zeile-i,
+											AyirahStaticVars.VISIBLE_KNOWN_ALL);
+										if (map.isValidCoordPair(getLayer(), spalte-i-1, zeile-i))
+											removeVisible(getLayer(), spalte-i-1, zeile-i,
+											AyirahStaticVars.VISIBLE_KNOWN_NORTH_EAST);
+										if (map.isValidCoordPair(getLayer(), spalte-i, zeile-i-1))
+											removeVisible(getLayer(), spalte-i, zeile-i-1,
+											AyirahStaticVars.VISIBLE_KNOWN_SOUTH_WEST);
+									}
+									
+									if (wall_type!='4')
+									removeVisible(getLayer(), spalte, zeile, 
+									AyirahStaticVars.VISIBLE_KNOWN_NORTH_WEST);
 								}
 								
 								if (wall_type=='1')
-								for (int i=0; i<=Math.min(spalte, zeile); i++)
 								{
-									if (!(i==0) && map.isValidCoordPair(getLayer(), spalte-i, zeile-i))
-										removeVisible(getLayer(), spalte-i, zeile-i,
-										AyirahStaticVars.VISIBLE_KNOWN_NORTH_EAST);
-										
-									if (map.isValidCoordPair(getLayer(), spalte-i, zeile-i-1))
-										removeVisible(getLayer(), spalte-i, zeile-i-1,
-										AyirahStaticVars.VISIBLE_KNOWN_SOUTH_WEST);
+									for (int i=0; i<=Math.min(spalte, zeile); i++)
+									{
+										if (!(i==0) && map.isValidCoordPair(getLayer(), spalte-i, zeile-i))
+											removeVisible(getLayer(), spalte-i, zeile-i,
+											AyirahStaticVars.VISIBLE_KNOWN_NORTH_EAST);
+											
+										if (map.isValidCoordPair(getLayer(), spalte-i, zeile-i-1))
+											removeVisible(getLayer(), spalte-i, zeile-i-1,
+											AyirahStaticVars.VISIBLE_KNOWN_SOUTH_WEST);
+									}
+									
+									removeVisible(getLayer(), spalte, zeile, 
+									AyirahStaticVars.VISIBLE_KNOWN_NORTH);
 								}
 								
-								if (wall_type=='2')
-								removeVisible(getLayer(), spalte, zeile, 
-								AyirahStaticVars.VISIBLE_KNOWN_NORTH_WEST);
-								
 								if (wall_type=='3')
-								for (int i=0; i<=Math.min(spalte, zeile); i++)
 								{
-									if (!(i==0) && map.isValidCoordPair(getLayer(), spalte-i, zeile-i))
-										removeVisible(getLayer(), spalte-i, zeile-i,
-										AyirahStaticVars.VISIBLE_KNOWN_SOUTH_WEST);
-									if (map.isValidCoordPair(getLayer(), spalte-i-1, zeile-i))
-										removeVisible(getLayer(), spalte-i-1, zeile-i,
-										AyirahStaticVars.VISIBLE_KNOWN_NORTH_EAST);			
+									for (int i=0; i<=Math.min(spalte, zeile); i++)
+									{
+										if (!(i==0) && map.isValidCoordPair(getLayer(), spalte-i, zeile-i))
+											removeVisible(getLayer(), spalte-i, zeile-i,
+											AyirahStaticVars.VISIBLE_KNOWN_SOUTH_WEST);
+										if (map.isValidCoordPair(getLayer(), spalte-i-1, zeile-i))
+											removeVisible(getLayer(), spalte-i-1, zeile-i,
+											AyirahStaticVars.VISIBLE_KNOWN_NORTH_EAST);			
+									}
+									
+									removeVisible(getLayer(), spalte, zeile, 
+									AyirahStaticVars.VISIBLE_KNOWN_WEST);
 								}
 							}
 						}
@@ -469,64 +515,87 @@ public abstract class HumanLikeCreature extends Creature {
 							if (getPosX()-spalte==-1)
 							{
 								if (!(wall_type=='2' || wall_type=='4'))
-								removeOddDirectionWallInvisible(getLayer(), spalte, zeile, 
-								AyirahStaticVars.DIRECTION_NORTH_EAST);
-								
-								if (wall_type=='3')
-								removeVisible(getLayer(), spalte, zeile, 
-								AyirahStaticVars.VISIBLE_KNOWN_NORTH_EAST);
+								{
+									removeOddDirectionWallInvisible(getLayer(), spalte, zeile, 
+									AyirahStaticVars.DIRECTION_NORTH_EAST);
+									
+									if (wall_type!='1')
+									removeVisible(getLayer(), spalte, zeile, 
+									AyirahStaticVars.VISIBLE_KNOWN_NORTH_EAST);
+								}
 								
 								if (wall_type=='4')
-								removeEvenDirectionWallInvisible(getLayer(), spalte, zeile,
-								AyirahStaticVars.DIRECTION_NORTH, true, false, 0, -1);
+								{
+									removeEvenDirectionWallInvisible(getLayer(), spalte, zeile,
+									AyirahStaticVars.DIRECTION_NORTH, true, false, 0, -1);
+									
+									removeVisible(getLayer(), spalte, zeile, 
+									AyirahStaticVars.VISIBLE_KNOWN_NORTH);
+								}
 								
 								if (wall_type=='2')
-								removeEvenDirectionWallInvisible(getLayer(), spalte, zeile,
-								AyirahStaticVars.DIRECTION_EAST, false, true, -1, 0);
+								{
+									removeEvenDirectionWallInvisible(getLayer(), spalte, zeile,
+									AyirahStaticVars.DIRECTION_EAST, false, true, -1, 0);
+									
+									removeVisible(getLayer(), spalte, zeile, 
+									AyirahStaticVars.VISIBLE_KNOWN_EAST);
+								}
 							}
 							
 							else
 							{
 								if (!(wall_type=='2' || wall_type=='4'))
-								for (int i=0; i<=Math.min(map.getWidth()-1-spalte, zeile); i++)
 								{
-									if (!(i==0) && map.isValidCoordPair(getLayer(), spalte+i, zeile-i))
-										removeVisible(getLayer(), spalte+i, zeile-i,
-										AyirahStaticVars.VISIBLE_KNOWN_ALL);
-									if (map.isValidCoordPair(getLayer(), spalte+i+1, zeile-i))
-										removeVisible(getLayer(), spalte+i+1, zeile-i,
-										AyirahStaticVars.VISIBLE_KNOWN_NORTH_WEST);
-									if (map.isValidCoordPair(getLayer(), spalte+i, zeile-i-1))
-										removeVisible(getLayer(), spalte+i, zeile-i-1,
-										AyirahStaticVars.VISIBLE_KNOWN_SOUTH_EAST);
+									for (int i=0; i<=Math.min(map.getWidth()-1-spalte, zeile); i++)
+									{
+										if (!(i==0) && map.isValidCoordPair(getLayer(), spalte+i, zeile-i))
+											removeVisible(getLayer(), spalte+i, zeile-i,
+											AyirahStaticVars.VISIBLE_KNOWN_ALL);
+										if (map.isValidCoordPair(getLayer(), spalte+i+1, zeile-i))
+											removeVisible(getLayer(), spalte+i+1, zeile-i,
+											AyirahStaticVars.VISIBLE_KNOWN_NORTH_WEST);
+										if (map.isValidCoordPair(getLayer(), spalte+i, zeile-i-1))
+											removeVisible(getLayer(), spalte+i, zeile-i-1,
+											AyirahStaticVars.VISIBLE_KNOWN_SOUTH_EAST);
+									}
+									
+									if (wall_type!='1')
+									removeVisible(getLayer(), spalte, zeile, 
+									AyirahStaticVars.VISIBLE_KNOWN_NORTH_EAST);
 								}
 								
 								if (wall_type=='4')
-								for (int i=0; i<=Math.min(map.getWidth()-1-spalte, zeile); i++)
 								{
-									if (!(i==0) && map.isValidCoordPair(getLayer(), spalte+i, zeile-i))
-										removeVisible(getLayer(), spalte+i, zeile-i,
-										AyirahStaticVars.VISIBLE_KNOWN_NORTH_WEST);
-										
-									if (map.isValidCoordPair(getLayer(), spalte+i, zeile-i-1))
-										removeVisible(getLayer(), spalte+i, zeile-i-1,
-										AyirahStaticVars.VISIBLE_KNOWN_SOUTH_EAST);
+									for (int i=0; i<=Math.min(map.getWidth()-1-spalte, zeile); i++)
+									{
+										if (!(i==0) && map.isValidCoordPair(getLayer(), spalte+i, zeile-i))
+											removeVisible(getLayer(), spalte+i, zeile-i,
+											AyirahStaticVars.VISIBLE_KNOWN_NORTH_WEST);
+											
+										if (map.isValidCoordPair(getLayer(), spalte+i, zeile-i-1))
+											removeVisible(getLayer(), spalte+i, zeile-i-1,
+											AyirahStaticVars.VISIBLE_KNOWN_SOUTH_EAST);
+									}
+									
+									removeVisible(getLayer(), spalte, zeile, 
+									AyirahStaticVars.VISIBLE_KNOWN_NORTH);
 								}
 								
 								if (wall_type=='2')
-								for (int i=0; i<=Math.min(map.getWidth()-1-spalte, zeile); i++)
 								{
-									if (!(i==0) && map.isValidCoordPair(getLayer(), spalte+i, zeile-i))
-										removeVisible(getLayer(), spalte+i, zeile-i,
-										AyirahStaticVars.VISIBLE_KNOWN_SOUTH_EAST);
-									if (map.isValidCoordPair(getLayer(), spalte+i+1, zeile-i))
-										removeVisible(getLayer(), spalte+i+1, zeile-i,
-										AyirahStaticVars.VISIBLE_KNOWN_NORTH_WEST);
+									for (int i=0; i<=Math.min(map.getWidth()-1-spalte, zeile); i++)
+									{
+										if (!(i==0) && map.isValidCoordPair(getLayer(), spalte+i, zeile-i))
+											removeVisible(getLayer(), spalte+i, zeile-i,
+											AyirahStaticVars.VISIBLE_KNOWN_SOUTH_EAST);
+										if (map.isValidCoordPair(getLayer(), spalte+i+1, zeile-i))
+											removeVisible(getLayer(), spalte+i+1, zeile-i,
+											AyirahStaticVars.VISIBLE_KNOWN_NORTH_WEST);
+									}
+									removeVisible(getLayer(), spalte, zeile, 
+									AyirahStaticVars.VISIBLE_KNOWN_EAST);
 								}
-								
-								if (wall_type=='3')
-								removeVisible(getLayer(), spalte, zeile, 
-								AyirahStaticVars.VISIBLE_KNOWN_NORTH_EAST);
 							}
 						}
 						
@@ -536,62 +605,86 @@ public abstract class HumanLikeCreature extends Creature {
 							if (getPosX()-spalte==1)
 							{
 								if (!(wall_type=='2' || wall_type=='4'))
-								removeOddDirectionWallInvisible(getLayer(), spalte, zeile, 
-								AyirahStaticVars.DIRECTION_SOUTH_WEST);
-								
-								if (wall_type=='1')
-								removeVisible(getLayer(), spalte, zeile, 
-								AyirahStaticVars.VISIBLE_KNOWN_SOUTH_WEST);
+								{
+									removeOddDirectionWallInvisible(getLayer(), spalte, zeile, 
+									AyirahStaticVars.DIRECTION_SOUTH_WEST);
+									
+									if (wall_type!='3')
+									removeVisible(getLayer(), spalte, zeile, 
+									AyirahStaticVars.VISIBLE_KNOWN_SOUTH_WEST);
+								}
 								
 								if (wall_type=='2')
-								removeEvenDirectionWallInvisible(getLayer(), spalte, zeile,
-								AyirahStaticVars.DIRECTION_SOUTH, true, false, 0, -1);
+								{
+									removeEvenDirectionWallInvisible(getLayer(), spalte, zeile,
+									AyirahStaticVars.DIRECTION_SOUTH, true, false, 0, -1);
+									
+									removeVisible(getLayer(), spalte, zeile, 
+									AyirahStaticVars.VISIBLE_KNOWN_SOUTH);
+								}
 								
 								if (wall_type=='4')
-								removeEvenDirectionWallInvisible(getLayer(), spalte, zeile,
-								AyirahStaticVars.DIRECTION_WEST, false, true, -1, 0);
+								{
+									removeEvenDirectionWallInvisible(getLayer(), spalte, zeile,
+									AyirahStaticVars.DIRECTION_WEST, false, true, -1, 0);
+									
+									removeVisible(getLayer(), spalte, zeile, 
+									AyirahStaticVars.VISIBLE_KNOWN_WEST);
+								}
 							}
 							
 							else
 							{
 								if (!(wall_type=='2' || wall_type=='4'))
-								for (int i=0; i<=Math.min(spalte, (map.getHeight()-1-zeile)); i++)
 								{
-									if (!(i==0) && map.isValidCoordPair(getLayer(), spalte-i, zeile+i))
-										removeVisible(getLayer(), spalte-i, zeile+i,
-										AyirahStaticVars.VISIBLE_KNOWN_ALL);
-									if (map.isValidCoordPair(getLayer(), spalte-i-1, zeile+i))
-										removeVisible(getLayer(), spalte-i-1, zeile+i,
-										AyirahStaticVars.VISIBLE_KNOWN_SOUTH_EAST);
-									if (map.isValidCoordPair(getLayer(), spalte-i, zeile+i+1))
-										removeVisible(getLayer(), spalte-i, zeile+i+1,
-										AyirahStaticVars.VISIBLE_KNOWN_NORTH_WEST);
+									for (int i=0; i<=Math.min(spalte, (map.getHeight()-1-zeile)); i++)
+									{
+										if (!(i==0) && map.isValidCoordPair(getLayer(), spalte-i, zeile+i))
+											removeVisible(getLayer(), spalte-i, zeile+i,
+											AyirahStaticVars.VISIBLE_KNOWN_ALL);
+										if (map.isValidCoordPair(getLayer(), spalte-i-1, zeile+i))
+											removeVisible(getLayer(), spalte-i-1, zeile+i,
+											AyirahStaticVars.VISIBLE_KNOWN_SOUTH_EAST);
+										if (map.isValidCoordPair(getLayer(), spalte-i, zeile+i+1))
+											removeVisible(getLayer(), spalte-i, zeile+i+1,
+											AyirahStaticVars.VISIBLE_KNOWN_NORTH_WEST);
+									}
+									
+									if (wall_type!='3')
+									removeVisible(getLayer(), spalte, zeile, 
+									AyirahStaticVars.VISIBLE_KNOWN_SOUTH_WEST);
 								}
 								
-								if (wall_type=='1')
-								removeVisible(getLayer(), spalte, zeile, 
-								AyirahStaticVars.VISIBLE_KNOWN_SOUTH_WEST);
-								
 								if (wall_type=='2')
-								for (int i=0; i<=Math.min(spalte, (map.getHeight()-1-zeile)); i++)
 								{
-									if (!(i==0) && map.isValidCoordPair(getLayer(), spalte-i, zeile+i))
-										removeVisible(getLayer(), spalte-i, zeile+i,
-										AyirahStaticVars.VISIBLE_KNOWN_SOUTH_EAST);
-									if (map.isValidCoordPair(getLayer(), spalte-i, zeile+i+1))
-										removeVisible(getLayer(), spalte-i, zeile+i+1,
-										AyirahStaticVars.VISIBLE_KNOWN_NORTH_WEST);
+									for (int i=0; i<=Math.min(spalte, (map.getHeight()-1-zeile)); i++)
+									{
+										if (!(i==0) && map.isValidCoordPair(getLayer(), spalte-i, zeile+i))
+											removeVisible(getLayer(), spalte-i, zeile+i,
+											AyirahStaticVars.VISIBLE_KNOWN_SOUTH_EAST);
+										if (map.isValidCoordPair(getLayer(), spalte-i, zeile+i+1))
+											removeVisible(getLayer(), spalte-i, zeile+i+1,
+											AyirahStaticVars.VISIBLE_KNOWN_NORTH_WEST);
+									}
+									
+									removeVisible(getLayer(), spalte, zeile, 
+									AyirahStaticVars.VISIBLE_KNOWN_SOUTH);
 								}
 								
 								if (wall_type=='4')
-								for (int i=0; i<=Math.min(spalte, (map.getHeight()-1-zeile)); i++)
 								{
-									if (!(i==0) && map.isValidCoordPair(getLayer(), spalte-i, zeile+i))
-										removeVisible(getLayer(), spalte-i, zeile+i,
-										AyirahStaticVars.VISIBLE_KNOWN_NORTH_WEST);
-									if (map.isValidCoordPair(getLayer(), spalte-i-1, zeile+i))
-										removeVisible(getLayer(), spalte-i-1, zeile+i,
-										AyirahStaticVars.VISIBLE_KNOWN_SOUTH_EAST);
+									for (int i=0; i<=Math.min(spalte, (map.getHeight()-1-zeile)); i++)
+									{
+										if (!(i==0) && map.isValidCoordPair(getLayer(), spalte-i, zeile+i))
+											removeVisible(getLayer(), spalte-i, zeile+i,
+											AyirahStaticVars.VISIBLE_KNOWN_NORTH_WEST);
+										if (map.isValidCoordPair(getLayer(), spalte-i-1, zeile+i))
+											removeVisible(getLayer(), spalte-i-1, zeile+i,
+											AyirahStaticVars.VISIBLE_KNOWN_SOUTH_EAST);
+									}
+									
+									removeVisible(getLayer(), spalte, zeile, 
+									AyirahStaticVars.VISIBLE_KNOWN_WEST);
 								}
 							}
 						}
