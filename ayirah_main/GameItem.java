@@ -36,14 +36,16 @@ public class GameItem {
 	protected String type; // um was für einen Objekttyp handelt es sich
 	protected String state; // Status des Objekts
 	protected String name; // lange Bezeichnung
+	protected int visible_type;
 	protected long weight; // Gewicht in Gramm
 	protected boolean takeable; // kann der Character das Objekt aufnehmen (rein theoretisch!)
 	
-	GameItem(String type, String state, String name, long weight, boolean takeable)
+	GameItem(String type, String state, String name,int vis_type, long weight, boolean takeable)
 	{
 		this.type=type;
 		this.state=state;
 		this.name=name;
+		this.visible_type=vis_type;
 		this.weight=Math.abs(weight);
 		this.takeable=takeable;
 	}
