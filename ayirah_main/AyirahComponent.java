@@ -35,20 +35,16 @@ public class AyirahComponent extends Canvas
 {
 	private AyirahComponentKeyListener ackl;
 	private MediaTracker m_tiles;
-	private MediaTracker m_boden;
-	private Image[] tiles; // Alle sonstigen Tiles auﬂer Boden
+	private Image[] tiles; // Alle Tiles
 	private Image sidebar;
 	private Image[][] character;
-	
 	private GameMap map;
 	
 	// obere Ecke des angezeigten Bereichs der Map
 	private int top_corner_x=0;
-	private int top_corner_y=0;
-	
+	private int top_corner_y=0;	
 	// Ist immer <=0
 	private int delta_x, delta_y;
-	
 	//	48x48 sieht am besten aus; zumindest bei den
 	 // derzeitigen Grafiken
 	private static final int tile_width=48;
@@ -62,7 +58,6 @@ public class AyirahComponent extends Canvas
 	{
 		map=new GameMap();
 		m_tiles=new MediaTracker(this);
-		m_boden=new MediaTracker(this);
 		tiles=new Image[17];
 		character=new Image[8][4];
 		tiles[0]=getToolkit().getImage(AyirahStaticVars.tile_prefix+"leer.png");
@@ -211,7 +206,7 @@ public class AyirahComponent extends Canvas
 			}
 		}*/
 		
-		else 
+		else
 			throw new IllegalTurnException("Scrollen unmˆglich");
 	}
 	
@@ -232,7 +227,7 @@ public class AyirahComponent extends Canvas
 		this.getSize().width,
 		this.getSize().height
 		);
-
+		
 		//Vordergrund zeichnen
 		dbGraphics.setColor(getForeground());
 		paint(dbGraphics);
@@ -294,7 +289,6 @@ public class AyirahComponent extends Canvas
 					array_index=14;
 				else if (actual_tile=='x')
 					array_index=15;
-
 				g.drawImage(tiles[array_index], 
 				tile_width*spalte+delta_x, tile_height*zeile+delta_y, this);
 				
@@ -350,8 +344,6 @@ public class AyirahComponent extends Canvas
 				}
 				else if (visible!=AyirahStaticVars.VISIBLE_KNOWN_ALL)
 					System.out.println("Visible:"+visible+" wird nicht unterst¸tzt");
-					
-					
 				
 				int known=map.getCharacter().getKnown
 				(map.getCharacter().getLayer(), zeile+top_corner_y, spalte+top_corner_x);
@@ -362,6 +354,7 @@ public class AyirahComponent extends Canvas
 					this.fillRect(g,tile_width*spalte, tile_height*zeile, 
 					tile_width, tile_height);
 				}
+				
 				else if (known==(AyirahStaticVars.VISIBLE_KNOWN_SOUTH_WEST))
 				{
 					int[] arx={tile_width*spalte, tile_width*(spalte+1), tile_width*(spalte+1)};
@@ -369,6 +362,7 @@ public class AyirahComponent extends Canvas
 					g.setColor(AyirahStaticVars.color_unknown);
 					this.fillPolygon(g, arx, ary, arx.length);
 				}
+				
 				else if (known==(AyirahStaticVars.VISIBLE_KNOWN_NORTH_EAST))
 				{
 					int[] arx={tile_width*spalte, tile_width*(spalte+1), tile_width*spalte};
@@ -376,13 +370,14 @@ public class AyirahComponent extends Canvas
 					g.setColor(AyirahStaticVars.color_unknown);
 					this.fillPolygon(g, arx, ary, arx.length);
 				}
+				
 				else if (known==(AyirahStaticVars.VISIBLE_KNOWN_NORTH_WEST))
 				{
 					int[] arx={tile_width*spalte, tile_width*(spalte+1), tile_width*(spalte+1)};
 					int[] ary={tile_height*(zeile+1), tile_height*(zeile+1), tile_height*zeile};
 					g.setColor(AyirahStaticVars.color_unknown);
 					this.fillPolygon(g, arx, ary, arx.length);
-				}
+				}				
 				else if (known==(AyirahStaticVars.VISIBLE_KNOWN_SOUTH_EAST))
 				{
 					int[] arx={tile_width*spalte, tile_width*(spalte+1), tile_width*spalte};
@@ -393,7 +388,6 @@ public class AyirahComponent extends Canvas
 				
 				else if (known!=AyirahStaticVars.VISIBLE_KNOWN_ALL)
 					System.out.println("Known:"+known+" wird nicht unterst¸tzt");
-				
 			}
 			
 		int character_width=30;
