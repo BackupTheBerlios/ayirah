@@ -170,8 +170,12 @@ public abstract class HumanLikeCreature extends Creature {
 		{
 			if (gami.getState().equals("closed"))
 			{
-				gami.setState("open");
-				map.addItem(cvect, gami);
+				GameItem gami_new=new GameItem(
+				gami.getType(), gami.getSubType(), "open", gami.getDescription(),
+				gami.getVisibilityType(), gami.getUsingDirections(), gami.isTakeable(),
+				gami.isWalkOnAble(), gami.getWeight());
+				
+				map.addItem(cvect, gami_new);
 				return true;
 			}
 			
@@ -263,8 +267,12 @@ public abstract class HumanLikeCreature extends Creature {
 		{
 			if (gami.getState().equals("open"))
 			{
-				gami.setState("closed");
-				map.addItem(cvect, gami);
+				GameItem gami_new=new GameItem(
+				gami.getType(), gami.getSubType(), "closed", gami.getDescription(),
+				gami.getVisibilityType(), gami.getUsingDirections(), gami.isTakeable(),
+				gami.isWalkOnAble(), gami.getWeight());
+
+				map.addItem(cvect, gami_new);
 				return true;
 			}
 		
