@@ -30,12 +30,15 @@
  */
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.image.*;
 
 public class AyirahComponent extends Canvas
 {
 	private AyirahComponentKeyListener ackl;
 	private MediaTracker m_tiles;
-	private Image[] tiles; // Alle Tiles
+	
+	// tiles[tile_number][direction][visible]
+	private Image[][][] tiles; // Alle Tiles
 	private Image sidebar;
 	private Image[][] character;
 	private GameMap map;
@@ -54,58 +57,91 @@ public class AyirahComponent extends Canvas
 	private Image dbImage;
 	private Graphics dbGraphics;
 	
+	protected final int[] im_delta_x={
+		0, tile_width/2, 0, 0
+	};
+	protected final int[] im_delta_y={
+		0, 0, tile_height/2, 0
+	};
+	
 	AyirahComponent()
 	{
 		map=new GameMap();
 		m_tiles=new MediaTracker(this);
-		tiles=new Image[17];
+		tiles=new Image[4][4][2];
 		character=new Image[8][4];
-		tiles[0]=getToolkit().getImage(AyirahStaticVars.tile_prefix+"leer.png");
-		m_tiles.addImage(tiles[0], 0);
+		
+		Image[] prepareImage=new Image[7];
+		
+		prepareImage[0]=getToolkit().getImage(AyirahStaticVars.tile_prefix+"unknown1.gif");
+		m_tiles.addImage(prepareImage[0], 0);
 		
 		max_top_corner_x=map.getWidth()-16;
 		max_top_corner_y=map.getHeight()-16;
 		
-		tiles[1]=getToolkit().getImage(AyirahStaticVars.tile_prefix+"boden.png");
-		m_tiles.addImage(tiles[0], 1);
-		tiles[2]=getToolkit().getImage(AyirahStaticVars.tile_prefix+"wand.png");
-		m_tiles.addImage(tiles[2], 2);
+		prepareImage[1]=getToolkit().getImage(AyirahStaticVars.tile_prefix+"boden1_invisible.gif");
+		m_tiles.addImage(prepareImage[1], 1);
 		
-		for (int i=0; i<=3; i++)
+		prepareImage[2]=getToolkit().getImage(AyirahStaticVars.tile_prefix+"boden1_visible.gif");
+		m_tiles.addImage(prepareImage[2], 2);
+		
+		prepareImage[3]=getToolkit().getImage(AyirahStaticVars.tile_prefix+"wand1_invisible.gif");
+		m_tiles.addImage(prepareImage[3], 3);
+		
+		prepareImage[4]=getToolkit().getImage(AyirahStaticVars.tile_prefix+"wand1_visible.gif");
+		m_tiles.addImage(prepareImage[4], 4);
+		
+		prepareImage[5]=getToolkit().getImage(AyirahStaticVars.tile_prefix+"placeholder1_invisible.gif");
+		m_tiles.addImage(prepareImage[5], 5);
+		
+		prepareImage[6]=getToolkit().getImage(AyirahStaticVars.tile_prefix+"placeholder1_visible.gif");
+		m_tiles.addImage(prepareImage[6], 6);
+		
+		try {
+			m_tiles.waitForAll();
+		} catch (InterruptedException e) { }
+		
+		ImageFilter filter_north=new CropImageFilter(0,0, 48, 24);
+		ImageFilter filter_west=new CropImageFilter(48, 0, 24, 48);;
+		ImageFilter filter_south=new CropImageFilter(0, 24, 48, 24);;
+		ImageFilter filter_east=new CropImageFilter(72, 0, 24, 48);;;
+		
+		ImageProducer collectionProducer=prepareImage[0].getSource();
+		tiles[0][0][0]=createImage(new FilteredImageSource(
+		collectionProducer,filter_north));
+		m_tiles.addImage(tiles[0][0][0], 7);
+		tiles[0][1][0]=createImage(new FilteredImageSource(
+		collectionProducer,filter_east));
+		m_tiles.addImage(tiles[0][1][0], 7);
+		tiles[0][2][0]=createImage(new FilteredImageSource(
+		collectionProducer,filter_south));
+		m_tiles.addImage(tiles[0][2][0], 7);
+		tiles[0][3][0]=createImage(new FilteredImageSource(
+		collectionProducer,filter_west));
+		m_tiles.addImage(tiles[0][3][0], 7);
+		
+		for (int i=1; i<4; i++)
 		{
-			tiles[3+i]=getToolkit().getImage(AyirahStaticVars.tile_prefix+"wand" +(i*2+1)+".gif");
-			m_tiles.addImage(tiles[3+i], 3+i);
+			for (int j=0; j<2; j++)
+			{
+				collectionProducer=prepareImage[i*2+j-1].getSource();
+				tiles[i][0][j]=createImage(new FilteredImageSource(
+				collectionProducer,filter_north));
+				m_tiles.addImage(tiles[i][0][j], 7);
+				tiles[i][1][j]=createImage(new FilteredImageSource(
+				collectionProducer,filter_east));
+				m_tiles.addImage(tiles[i][1][j], 7);
+				tiles[i][2][j]=createImage(new FilteredImageSource(
+				collectionProducer,filter_south));
+				m_tiles.addImage(tiles[i][2][j], 7);
+				tiles[i][3][j]=createImage(new FilteredImageSource(
+				collectionProducer,filter_west));
+				m_tiles.addImage(tiles[i][3][j], 7);
+			}
 		}
 		
-		tiles[7]=getToolkit().getImage(AyirahStaticVars.tile_prefix+"tür_senkrecht_offen.png");
-		m_tiles.addImage(tiles[7], 7);
-		
-		tiles[8]=getToolkit().getImage(AyirahStaticVars.tile_prefix+"tür_waagrecht_offen.png");
-		m_tiles.addImage(tiles[8], 8);
-		
-		tiles[9]=getToolkit().getImage(AyirahStaticVars.tile_prefix+"tür_senkrecht_geschlossen.png");
-		m_tiles.addImage(tiles[9], 9);
-		
-		tiles[10]=getToolkit().getImage(AyirahStaticVars.tile_prefix+"tür_waagrecht_geschlossen.png");
-		m_tiles.addImage(tiles[10], 10);
-		
-		tiles[11]=getToolkit().getImage(AyirahStaticVars.tile_prefix+"treppe_runter.png");
-		m_tiles.addImage(tiles[11], 11);
-		
-		tiles[12]=getToolkit().getImage(AyirahStaticVars.tile_prefix+"treppe_hoch.png");
-		m_tiles.addImage(tiles[12], 12);
-		
-		tiles[13]=getToolkit().getImage(AyirahStaticVars.tile_prefix+"treppe_hoch_runter.png");
-		m_tiles.addImage(tiles[13], 13);
-		
-		tiles[14]=getToolkit().getImage(AyirahStaticVars.tile_prefix+"kiste.png");
-		m_tiles.addImage(tiles[14], 14);
-		
-		tiles[15]=getToolkit().getImage(AyirahStaticVars.tile_prefix+"kiste_offen.png");
-		m_tiles.addImage(tiles[15], 15);
-		
 		sidebar=getToolkit().getImage("sidebar.png");
-		m_tiles.addImage(sidebar, 3);
+		m_tiles.addImage(sidebar, 8);
 		
 		for (int i=0; i<8; i++)
 			for (int j=0; j<4; j++)
@@ -113,7 +149,7 @@ public class AyirahComponent extends Canvas
 				character[i][j]=
 				getToolkit().createImage(AyirahStaticVars.avtr_prefix
 				+sprite_name[j]+i+".gif");
-				m_tiles.addImage(character[i][j], 4+4*i+j);
+				m_tiles.addImage(character[i][j], 9+4*i+j);
 			}
 		
 		ackl=new AyirahComponentKeyListener(this);
@@ -270,134 +306,37 @@ public class AyirahComponent extends Canvas
 		for (int zeile=0; zeile<17; zeile++)
 			for (int spalte=0; spalte<17; spalte++)
 			{
-				char actual_tile=map.getCreatureKnownTile
-				(map.getCharacter(), map.getCharacter().getLayer(), zeile+top_corner_y, spalte+top_corner_x);
-				int array_index=0;
-
-				if (actual_tile==' ')
-					array_index=0;
-				else if (actual_tile=='.'|| actual_tile=='1' || actual_tile=='2' ||
-				actual_tile=='3' || actual_tile=='4')
-					array_index=1;
-				else if (actual_tile=='#')
-					array_index=2;
-				else if (actual_tile=='_')
-					array_index=7;
-				else if (actual_tile=='i')
-					array_index=8;
-				else if (actual_tile=='-')
-					array_index=9;
-				else if (actual_tile=='I')
-					array_index=10;
-				else if (actual_tile=='>')
-					array_index=11;
-				else if (actual_tile=='<')
-					array_index=12;
-				else if (actual_tile=='|')
-					array_index=13;
-				else if (actual_tile=='X')
-					array_index=14;
-				else if (actual_tile=='x')
-					array_index=15;
-				g.drawImage(tiles[array_index], 
-				tile_width*spalte+delta_x, tile_height*zeile+delta_y, this);
+				char[] actual_tile=map.getCreatureKnownTile
+				(map.getCharacter(), map.getCharacter().getLayer(), 
+				zeile+top_corner_y, spalte+top_corner_x).getTiles();
+				int visible=map.getCreatureKnownTile
+				(map.getCharacter(), map.getCharacter().getLayer(), 
+				zeile+top_corner_y, spalte+top_corner_x).getVisible();
 				
-				if (actual_tile=='1' || actual_tile=='2' ||
-				actual_tile=='3' || actual_tile=='4')
+				int[] array_index=new int[4];
+				
+				for (int i=0; i<array_index.length; i++)
 				{
-					try
-					{
-					array_index=new Integer(new Character(actual_tile).toString()).intValue()+2;
+					boolean isVisible=(visible & (1 << i))!=0;
 					
-					g.drawImage(tiles[array_index], 
-					tile_width*spalte+delta_x, tile_height*zeile+delta_y, this);
-					}
-					catch (Exception e) {}
+					if (actual_tile[i]==' ')
+						array_index[i]=0;
+					else if (actual_tile[i]=='.')
+						array_index[i]=1;
+					else if (actual_tile[i]=='#')
+						array_index[i]=2;
+					else
+						array_index[i]=3;
+					
+					if (!(array_index[i]==0))
+						g.drawImage(tiles[array_index[i]][i][isVisible?1:0], 
+						tile_width*spalte+delta_x+im_delta_x[i], 
+						tile_height*zeile+delta_y+im_delta_y[i], this);
+					else
+						g.drawImage(tiles[array_index[i]][i][0], 
+						tile_width*spalte+delta_x+im_delta_x[i], 
+						tile_height*zeile+delta_y+im_delta_y[i], this);
 				}
-				
-				int visible=map.getCharacter().getVisible
-				(map.getCharacter().getLayer(), zeile+top_corner_y, spalte+top_corner_x);
-				
-				if (visible==AyirahStaticVars.VISIBLE_KNOWN_NONE)
-				{
-					g.setColor(AyirahStaticVars.color_invisible);
-					this.fillRect(g,tile_width*spalte, tile_height*zeile, 
-					tile_width, tile_height);
-				}
-				else if (visible==AyirahStaticVars.VISIBLE_KNOWN_SOUTH_WEST)
-				{
-					int[] arx={tile_width*spalte, tile_width*(spalte+1), tile_width*(spalte+1)};
-					int[] ary={tile_height*zeile, tile_height*zeile, tile_height*(zeile+1)};
-					g.setColor(AyirahStaticVars.color_invisible);
-					this.fillPolygon(g,arx, ary, arx.length);
-				}
-				else if (visible==AyirahStaticVars.VISIBLE_KNOWN_NORTH_EAST)
-				{
-					int[] arx={tile_width*spalte, tile_width*(spalte+1), tile_width*spalte};
-					int[] ary={tile_height*zeile, tile_height*(zeile+1), tile_height*(zeile+1)};
-					g.setColor(AyirahStaticVars.color_invisible);
-					this.fillPolygon(g,arx, ary, arx.length);
-				}
-				else if (visible==AyirahStaticVars.VISIBLE_KNOWN_NORTH_WEST)
-				{
-					int[] arx={tile_width*spalte, tile_width*(spalte+1), tile_width*(spalte+1)};
-					int[] ary={tile_height*(zeile+1), tile_height*(zeile+1), tile_height*zeile};
-					g.setColor(AyirahStaticVars.color_invisible);
-					this.fillPolygon(g, arx, ary, arx.length);
-				}
-				else if (visible==AyirahStaticVars.VISIBLE_KNOWN_SOUTH_EAST)
-				{
-					int[] arx={tile_width*spalte, tile_width*(spalte+1), tile_width*spalte};
-					int[] ary={tile_height*zeile, tile_height*zeile, tile_height*(zeile+1)};
-					g.setColor(AyirahStaticVars.color_invisible);
-					this.fillPolygon(g, arx, ary, arx.length);
-				}
-				else if (visible!=AyirahStaticVars.VISIBLE_KNOWN_ALL)
-					System.out.println("Visible:"+visible+" wird nicht unterstützt");
-				
-				int known=map.getCharacter().getKnown
-				(map.getCharacter().getLayer(), zeile+top_corner_y, spalte+top_corner_x);
-				
-				if (known==AyirahStaticVars.VISIBLE_KNOWN_NONE)
-				{
-					g.setColor(AyirahStaticVars.color_invisible);
-					this.fillRect(g,tile_width*spalte, tile_height*zeile, 
-					tile_width, tile_height);
-				}
-				
-				else if (known==(AyirahStaticVars.VISIBLE_KNOWN_SOUTH_WEST))
-				{
-					int[] arx={tile_width*spalte, tile_width*(spalte+1), tile_width*(spalte+1)};
-					int[] ary={tile_height*zeile, tile_height*zeile, tile_height*(zeile+1)};
-					g.setColor(AyirahStaticVars.color_unknown);
-					this.fillPolygon(g, arx, ary, arx.length);
-				}
-				
-				else if (known==(AyirahStaticVars.VISIBLE_KNOWN_NORTH_EAST))
-				{
-					int[] arx={tile_width*spalte, tile_width*(spalte+1), tile_width*spalte};
-					int[] ary={tile_height*zeile, tile_height*(zeile+1), tile_height*(zeile+1)};
-					g.setColor(AyirahStaticVars.color_unknown);
-					this.fillPolygon(g, arx, ary, arx.length);
-				}
-				
-				else if (known==(AyirahStaticVars.VISIBLE_KNOWN_NORTH_WEST))
-				{
-					int[] arx={tile_width*spalte, tile_width*(spalte+1), tile_width*(spalte+1)};
-					int[] ary={tile_height*(zeile+1), tile_height*(zeile+1), tile_height*zeile};
-					g.setColor(AyirahStaticVars.color_unknown);
-					this.fillPolygon(g, arx, ary, arx.length);
-				}				
-				else if (known==(AyirahStaticVars.VISIBLE_KNOWN_SOUTH_EAST))
-				{
-					int[] arx={tile_width*spalte, tile_width*(spalte+1), tile_width*spalte};
-					int[] ary={tile_height*zeile, tile_height*zeile, tile_height*(zeile+1)};
-					g.setColor(AyirahStaticVars.color_unknown);
-					this.fillPolygon(g, arx, ary, arx.length);
-				}
-				
-				else if (known!=AyirahStaticVars.VISIBLE_KNOWN_ALL)
-					System.out.println("Known:"+known+" wird nicht unterstützt");
 			}
 			
 		int character_width=30;

@@ -152,59 +152,86 @@ public class GameMap {
 		}
 	}
 	
-	public char getCreatureKnownTile(HumanLikeCreature c, int l, int zeile, int spalte)
+	/**
+	 * Sollte es für alle Fälle, außer die diagonalen Wände tun
+	 * @param tile_type
+	 * @param visible
+	 * @param known
+	 * @return
+	 */
+	public GameTile createGameTile(char tile_type, int visible, int known)
+	{
+		boolean known_north=((known & 1) != 0);
+		boolean known_east=((known & 2) != 0);
+		boolean known_south=((known & 4) != 0);
+		boolean known_west=((known & 8) != 0);
+		
+		char tile_north= known_north ? tile_type : ' ';
+		char tile_east= known_east ? tile_type : ' ';
+		char tile_south= known_south ? tile_type : ' ';
+		char tile_west= known_west ? tile_type : ' ';
+		
+		return new GameTile(tile_north, tile_east, tile_south, tile_west, visible);
+	}
+	
+	public GameTile getCreatureKnownTile(HumanLikeCreature c, int l, int zeile, int spalte)
 	{
 		if ((zeile >= mapsize_y) || (zeile<0) || 
 		(spalte>=mapsize_x) || (spalte<0))
-			return ' ';
+			return createGameTile(' ', 0, 0);
 		else if (c.getKnown(l, zeile, spalte)		==AyirahStaticVars.VISIBLE_KNOWN_NONE)
-			return ' ';
+		return createGameTile(' ', 0, 0);
 		else
 		{
 			char r=map[l][zeile].charAt(spalte);
-			int known=c.getKnown(l, zeile, spalte);
 			
-			if (r=='1')
+			if (r=='1' || r=='2' || r=='3' || r=='4')
 			{
-				if (known==(AyirahStaticVars.VISIBLE_KNOWN_NORTH_EAST))
-				return '#';
-				else if (known==(AyirahStaticVars.VISIBLE_KNOWN_SOUTH_WEST))
-				return '.';
-				else
-				return r;
+				int known=c.getKnown(l, zeile, spalte);
+				boolean[] known_part=new boolean[4];
+				
+				known_part[0]=((known & 1) != 0);
+				known_part[1]=((known & 2) != 0);
+				known_part[2]=((known & 4) != 0);
+				known_part[3]=((known & 8) != 0);
+				
+				int array_index;
+				
+				switch (r)
+				{
+					case '1':
+						array_index=0;
+						break;
+					case '2':
+						array_index=1;
+						break;
+					case '3':
+						array_index=2;
+						break;
+					case '4':
+						array_index=3;
+						break;
+					default:
+						// darf eigentlich nicht auftreten
+						System.out.println("Fehler ungültiges Tile");
+						array_index=0;
+				}
+				
+				char[] tile_part=new char[4];
+				for (int i=0; i<tile_part.length; i++)
+				{
+					tile_part[i]=known_part[i] ? 
+					AyirahStaticVars.diagonal_tiles_tile_parts[array_index][i] : ' ';
+				}
+				
+				return new GameTile(tile_part[0], tile_part[1], 
+				tile_part[2], tile_part[3], c.getVisible(l, zeile, spalte));
 			}
-			
-			else if (r=='2')
+			else
 			{
-				if (known==(AyirahStaticVars.VISIBLE_KNOWN_SOUTH_EAST))
-				return '#';
-				else if (known==(AyirahStaticVars.VISIBLE_KNOWN_NORTH_WEST))
-				return '.';
-				else
-				return r;
+				return createGameTile(getTile(l, zeile, spalte), 
+				c.getVisible(l, zeile, spalte), c.getKnown(l, zeile, spalte));
 			}
-			
-			else if (r=='3')
-			{
-				if (known==(AyirahStaticVars.VISIBLE_KNOWN_SOUTH_WEST))
-				return '#';
-				else if (known==(AyirahStaticVars.VISIBLE_KNOWN_NORTH_EAST))
-				return '.';
-				else
-				return r;
-			}
-			
-			else if (r=='4')
-			{
-				if (known==(AyirahStaticVars.VISIBLE_KNOWN_NORTH_WEST))
-				return '#';
-				else if (known==(AyirahStaticVars.VISIBLE_KNOWN_SOUTH_EAST))
-				return '.';
-				else
-				return r;
-			}
-			
-			return r;
 		}
 	}
 	

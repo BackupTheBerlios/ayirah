@@ -87,6 +87,17 @@ public class AyirahStaticVars {
 		AyirahStaticVars.VISIBLE_KNOWN_NORTH_WEST
 	};
 	
+	/*
+	 * Index 0: Tile '1' usw.
+	 */
+	public static char[][] diagonal_tiles_tile_parts=
+	{
+		{'#', '#', '.', '.'},
+		{'.', '#', '#', '.'},
+		{'.', '.', '#', '#'},
+		{'#', '.', '.', '#'}
+	};
+	
 	public static final String avtr_prefix="avatars/avtr2";
 	public static final String tile_prefix="tiles/";
 	

@@ -24,18 +24,13 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA. 
  */
 
-
 /**
  * @author Wolfgang Keller
  */
 import java.awt.event.*;
-
 public class AyirahComponentKeyListener extends KeyAdapter {
 	AyirahComponent ac;
 	
-	/**
-	 * 
-	 */
 	public AyirahComponentKeyListener(AyirahComponent ac) {
 		super();
 		this.ac=ac;
@@ -43,8 +38,7 @@ public class AyirahComponentKeyListener extends KeyAdapter {
 	
 	public void keyPressed(KeyEvent e)
 	{
-		int kc=e.getKeyCode();
-		
+		int kc=e.getKeyCode();	
 		boolean s=e.isControlDown();
 		
 		if (!s)
@@ -60,7 +54,6 @@ public class AyirahComponentKeyListener extends KeyAdapter {
 			}
 			catch (IllegalTurnException exc) {}
 		}
-
 		else if (kc==KeyEvent.VK_UP || kc==KeyEvent.VK_KP_UP ||
 		kc==KeyEvent.VK_NUMPAD8)
 		{
@@ -72,7 +65,6 @@ public class AyirahComponentKeyListener extends KeyAdapter {
 			}
 			catch (IllegalTurnException exc) {}
 		}
-
 		else if (kc==KeyEvent.VK_LEFT || kc==KeyEvent.VK_KP_LEFT ||
 		kc==KeyEvent.VK_NUMPAD4)
 		{
@@ -84,7 +76,6 @@ public class AyirahComponentKeyListener extends KeyAdapter {
 			}
 			catch (IllegalTurnException exc) {}
 		}
-
 		else if (kc==KeyEvent.VK_RIGHT || kc==KeyEvent.VK_KP_RIGHT ||
 		kc==KeyEvent.VK_NUMPAD6)
 		{
@@ -107,40 +98,15 @@ public class AyirahComponentKeyListener extends KeyAdapter {
 			}
 			catch (IllegalTurnException exc) {}
 		}
-
 		else if (kc==KeyEvent.VK_PAGE_DOWN || kc==KeyEvent.VK_NUMPAD3)
 		{
 			try
-			{
-				ac.getGameMap().move(AyirahStaticVars.DIRECTION_SOUTH_EAST, 
-				ac.getGameMap().getCharacter());
-				ac.repaint();
-			}
-			catch (IllegalTurnException exc) {}
-		}
-	
-		else if (kc==KeyEvent.VK_HOME || kc==KeyEvent.VK_NUMPAD7)
+			{				ac.getGameMap().move(AyirahStaticVars.DIRECTION_SOUTH_EAST, 				ac.getGameMap().getCharacter());				ac.repaint();			}			catch (IllegalTurnException exc) {}		}				else if (kc==KeyEvent.VK_HOME || kc==KeyEvent.VK_NUMPAD7)		{			try			{				ac.getGameMap().move(AyirahStaticVars.DIRECTION_NORTH_WEST, 				ac.getGameMap().getCharacter());				ac.repaint();			}			catch (IllegalTurnException exc) {}		}				else if (kc==KeyEvent.VK_END || kc==KeyEvent.VK_NUMPAD1)
 		{
-			try
-			{
-				ac.getGameMap().move(AyirahStaticVars.DIRECTION_NORTH_WEST, 
-				ac.getGameMap().getCharacter());
-				ac.repaint();
-			}
-			catch (IllegalTurnException exc) {}
-		}
-
-		else if (kc==KeyEvent.VK_END || kc==KeyEvent.VK_NUMPAD1)
-		{
-			try
-			{
+			try			{
 				ac.getGameMap().move(AyirahStaticVars.DIRECTION_SOUTH_WEST, 
-				ac.getGameMap().getCharacter());
-				ac.repaint();
-			}
-			catch (IllegalTurnException exc) {}
-		}
-		
+				ac.getGameMap().getCharacter());				ac.repaint();			}			catch (IllegalTurnException exc) {}		}
+			
 		else if (kc==KeyEvent.VK_X)
 		{
 			try
@@ -160,13 +126,13 @@ public class AyirahComponentKeyListener extends KeyAdapter {
 			}
 			catch (IllegalTurnException exc) {}
 		}
-
+		
 		else if (kc==KeyEvent.VK_Q)
 		{
 			ac.getGameMap().getCharacter().rotateLeft();
 			ac.repaint();
 		} 
-
+		
 		else if (kc==KeyEvent.VK_W)
 		{
 			ac.getGameMap().getCharacter().rotateRight();
@@ -197,7 +163,7 @@ public class AyirahComponentKeyListener extends KeyAdapter {
 			}
 			catch (IllegalTurnException exc) {}
 		}
-		}
+	}
 		
 		
 		else if (s)

@@ -28,30 +28,22 @@
  * @author Wolfgang
  */
 public class GameTile {
+
 	protected char[] directionParts;
-	protected VisibleKnownNode vkn;
+	protected int vis;
 	
-	GameTile(char[] direction_parts, VisibleKnownNode vkn)
+	GameTile(char t_north, char t_east, char t_south, char t_west, int visible)
 	{
-		this.vkn=vkn;
+		this.vis=visible;
 		directionParts=new char[4];
 		
-		if (direction_parts.length>=4)
-		{
-			for (int i=0; i<4; i++)
-				directionParts[i]=direction_parts[i];
-		}
-		else
-		{
-			int size=direction_parts.length;
-			
-			for (int i=0; i<size; i++)
-				directionParts[i]=direction_parts[i];
-			
-			for (int i=size; i<4; i++)
-			directionParts[i]=' ';
-		}
+		directionParts[0]=t_north;
+		directionParts[1]=t_east;
+		directionParts[2]=t_south;
+		directionParts[3]=t_west;
 	}
+	
+	
 	
 	public char[] getTiles()
 	{
@@ -60,6 +52,6 @@ public class GameTile {
 	
 	public int getVisible()
 	{
-		return vkn.getMainType();
+		return vis;
 	}
 }
