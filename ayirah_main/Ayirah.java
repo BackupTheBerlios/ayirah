@@ -27,9 +27,8 @@
  * @author Wolfgang Keller
  */
 import java.awt.*;
-import java.awt.event.*;
-/*import java.applet.*;
-import java.net.*;*/
+import java.awt.event.*;import java.applet.*;
+import java.net.*;
 
 public class Ayirah extends Frame implements KeyListener {
 	public AyirahComponent ac;
@@ -68,7 +67,7 @@ public class Ayirah extends Frame implements KeyListener {
 		mainFrame.pack();
 		mainFrame.setVisible(true);
 		
-		/*try
+		try
 		{
 			AudioClip ac = Applet.newAudioClip(
 			new URL("file:////C:\\eclipse\\workspace\\Ayirah\\bg.wav"));
@@ -77,6 +76,6 @@ public class Ayirah extends Frame implements KeyListener {
 		catch(MalformedURLException e)
 		{
 			System.out.println(e.toString());
-		}*/
+		}
 	}
 }
