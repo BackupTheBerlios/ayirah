@@ -552,16 +552,16 @@ public abstract class HumanLikeCreature extends Creature {
 //		int[] back=new int[4];
 //		
 //		back[0]=0;
-//		
 //		back[1]=getMap().getWidth()-1;
-//		
 //		back[2]=0;
-//		
 //		back[3]=getMap().getHeight()-1;
 //		
 //		return back;
 //	}
-
+	
+	/**
+	 * @return int[4]: minX, maxX, minY, maxY
+	 */
 	protected int[] getMinMaxArea()
 	{
 		int[] back=new int[4];
