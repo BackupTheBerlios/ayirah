@@ -23,14 +23,13 @@
  * Free Software Foundation, Inc., 
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA. 
  */
-
 /**
  * @author Wolfgang Keller
  */
 import java.awt.*;
 import java.awt.event.*;
-import java.applet.*;
-import java.net.*;
+/*import java.applet.*;
+import java.net.*;*/
 
 public class Ayirah extends Frame implements KeyListener {
 	public AyirahComponent ac;
@@ -59,7 +58,6 @@ public class Ayirah extends Frame implements KeyListener {
 	public void keyTyped(KeyEvent e)
 	{
 	}
-
 	
 	public static void main(String args[]) {
 		System.out.println();
@@ -70,16 +68,15 @@ public class Ayirah extends Frame implements KeyListener {
 		mainFrame.pack();
 		mainFrame.setVisible(true);
 		
-		try
+		/*try
 		{
 			AudioClip ac = Applet.newAudioClip(
 			new URL("file:////C:\\eclipse\\workspace\\Ayirah\\bg.wav"));
-			
 			ac.loop();
 		}
 		catch(MalformedURLException e)
 		{
 			System.out.println(e.toString());
-		}
+		}*/
 	}
 }
