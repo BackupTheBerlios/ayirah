@@ -279,7 +279,7 @@ public class GameMap {
 		act_tile=='-' || act_tile=='_');
 	}
 	
-	public int getVisiblityType(int l, int zeile, int spalte)
+	public int getVisibilityType(int l, int zeile, int spalte)
 	{
 		if (isValidCoordPair(l, spalte, zeile))
 		{
@@ -309,6 +309,10 @@ public class GameMap {
 					return 4;
 				case '3':
 					return 6;
+				case 's':
+					return 2;
+				case 'w':
+					return 5;
 				case '#':
 					return 7;
 				case 'I':

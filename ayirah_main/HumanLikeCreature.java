@@ -165,7 +165,7 @@ public abstract class HumanLikeCreature extends Creature {
 		for (int zeile=0; zeile<map.getHeight();zeile++)
 			for (int spalte=0; spalte<map.getWidth(); spalte++)
 			{
-				int vis_type=map.getVisiblityType(getLayer(), zeile, spalte);
+				int vis_type=map.getVisibilityType(getLayer(), zeile, spalte);
 				
 				if (vis_type>0
 				/*visibleWalls[getLayer()][zeile][spalte] */
