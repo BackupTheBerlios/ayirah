@@ -18,7 +18,7 @@ public class VisibleKnownNode implements Cloneable {
 		setType(main_type);
 	}
 	
-	public int getMainType()
+	public int getType()
 	{
 		return main_type;
 	}
