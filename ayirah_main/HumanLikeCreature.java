@@ -271,7 +271,7 @@ public abstract class HumanLikeCreature extends Creature {
 			else
 				return false;
 		}
-	
+		
 		else
 		{
 			try
@@ -343,16 +343,6 @@ public abstract class HumanLikeCreature extends Creature {
 			this.calculateVisible();
 			return true;
 		}
-		
-//		else if (tile=='x' && isReachable(this.getViewDirection()))
-//		{
-//			getMap().setTile(this.getLayer(),
-//			this.getPosY()+AyirahStaticVars.direction_modifier
-//			[this.getViewDirection()][1], 
-//			this.getPosX()+AyirahStaticVars.direction_modifier
-//			[this.getViewDirection()][0], 'X');
-//			return true;
-//		}
 	
 		else return false;
 	}
