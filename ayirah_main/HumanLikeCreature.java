@@ -1414,47 +1414,46 @@ public abstract class HumanLikeCreature extends Creature {
 					// Fall: Wand NNW
 					if (getPosY()-getPosX()>y-x)
 					{
-//						removeEvenDirectionWallInvisible
-//						(getLayer(), x+
-//						(vis_type==1 ? 1 : 0), y, 
-//						AyirahStaticVars.DIRECTION_NORTH, 
-//						AyirahStaticVars.VISIBLE_LEFT | 
-//						(vis_type==1 ? 0 : 
-//						AyirahStaticVars.VISIBLE_CENTER),
-//						
-//						vis_type==1 ? 
-//						AyirahStaticVars.SIDE_TILE_VISIBLE : 
-//						AyirahStaticVars.SIDE_TILE_INVISIBLE,
-//						
-//						(vis_type==5 || vis_type==9) ? 
-//						AyirahStaticVars.FRONT_TILE_MOST_VISIBLE :
-//						vis_type==3 ? 
-//						AyirahStaticVars.FRONT_TILE_VISIBLE : 
-//						AyirahStaticVars.FRONT_TILE_MOST_INVISIBLE,
-//
-//						AyirahStaticVars.SIDE_TILE_INVISIBLE);
+						removeEvenDirectionWallInvisible
+						(getLayer(), x+
+						(vis_type==1 ? 1 : 0), y, 
+						AyirahStaticVars.DIRECTION_NORTH,
+						
+						vis_type==1 ? 
+						AyirahStaticVars.SIDE_TILE_VISIBLE : 
+						AyirahStaticVars.SIDE_TILE_INVISIBLE,
+						
+						vis_type==1 ? 
+						AyirahStaticVars.FRONT_FULL_VISIBLE : 
+						(vis_type==5 || vis_type==9) ? 
+						AyirahStaticVars.FRONT_TILE_MOST_VISIBLE :
+						vis_type==3 ? 
+						AyirahStaticVars.FRONT_TILE_VISIBLE : 
+						AyirahStaticVars.FRONT_TILE_MOST_INVISIBLE,
+
+						AyirahStaticVars.SIDE_FULL_VISIBLE);
 					}
 					
 					// Fall: Wand NWW
 					else if (getPosY()-getPosX()<y-x)
 					{
-//						removeEvenDirectionWallInvisible
-//						(getLayer(), x, y+(vis_type==6 ? 1 : 0), 
-//						AyirahStaticVars.DIRECTION_WEST, 
-//						(vis_type==6 ? 0 : 
-//						AyirahStaticVars.VISIBLE_CENTER) | 
-//						AyirahStaticVars.VISIBLE_RIGHT,
-//						AyirahStaticVars.SIDE_TILE_INVISIBLE,
-//						
-//						(vis_type==2 || vis_type==8) ? 
-//						AyirahStaticVars.FRONT_TILE_MOST_VISIBLE :
-//						vis_type==3 ? 
-//						AyirahStaticVars.FRONT_TILE_VISIBLE : 
-//						AyirahStaticVars.FRONT_TILE_MOST_INVISIBLE,
-//						
-//						vis_type==6 ? 
-//						AyirahStaticVars.SIDE_TILE_VISIBLE : 
-//						AyirahStaticVars.SIDE_TILE_INVISIBLE);
+						removeEvenDirectionWallInvisible
+						(getLayer(), x, y+(vis_type==6 ? 1 : 0), 
+						AyirahStaticVars.DIRECTION_WEST,
+						
+						AyirahStaticVars.SIDE_FULL_VISIBLE,
+						
+						vis_type==6 ? 
+						AyirahStaticVars.FRONT_FULL_VISIBLE : 
+						(vis_type==2 || vis_type==8) ? 
+						AyirahStaticVars.FRONT_TILE_MOST_VISIBLE :
+						vis_type==3 ? 
+						AyirahStaticVars.FRONT_TILE_VISIBLE : 
+						AyirahStaticVars.FRONT_TILE_MOST_INVISIBLE,
+						
+						vis_type==6 ? 
+						AyirahStaticVars.SIDE_TILE_VISIBLE : 
+						AyirahStaticVars.SIDE_TILE_INVISIBLE);
 					}
 				}
 				
@@ -1463,45 +1462,45 @@ public abstract class HumanLikeCreature extends Creature {
 					// Fall: Wand SWW
 					if (getPosY()+getPosX()>y+x)
 					{
-//						removeEvenDirectionWallInvisible
-//						(getLayer(), x, y+(vis_type==3 ? -1 : 0), 
-//						AyirahStaticVars.DIRECTION_WEST, 
-//						AyirahStaticVars.VISIBLE_LEFT | 
-//						(vis_type==3 ? 0 : 
-//						AyirahStaticVars.VISIBLE_CENTER),
-//						vis_type==3 ? 
-//						AyirahStaticVars.SIDE_TILE_VISIBLE : 
-//						AyirahStaticVars.SIDE_TILE_INVISIBLE,
-//						
-//						(vis_type==2 || vis_type==8) ? 
-//						AyirahStaticVars.FRONT_TILE_MOST_VISIBLE :
-//						vis_type==6 ? 
-//						AyirahStaticVars.FRONT_TILE_VISIBLE : 
-//						AyirahStaticVars.FRONT_TILE_MOST_INVISIBLE,
-//						
-//						AyirahStaticVars.SIDE_TILE_INVISIBLE);
+						removeEvenDirectionWallInvisible
+						(getLayer(), x, y+(vis_type==3 ? -1 : 0), 
+						AyirahStaticVars.DIRECTION_WEST,
+						
+						vis_type==3 ? 
+						AyirahStaticVars.SIDE_TILE_VISIBLE : 
+						AyirahStaticVars.SIDE_TILE_INVISIBLE,
+						
+						vis_type==3 ? 
+						AyirahStaticVars.FRONT_FULL_VISIBLE : 
+						(vis_type==2 || vis_type==8) ? 
+						AyirahStaticVars.FRONT_TILE_MOST_VISIBLE :
+						vis_type==6 ? 
+						AyirahStaticVars.FRONT_TILE_VISIBLE : 
+						AyirahStaticVars.FRONT_TILE_MOST_INVISIBLE,
+						
+						AyirahStaticVars.SIDE_FULL_VISIBLE);
 					}
 					
 					// Fall: Wand SSW
 					else if (getPosY()+getPosX()<y+x)
 					{
-//						removeEvenDirectionWallInvisible
-//						(getLayer(), x+(vis_type==4 ? 1 : 0), y, 
-//						AyirahStaticVars.DIRECTION_SOUTH, 
-//						(vis_type==4 ? 0 : 
-//						AyirahStaticVars.VISIBLE_CENTER) | 
-//						AyirahStaticVars.VISIBLE_RIGHT,
-//						AyirahStaticVars.SIDE_TILE_INVISIBLE,
-//						
-//						(vis_type==5 || vis_type==9) ? 
-//						AyirahStaticVars.FRONT_TILE_MOST_VISIBLE :
-//						vis_type==6 ? 
-//						AyirahStaticVars.FRONT_TILE_VISIBLE : 
-//						AyirahStaticVars.FRONT_TILE_MOST_INVISIBLE,
-//						
-//						vis_type==4 ? 
-//						AyirahStaticVars.SIDE_TILE_VISIBLE : 
-//						AyirahStaticVars.SIDE_TILE_INVISIBLE);
+						removeEvenDirectionWallInvisible
+						(getLayer(), x+(vis_type==4 ? 1 : 0), y, 
+						AyirahStaticVars.DIRECTION_SOUTH,
+						
+						AyirahStaticVars.SIDE_FULL_VISIBLE,
+						
+						vis_type==4 ? 
+						AyirahStaticVars.FRONT_FULL_VISIBLE : 
+						(vis_type==5 || vis_type==9) ? 
+						AyirahStaticVars.FRONT_TILE_MOST_VISIBLE :
+						vis_type==6 ? 
+						AyirahStaticVars.FRONT_TILE_VISIBLE : 
+						AyirahStaticVars.FRONT_TILE_MOST_INVISIBLE,
+						
+						vis_type==4 ? 
+						AyirahStaticVars.SIDE_TILE_VISIBLE : 
+						AyirahStaticVars.SIDE_TILE_INVISIBLE);
 					}
 				}
 				
@@ -1510,45 +1509,45 @@ public abstract class HumanLikeCreature extends Creature {
 					// Fall: SSO
 					if (getPosY()-getPosX()<y-x)
 					{
-//						removeEvenDirectionWallInvisible
-//						(getLayer(), x+(vis_type==6 ? -1 : 0), y, 
-//						AyirahStaticVars.DIRECTION_SOUTH, 
-//						AyirahStaticVars.VISIBLE_LEFT | 
-//						(vis_type==6 ? 0 : 
-//						AyirahStaticVars.VISIBLE_CENTER),
-//						vis_type==6 ? 
-//						AyirahStaticVars.SIDE_TILE_VISIBLE : 
-//						AyirahStaticVars.SIDE_TILE_INVISIBLE,
-//						
-//						(vis_type==5 || vis_type==9) ? 
-//						AyirahStaticVars.FRONT_TILE_MOST_VISIBLE :
-//						vis_type==4 ? 
-//						AyirahStaticVars.FRONT_TILE_VISIBLE : 
-//						AyirahStaticVars.FRONT_TILE_MOST_INVISIBLE,
-//						
-//						AyirahStaticVars.SIDE_TILE_INVISIBLE);
+						removeEvenDirectionWallInvisible
+						(getLayer(), x+(vis_type==6 ? -1 : 0), y, 
+						AyirahStaticVars.DIRECTION_SOUTH,
+						
+						vis_type==6 ? 
+						AyirahStaticVars.SIDE_TILE_VISIBLE : 
+						AyirahStaticVars.SIDE_TILE_INVISIBLE,
+						
+						vis_type==6 ? 
+						AyirahStaticVars.FRONT_FULL_VISIBLE : 
+						(vis_type==5 || vis_type==9) ? 
+						AyirahStaticVars.FRONT_TILE_MOST_VISIBLE :
+						vis_type==4 ? 
+						AyirahStaticVars.FRONT_TILE_VISIBLE : 
+						AyirahStaticVars.FRONT_TILE_MOST_INVISIBLE,
+						
+						AyirahStaticVars.SIDE_FULL_VISIBLE);
 					}
 					
 					// Fall: SOO
 					else if (getPosY()-getPosX()>y-x)
 					{
-//						removeEvenDirectionWallInvisible
-//						(getLayer(), x, y+(vis_type==1 ? -1 : 0), 
-//						AyirahStaticVars.DIRECTION_EAST, 
-//						(vis_type==1 ? 0 : 
-//						AyirahStaticVars.VISIBLE_CENTER) | 
-//						AyirahStaticVars.VISIBLE_RIGHT,
-//						AyirahStaticVars.SIDE_TILE_INVISIBLE,
-//						
-//						(vis_type==2 || vis_type==8) ? 
-//						AyirahStaticVars.FRONT_TILE_MOST_VISIBLE :
-//						vis_type==4 ? 
-//						AyirahStaticVars.FRONT_TILE_VISIBLE : 
-//						AyirahStaticVars.FRONT_TILE_MOST_INVISIBLE,
-//						
-//						vis_type==1 ? 
-//						AyirahStaticVars.SIDE_TILE_VISIBLE : 
-//						AyirahStaticVars.SIDE_TILE_INVISIBLE);
+						removeEvenDirectionWallInvisible
+						(getLayer(), x, y+(vis_type==1 ? -1 : 0), 
+						AyirahStaticVars.DIRECTION_EAST,
+						
+						AyirahStaticVars.SIDE_FULL_VISIBLE,
+						
+						vis_type==1 ? 
+						AyirahStaticVars.FRONT_FULL_VISIBLE : 
+						(vis_type==2 || vis_type==8) ? 
+						AyirahStaticVars.FRONT_TILE_MOST_VISIBLE :
+						vis_type==4 ? 
+						AyirahStaticVars.FRONT_TILE_VISIBLE : 
+						AyirahStaticVars.FRONT_TILE_MOST_INVISIBLE,
+						
+						vis_type==1 ? 
+						AyirahStaticVars.SIDE_TILE_VISIBLE : 
+						AyirahStaticVars.SIDE_TILE_INVISIBLE);
 					}
 				}
 				
@@ -1557,45 +1556,45 @@ public abstract class HumanLikeCreature extends Creature {
 					// Fall: Wand NOO
 					if (getPosY()+getPosX()<y+x)
 					{
-//						removeEvenDirectionWallInvisible
-//						(getLayer(), x, y+(vis_type==4 ? 1 : 0), 
-//						AyirahStaticVars.DIRECTION_EAST, 
-//						AyirahStaticVars.VISIBLE_LEFT | 
-//						(vis_type==4 ? 0 : 
-//						AyirahStaticVars.VISIBLE_CENTER),
-//						vis_type==4 ? 
-//						AyirahStaticVars.SIDE_TILE_VISIBLE : 
-//						AyirahStaticVars.SIDE_TILE_INVISIBLE,
-//						
-//						(vis_type==2 || vis_type==8) ? 
-//						AyirahStaticVars.FRONT_TILE_MOST_VISIBLE :
-//						vis_type==1 ? 
-//						AyirahStaticVars.FRONT_TILE_VISIBLE : 
-//						AyirahStaticVars.FRONT_TILE_MOST_INVISIBLE,
-//						
-//						AyirahStaticVars.SIDE_TILE_INVISIBLE);
+						removeEvenDirectionWallInvisible
+						(getLayer(), x, y+(vis_type==4 ? 1 : 0), 
+						AyirahStaticVars.DIRECTION_EAST,
+						
+						vis_type==4 ? 
+						AyirahStaticVars.SIDE_TILE_VISIBLE : 
+						AyirahStaticVars.SIDE_TILE_INVISIBLE,
+						
+						vis_type==4 ? 
+						AyirahStaticVars.FRONT_FULL_VISIBLE : 
+						(vis_type==2 || vis_type==8) ? 
+						AyirahStaticVars.FRONT_TILE_MOST_VISIBLE :
+						vis_type==1 ? 
+						AyirahStaticVars.FRONT_TILE_VISIBLE : 
+						AyirahStaticVars.FRONT_TILE_MOST_INVISIBLE,
+						
+						AyirahStaticVars.SIDE_FULL_VISIBLE);
 					}
 					
 					// Fall: Wand NNO
 					else if (getPosY()+getPosX()>y+x)
 					{
-//						removeEvenDirectionWallInvisible
-//						(getLayer(), x+(vis_type==3 ? -1 : 0), y, 
-//						AyirahStaticVars.DIRECTION_NORTH, 
-//						(vis_type==3 ? 0 : 
-//						AyirahStaticVars.VISIBLE_CENTER) | 
-//						AyirahStaticVars.VISIBLE_RIGHT,
-//						AyirahStaticVars.SIDE_TILE_INVISIBLE,
-//						
-//						(vis_type==5 || vis_type==9) ? 
-//						AyirahStaticVars.FRONT_TILE_MOST_VISIBLE :
-//						vis_type==1 ? 
-//						AyirahStaticVars.FRONT_TILE_VISIBLE : 
-//						AyirahStaticVars.FRONT_TILE_MOST_INVISIBLE,
-//						
-//						vis_type==3 ? 
-//						AyirahStaticVars.SIDE_TILE_VISIBLE : 
-//						AyirahStaticVars.SIDE_TILE_INVISIBLE);
+						removeEvenDirectionWallInvisible
+						(getLayer(), x+(vis_type==3 ? -1 : 0), y, 
+						AyirahStaticVars.DIRECTION_NORTH, 
+						
+						AyirahStaticVars.SIDE_FULL_VISIBLE,
+						
+						vis_type==3 ? 
+						AyirahStaticVars.FRONT_FULL_VISIBLE :
+						(vis_type==5 || vis_type==9) ? 
+						AyirahStaticVars.FRONT_TILE_MOST_VISIBLE :
+						vis_type==1 ? 
+						AyirahStaticVars.FRONT_TILE_VISIBLE : 
+						AyirahStaticVars.FRONT_TILE_MOST_INVISIBLE,
+						
+						vis_type==3 ? 
+						AyirahStaticVars.SIDE_TILE_VISIBLE : 
+						AyirahStaticVars.SIDE_TILE_INVISIBLE);
 					}
 				}
 			}
