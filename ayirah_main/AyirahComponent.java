@@ -40,8 +40,8 @@ public class AyirahComponent extends Canvas
 	
 	// tiles[tile_number][direction][visible]
 	private Image[][][] tiles; // Alle Tiles
+	private Image[][][] items;
 	private Image[][] character;
-	private Image[] items;
 	
 	private GameMap map;
 	
@@ -72,9 +72,9 @@ public class AyirahComponent extends Canvas
 		m_tiles=new MediaTracker(this);
 		tiles=new Image[6][4][2];
 		character=new Image[8][4];
-		items=new Image[2];
+		items=new Image[2][4][2];
 		
-		Image[] prepareImage=new Image[11];
+		Image[] prepareImage=new Image[15];
 		
 		prepareImage[0]=getToolkit().getImage(AyirahStaticVars.tile_prefix+"unknown1.gif");
 		m_tiles.addImage(prepareImage[0], 0);
@@ -122,9 +122,21 @@ public class AyirahComponent extends Canvas
 		AyirahStaticVars.tile_prefix+"tuer_senkrecht_offen_visible.gif");
 		m_tiles.addImage(prepareImage[10], 10);
 		
-		try {
-			m_tiles.waitForAll();
-		} catch (InterruptedException e) { }
+		prepareImage[11]=getToolkit().getImage(
+		AyirahStaticVars.item_prefix+"box_open_invisible.gif");
+		m_tiles.addImage(prepareImage[11], 11);
+		
+		prepareImage[12]=getToolkit().getImage(
+		AyirahStaticVars.item_prefix+"box_open_visible.gif");
+		m_tiles.addImage(prepareImage[12], 12);
+		
+		prepareImage[13]=getToolkit().getImage(
+		AyirahStaticVars.item_prefix+"box_closed_invisible.gif");
+		m_tiles.addImage(prepareImage[13], 13);
+		
+		prepareImage[14]=getToolkit().getImage(
+		AyirahStaticVars.item_prefix+"box_closed_visible.gif");
+		m_tiles.addImage(prepareImage[14], 14);
 		
 		ImageFilter filter_north=new CropImageFilter(0,0, 48, 24);
 		ImageFilter filter_west=new CropImageFilter(48, 0, 24, 48);
@@ -134,34 +146,66 @@ public class AyirahComponent extends Canvas
 		ImageProducer collectionProducer=prepareImage[0].getSource();
 		tiles[0][0][0]=createImage(new FilteredImageSource(
 		collectionProducer,filter_north));
-		m_tiles.addImage(tiles[0][0][0], 7);
+		m_tiles.addImage(tiles[0][0][0], 15);
 		tiles[0][1][0]=createImage(new FilteredImageSource(
 		collectionProducer,filter_east));
-		m_tiles.addImage(tiles[0][1][0], 7);
+		m_tiles.addImage(tiles[0][1][0], 15);
 		tiles[0][2][0]=createImage(new FilteredImageSource(
 		collectionProducer,filter_south));
-		m_tiles.addImage(tiles[0][2][0], 7);
+		m_tiles.addImage(tiles[0][2][0], 15);
 		tiles[0][3][0]=createImage(new FilteredImageSource(
 		collectionProducer,filter_west));
-		m_tiles.addImage(tiles[0][3][0], 7);
+		m_tiles.addImage(tiles[0][3][0], 15);
+		
+		try {
+			m_tiles.waitForAll();
+		} catch (InterruptedException e) { }
 		
 		for (int i=1; i<6; i++)
 		{
 			for (int j=0; j<2; j++)
 			{
 				collectionProducer=prepareImage[i*2+j-1].getSource();
+				
 				tiles[i][0][j]=createImage(new FilteredImageSource(
 				collectionProducer,filter_north));
-				m_tiles.addImage(tiles[i][0][j], 7);
+				m_tiles.addImage(tiles[i][0][j], 16);
+				
 				tiles[i][1][j]=createImage(new FilteredImageSource(
 				collectionProducer,filter_east));
-				m_tiles.addImage(tiles[i][1][j], 7);
+				m_tiles.addImage(tiles[i][1][j], 16);
+				
 				tiles[i][2][j]=createImage(new FilteredImageSource(
 				collectionProducer,filter_south));
-				m_tiles.addImage(tiles[i][2][j], 7);
+				m_tiles.addImage(tiles[i][2][j], 16);
+				
 				tiles[i][3][j]=createImage(new FilteredImageSource(
 				collectionProducer,filter_west));
-				m_tiles.addImage(tiles[i][3][j], 7);
+				m_tiles.addImage(tiles[i][3][j], 16);
+			}
+		}
+		
+		for (int i=0; i<2; i++)
+		{
+			for (int j=0; j<2; j++)
+			{
+				collectionProducer=prepareImage[12+i*2+j-1].getSource();
+				
+				items[i][0][j]=createImage(new FilteredImageSource(
+				collectionProducer,filter_north));
+				m_tiles.addImage(items[i][0][j], 16);
+				
+				items[i][1][j]=createImage(new FilteredImageSource(
+				collectionProducer,filter_east));
+				m_tiles.addImage(items[i][1][j], 16);
+				
+				items[i][2][j]=createImage(new FilteredImageSource(
+				collectionProducer,filter_south));
+				m_tiles.addImage(items[i][2][j], 16);
+				
+				items[i][3][j]=createImage(new FilteredImageSource(
+				collectionProducer,filter_west));
+				m_tiles.addImage(items[i][3][j], 16);
 			}
 		}
 		
@@ -171,16 +215,8 @@ public class AyirahComponent extends Canvas
 				character[i][j]=
 				getToolkit().createImage(AyirahStaticVars.avtr_prefix
 				+sprite_name[j]+i+".gif");
-				m_tiles.addImage(character[i][j], 9+4*i+j);
+				m_tiles.addImage(character[i][j], 42+4*i+j);
 			}
-		
-		items[0]=getToolkit().createImage(AyirahStaticVars.item_prefix
-		+"box_open.gif");
-		m_tiles.addImage(items[0], 41);
-		
-		items[1]=getToolkit().createImage(AyirahStaticVars.item_prefix
-		+"box_closed.gif");
-		m_tiles.addImage(items[1], 42);
 		
 		ackl=new AyirahComponentKeyListener(this);
 		this.addKeyListener(ackl);
@@ -311,9 +347,6 @@ public class AyirahComponent extends Canvas
 		paint(dbGraphics);
 		//Offscreen anzeigen
 		g.drawImage(dbImage,0,0,this);
-		
-//		// Provisorium
-//		paint(g);
 	}
 	
 	public void fillRect(Graphics g, int x, int y, int width, int height)
@@ -393,15 +426,21 @@ public class AyirahComponent extends Canvas
 					{
 						item_index=0;
 					}
+					
 					else if (item=="box_closed")
 					{
 						item_index=1;
 					}
 					
 					if (item_index!=-1)
-						g.drawImage(items[item_index], 
-						tile_width*spalte+delta_x, 
-						tile_height*zeile+delta_y, this);
+						for (int i=0; i<array_index.length; i++)
+						{
+							boolean isVisible=(visible & (1 << i))!=0;
+							
+							g.drawImage(items[item_index][i][isVisible?1:0], 
+							tile_width*spalte+delta_x+im_delta_x[i], 
+							tile_height*zeile+delta_y+im_delta_y[i], this);
+						}
 				}
 			}
 		
