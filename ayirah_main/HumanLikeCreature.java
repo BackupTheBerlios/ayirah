@@ -1856,7 +1856,7 @@ public abstract class HumanLikeCreature extends Creature {
 							j*AyirahStaticVars.direction_modifier[dir_left][0], 
 							y+i*AyirahStaticVars.direction_modifier[direction][1]+
 							j*AyirahStaticVars.direction_modifier[dir_left][1],
-							(1<<((direction%8)/2))+(1<<(((direction+6)%8)/2))); 
+							(1<<((direction%8)/2)) | (1<<(((direction+6)%8)/2))); 
 						}
 						
 						else if (j==(i+2))
