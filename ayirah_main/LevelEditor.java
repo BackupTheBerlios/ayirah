@@ -34,7 +34,7 @@ import java.awt.event.*;
 import javax.swing.*;
 
 public class LevelEditor extends JFrame {
-	private JToolBar tb;
+	private JToolBar tb_main;
 	private JTabbedPane choose_objects;
 	
 	public LevelEditor() {
@@ -45,18 +45,18 @@ public class LevelEditor extends JFrame {
 			}
 		});
 		
-		tb=new JToolBar();
+		tb_main=new JToolBar();
 		
 		choose_objects=new JTabbedPane();
-		choose_objects.add("Tiles", new JPanel());
-		choose_objects.addTab("Objekte", new JPanel());
+		choose_objects.add("Tiles", new JButton("Hallo!"));
+		choose_objects.addTab("Objekte", new JButton("Hallo!"));
 		
 		getContentPane().setLayout(new BorderLayout());
 		
-		tb.add(choose_objects);
+		tb_main.add(choose_objects);
 		
 		getContentPane().add(new JPanel(), BorderLayout.CENTER);
-		getContentPane().add(tb, BorderLayout.NORTH);
+		getContentPane().add(tb_main, BorderLayout.NORTH);
 		
 		pack();
 	}
