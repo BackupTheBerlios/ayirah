@@ -137,6 +137,7 @@ public class GameMap {
 			return map[l][zeile].charAt(spalte);
 	}
 	
+	
 	protected void setTile(int l, int zeile, int spalte, char tile)
 	{
 		if ((isValidCoordPair(l, spalte, zeile)))
@@ -155,6 +156,26 @@ public class GameMap {
 			}
 			
 		}
+	}
+	
+	public boolean isTileEmpty(int l, int zeile, int spalte)
+	{
+		if (this.isValidCoordPair(l, spalte, zeile))
+		{
+			for (int i=0; i<this.getCharactersCount(); i++)
+			{
+				AyirahCharacter actual_character=this.getCharacter(i);
+				
+				if ((actual_character.getLayer() == l) &&
+				(actual_character.getPosX() == spalte) && 
+				(actual_character.getPosY() == zeile))
+				return false;
+			}
+		}
+		else
+			return false;
+		
+		return true;
 	}
 	
 	/**

@@ -128,8 +128,11 @@ public abstract class HumanLikeCreature extends Creature {
 		else if (getLayer()<=0) // <=: nur zur Sicherheit; eigentlich reichte ==
 			throw new IllegalTurnException("GoUp(): Oberste Ebene");
 		
+		if (map.isTileEmpty(getLayer()-1, getPosY(), getPosX()))
+		{
 		setLayer(getLayer()-1);
 		calculateVisible();
+		}
 	}
 	
 	public void goDown() throws IllegalTurnException
@@ -142,8 +145,11 @@ public abstract class HumanLikeCreature extends Creature {
 		else if (getLayer()>=(map.getLayersCount()-1)) // >=: nur zur Sicherheit; eigentlich reichte ==
 			throw new IllegalTurnException("GoDown(): Unterste Ebene");
 		
+		if (map.isTileEmpty(getLayer()+1, getPosY(), getPosX()))
+		{
 		setLayer(getLayer()+1);
 		calculateVisible();
+		}
 	}
 	
 	/**
