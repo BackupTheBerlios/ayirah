@@ -168,7 +168,7 @@ public abstract class HumanLikeCreature extends Creature {
 		
 		if ( (gami=map.getItem(cvect ))!=null && isReachable(this.getViewDirection()) )
 		{
-			if (gami.getState()=="closed")
+			if (gami.getState().equals("closed"))
 			{
 				gami.setState("open");
 				map.addItem(cvect, gami);
@@ -261,7 +261,7 @@ public abstract class HumanLikeCreature extends Creature {
 	
 		if ( (gami=map.getItem(cvect ))!=null && isReachable(this.getViewDirection()) )
 		{
-			if (gami.getState()=="open")
+			if (gami.getState().equals("open"))
 			{
 				gami.setState("closed");
 				map.addItem(cvect, gami);
