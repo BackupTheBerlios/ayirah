@@ -41,6 +41,7 @@ public class AyirahStaticVars {
 	public static final int DIRECTION_NORTH_WEST=7;
 	
 	public static final int TURN_INVALID_TURN=-1;
+	
 	/**
 	[n][0]:x
 	[n][1]:y
@@ -58,6 +59,10 @@ public class AyirahStaticVars {
 	public static final int VISIBLE_KNOWN_WEST=8;
 	public static final int VISIBLE_KNOWN_NORTH_WEST=9;
 	public static final int VISIBLE_KNOWN_ALL=15;
+	
+	public static final int VISIBLE_LEFT=4;
+	public static final int VISIBLE_CENTER=2;
+	public static final int VISIBLE_RIGHT=1;
 	
 	public static char[][] non_block_tiles_tile_parts=
 	{
