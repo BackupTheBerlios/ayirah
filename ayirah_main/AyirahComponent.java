@@ -67,9 +67,9 @@ public class AyirahComponent extends Canvas
 	boolean map_changed=false;
 	boolean actualize=true;
 	
-	AyirahComponent()
+	AyirahComponent(GameMap gm)
 	{
-		map=new GameMap(2);
+		map=gm;
 		m_tiles=new MediaTracker(this);
 		tiles=new Image[11][4][3];
 		character=new Image[2][8][4];
@@ -416,12 +416,12 @@ public class AyirahComponent extends Canvas
 					
 					int item_index=-1;
 					
-					if (item_type=="box" && item_state=="open")
+					if (item_type.equals("box") && item_state.equals("open"))
 					{
 						item_index=0;
 					}
 					
-					else if (item_type=="box" && item_state=="closed")
+					else if (item_type.equals("box") && item_state.equals("closed"))
 					{
 						item_index=1;
 					}
