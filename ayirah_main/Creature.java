@@ -30,12 +30,12 @@
  */
 public abstract class Creature {
 	protected GameMap map;
-	protected int view_direction;	protected CoordVector3 coords;
+	protected int view_direction;	protected CoordVector coords;
 	
 	public Creature(GameMap map, int l, int x, int y, int direction) {
 		super();
 		this.map=map;
-		this.coords=new CoordVector3(l, x, y);
+		this.coords=new CoordVector(l, x, y);
 		this.view_direction=direction;
 	}
 	

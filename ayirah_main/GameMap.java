@@ -124,10 +124,10 @@ public class GameMap {
 	{
 		object_pos=new HashMap();
 		
-		this.addItem(new CoordVector3(0, 10, 9), 
+		this.addItem(new CoordVector(0, 10, 9), 
 		new GameItem("box", "wooden_box", "open", "an open box", 0, 50000l, false));
 		
-		this.addItem(new CoordVector3(0, 9, 11), 
+		this.addItem(new CoordVector(0, 9, 11), 
 		new GameItem("box", "wooden_box", "closed", "a closed box", 0, 50000l, false));
 		
 		this.characters_count=Math.max(1, Math.abs(characters_count));
@@ -289,7 +289,7 @@ public class GameMap {
 				
 				Object item;
 				
-				if ((item=getItem(new CoordVector3(l, spalte, zeile)))!=null)
+				if ((item=getItem(new CoordVector(l, spalte, zeile)))!=null)
 				{
 					gt.setItem((GameItem) item);
 				}
@@ -351,7 +351,7 @@ public class GameMap {
 		return basic;
 	}
 	
-	public GameItem getItem(CoordVector3 coords)
+	public GameItem getItem(CoordVector coords)
 	{
 		Object x=object_pos.get(coords);
 		
@@ -361,13 +361,13 @@ public class GameMap {
 			return null;
 	}
 	
-	public void addItem(CoordVector3 coords, GameItem gi)
+	public void addItem(CoordVector coords, GameItem gi)
 	{
 		if (coords!=null && gi!=null)
 			object_pos.put(coords, gi);
 	}
 	
-	public void removeItem(CoordVector3 coords)
+	public void removeItem(CoordVector coords)
 	{
 		if (coords!=null)
 			object_pos.remove(coords);
@@ -480,7 +480,7 @@ public class GameMap {
 					break;
 			}
 			
-			GameItem gi=getItem(new CoordVector3(l, spalte, zeile));
+			GameItem gi=getItem(new CoordVector(l, spalte, zeile));
 			
 			if (gi != null)
 				return vis_type_tile | gi.getVisibilityType();
