@@ -159,10 +159,10 @@ public class GameMap {
 		boolean known_south=((known & 4) != 0);
 		boolean known_west=((known & 8) != 0);
 		
-		char tile_north= known_north ? tile_type : ' ';
-		char tile_east= known_east ? tile_type : ' ';
-		char tile_south= known_south ? tile_type : ' ';
-		char tile_west= known_west ? tile_type : ' ';
+		char tile_north= known_north ? tile_type : '?';
+		char tile_east= known_east ? tile_type : '?';
+		char tile_south= known_south ? tile_type : '?';
+		char tile_west= known_west ? tile_type : '?';
 		
 		return new GameTile(tile_north, tile_east, tile_south, tile_west, visible, known, "");
 	}
@@ -173,7 +173,7 @@ public class GameMap {
 		(spalte>=mapsize_x) || (spalte<0))
 			return createGameTile(' ', 0, 0);
 		else if (c.getKnown(l, zeile, spalte)		==AyirahStaticVars.VISIBLE_KNOWN_NONE)
-		return createGameTile(' ', 0, 0);
+		return createGameTile('?', 0, 0);
 		else
 		{
 			char r=map[l][zeile].charAt(spalte);
@@ -220,7 +220,7 @@ public class GameMap {
 				for (int i=0; i<tile_part.length; i++)
 				{
 					tile_part[i]=known_part[i] ? 
-					AyirahStaticVars.non_block_tiles_tile_parts[array_index][i] : ' ';
+					AyirahStaticVars.non_block_tiles_tile_parts[array_index][i] : '?';
 				}
 				
 				return new GameTile(tile_part[0], tile_part[1], 

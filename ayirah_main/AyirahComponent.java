@@ -165,6 +165,8 @@ public class AyirahComponent extends Canvas
 			}
 		}
 		
+		
+		
 		for (int i=0; i<2; i++)
 		{
 			for (int j=0; j<2; j++)
@@ -188,6 +190,9 @@ public class AyirahComponent extends Canvas
 				m_tiles.addImage(items[i][3][j], 3);
 			}
 		}
+		
+		prepareImage=null;
+		prepareItems=null;
 		
 		for (int i=0; i<8; i++)
 			for (int j=0; j<4; j++)
@@ -337,7 +342,7 @@ public class AyirahComponent extends Canvas
 				{
 					boolean isVisible=(visible & (1 << i))!=0;
 					
-					if (actual_tile[i]==' ')
+					if (actual_tile[i]=='?')
 						array_index[i]=0;
 					else if (actual_tile[i]=='.')
 						array_index[i]=1;
