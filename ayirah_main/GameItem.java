@@ -34,18 +34,21 @@
  */
 public class GameItem {
 	protected String type; // um was für einen Objekttyp handelt es sich
+	protected String sub_type; // Unter-Typ
 	protected String state; // Status des Objekts
 	protected String name; // lange Bezeichnung
-	protected int visible_type;
+	protected int visibility_type;
 	protected long weight; // Gewicht in Gramm
 	protected boolean takeable; // kann der Character das Objekt aufnehmen (rein theoretisch!)
 	
-	GameItem(String type, String state, String name,int vis_type, long weight, boolean takeable)
+	GameItem(String type, String sub_type, String state, String name, 
+	int vis_type, long weight, boolean takeable)
 	{
 		this.type=type;
+		this.sub_type=sub_type;
 		this.state=state;
 		this.name=name;
-		this.visible_type=vis_type;
+		this.visibility_type=vis_type;
 		this.weight=Math.abs(weight);
 		this.takeable=takeable;
 	}
@@ -53,6 +56,11 @@ public class GameItem {
 	public String getType()
 	{
 		return this.type;
+	}
+	
+	public String getSubType()
+	{
+		return this.sub_type;
 	}
 	
 	public String getState()
@@ -63,6 +71,11 @@ public class GameItem {
 	public String getName()
 	{
 		return this.name;
+	}
+	
+	public int getVisibilityType()
+	{
+		return this.visibility_type;
 	}
 	
 	public long getWeight()
