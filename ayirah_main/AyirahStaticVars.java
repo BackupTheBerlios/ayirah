@@ -72,15 +72,15 @@ public class AyirahStaticVars {
 	public static final int DIAGONAL_TILE_VISIBLE=3;
 	
 	public static final int VIS_TYPE_INVISIBLE_NONE=0;
-	public static final int VIS_TYPE_INVISIBLE_NORTH_EAST=1;
-	public static final int VIS_TYPE_INVISIBLE_NORTH_SOUTH=2;
-	public static final int VIS_TYPE_INVISIBLE_NORTH_WEST=3;
-	public static final int VIS_TYPE_INVISIBLE_EAST_SOUTH=4;
-	public static final int VIS_TYPE_INVISIBLE_EAST_WEST=5;
-	public static final int VIS_TYPE_INVISIBLE_SOUTH_WEST=6;
-	public static final int VIS_TYPE_INVISIBLE_ALL=7;
-	public static final int VIS_TYPE_INVISIBLE_VERTICAL_OPEN_DOOR=8;
-	public static final int VIS_TYPE_INVISIBLE_HORIZONTAL_OPEN_DOOR=9;
+	public static final int VIS_TYPE_INVISIBLE_NORTH_EAST=3;
+	public static final int VIS_TYPE_INVISIBLE_NORTH_SOUTH=5;
+	public static final int VIS_TYPE_INVISIBLE_NORTH_WEST=9;
+	public static final int VIS_TYPE_INVISIBLE_EAST_SOUTH=6;
+	public static final int VIS_TYPE_INVISIBLE_EAST_WEST=10;
+	public static final int VIS_TYPE_INVISIBLE_SOUTH_WEST=12;
+	public static final int VIS_TYPE_INVISIBLE_ALL=15;
+	public static final int VIS_TYPE_INVISIBLE_VERTICAL_OPEN_DOOR=32;
+	public static final int VIS_TYPE_INVISIBLE_HORIZONTAL_OPEN_DOOR=64;
 	
 	
 	public static char[][] non_block_tiles_tile_parts=
