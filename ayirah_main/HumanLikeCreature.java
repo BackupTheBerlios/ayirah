@@ -1662,11 +1662,8 @@ public abstract class HumanLikeCreature extends Creature {
 					AyirahStaticVars.VISIBLE_CENTER | 
 					AyirahStaticVars.VISIBLE_RIGHT,
 					AyirahStaticVars.SIDE_TILE_INVISIBLE,
-					AyirahStaticVars.FRONT_TILE_VISIBLE,
+					AyirahStaticVars.FRONT_TILE_INVISIBLE,
 					AyirahStaticVars.SIDE_TILE_INVISIBLE);
-					
-					removeVisible(getLayer(), x, y-1, 
-					AyirahStaticVars.VISIBLE_KNOWN_ALL);
 					
 					removeEvenDirectionWallInvisible(getLayer(), x, y+1, 
 					AyirahStaticVars.DIRECTION_SOUTH, 
@@ -1674,11 +1671,8 @@ public abstract class HumanLikeCreature extends Creature {
 					AyirahStaticVars.VISIBLE_CENTER | 
 					AyirahStaticVars.VISIBLE_RIGHT,
 					AyirahStaticVars.SIDE_TILE_INVISIBLE,
-					AyirahStaticVars.FRONT_TILE_VISIBLE,
+					AyirahStaticVars.FRONT_TILE_INVISIBLE,
 					AyirahStaticVars.SIDE_TILE_INVISIBLE);
-					
-					removeVisible(getLayer(), x, y+1, 
-					AyirahStaticVars.VISIBLE_KNOWN_ALL);
 				}
 				
 				else if (vis_type==9) // waagrechte Tür
@@ -1689,11 +1683,8 @@ public abstract class HumanLikeCreature extends Creature {
 					AyirahStaticVars.VISIBLE_CENTER | 
 					AyirahStaticVars.VISIBLE_RIGHT,
 					AyirahStaticVars.SIDE_TILE_INVISIBLE,
-					AyirahStaticVars.FRONT_TILE_VISIBLE,
+					AyirahStaticVars.FRONT_TILE_INVISIBLE,
 					AyirahStaticVars.SIDE_TILE_INVISIBLE);
-					
-					removeVisible(getLayer(), x-1, y, 
-					AyirahStaticVars.VISIBLE_KNOWN_ALL);
 					
 					removeEvenDirectionWallInvisible(getLayer(), x+1, y, 
 					AyirahStaticVars.DIRECTION_EAST, 
@@ -1701,17 +1692,14 @@ public abstract class HumanLikeCreature extends Creature {
 					AyirahStaticVars.VISIBLE_CENTER | 
 					AyirahStaticVars.VISIBLE_RIGHT,
 					AyirahStaticVars.SIDE_TILE_INVISIBLE,
-					AyirahStaticVars.FRONT_TILE_VISIBLE,
+					AyirahStaticVars.FRONT_TILE_INVISIBLE,
 					AyirahStaticVars.SIDE_TILE_INVISIBLE);
-					
-					removeVisible(getLayer(), x+1, y, 
-					AyirahStaticVars.VISIBLE_KNOWN_ALL);
 				}
 			}
 		}
 	}
 	
-	protected void removeWallHiddenTiles()
+	protected void removeInvisibleTiles()
 	{
 		int[] minmax_area=this.getMinMaxArea();
 		
@@ -2009,7 +1997,7 @@ public abstract class HumanLikeCreature extends Creature {
 				}
 		}
 		
-		removeWallHiddenTiles();
+		removeInvisibleTiles();
 		makeVisibleKnown();
 	}
 }
