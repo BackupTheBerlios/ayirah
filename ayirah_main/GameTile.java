@@ -43,7 +43,27 @@ public class GameTile {
 		directionParts[3]=t_west;
 	}
 	
-	
+	GameTile(char[] direction_parts, int vis)
+	{
+		this.vis=vis;
+		directionParts=new char[4];
+		
+		if (direction_parts.length>=4)
+		{
+			for (int i=0; i<4; i++)
+				directionParts[i]=direction_parts[i];
+		}
+		else
+		{
+			int size=direction_parts.length;
+		
+			for (int i=0; i<size; i++)
+				directionParts[i]=direction_parts[i];
+		
+			for (int i=size; i<4; i++)
+			directionParts[i]=' ';
+		}
+	}
 	
 	public char[] getTiles()
 	{
