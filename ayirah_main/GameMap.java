@@ -137,7 +137,6 @@ public class GameMap {
 			return map[l][zeile].charAt(spalte);
 	}
 	
-	
 	protected void setTile(int l, int zeile, int spalte, char tile)
 	{
 		if ((isValidCoordPair(l, spalte, zeile)))
@@ -415,7 +414,7 @@ public class GameMap {
 				case '_':
 					return 9;
 				default:
-					return -1;	
+					return 0;	
 			}
 		}
 		
