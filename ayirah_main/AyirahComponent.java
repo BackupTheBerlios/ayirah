@@ -42,11 +42,11 @@ public class AyirahComponent extends Canvas
 	
 	// obere Ecke des angezeigten Bereichs der Map
 	private int top_corner_x=0;
-	private int top_corner_y=0;	
+	private int top_corner_y=0;
+	
+	private int max_top_corner_x, max_top_corner_y;	
 	// Ist immer <=0
 	private int delta_x, delta_y;
-	//	48x48 sieht am besten aus; zumindest bei den
-	 // derzeitigen Grafiken
 	private static final int tile_width=48;
 	private static final int tile_height=48;
 	private static final char[] sprite_name={'a', 'b', 'c', 'd'};
@@ -62,6 +62,9 @@ public class AyirahComponent extends Canvas
 		character=new Image[8][4];
 		tiles[0]=getToolkit().getImage(AyirahStaticVars.tile_prefix+"leer.png");
 		m_tiles.addImage(tiles[0], 0);
+		
+		max_top_corner_x=map.getWidth()-16;
+		max_top_corner_y=map.getHeight()-16;
 		
 		tiles[1]=getToolkit().getImage(AyirahStaticVars.tile_prefix+"boden.png");
 		m_tiles.addImage(tiles[0], 1);
@@ -144,70 +147,77 @@ public class AyirahComponent extends Canvas
 	public void scrollMap(int direction)
 	{
 		if (direction<0 || direction>=8)
-			throw new IllegalTurnException("Scrollen unmöglich");
-		if (
-		/*(delta_x-AyirahStaticVars.direction_modifier[direction][0]<=0) &&
-		(delta_x-AyirahStaticVars.direction_modifier[direction][0]>-tile_width)
-		&& (delta_y-AyirahStaticVars.direction_modifier[direction][1]<=0)
-		&& (delta_y-AyirahStaticVars.direction_modifier[direction][1]>-tile_height)*/
+			throw new IllegalTurnException("Falscher Parameter");
 		
-		this.top_corner_x+AyirahStaticVars.direction_modifier[direction][0]>=0 &&
-		this.top_corner_x+
-		AyirahStaticVars.direction_modifier[direction][0]<map.getWidth()-15 &&
-		this.top_corner_y+AyirahStaticVars.direction_modifier[direction][1]>=0 &&
-		this.top_corner_y+
-		AyirahStaticVars.direction_modifier[direction][1]<map.getHeight()-15)
+		if (direction%2!=0)
 		{
-			/*delta_x-=AyirahStaticVars.direction_modifier[direction][0];
-			delta_y-=AyirahStaticVars.direction_modifier[direction][1];*/
-			this.top_corner_x+=
-			+AyirahStaticVars.direction_modifier[direction][0];
-			this.top_corner_y+=
-			+AyirahStaticVars.direction_modifier[direction][1];
+			scrollMap((direction+7)%8);
+			scrollMap((direction+1)%8);
 		}
-		/*else if (
-		((delta_x-AyirahStaticVars.direction_modifier[direction][0]>0) && (this.top_corner_x-
-		AyirahStaticVars.direction_modifier[direction][0]<map.getWidth()-15)) ||
 		
-		((delta_x-AyirahStaticVars.direction_modifier[direction][0]<=-tile_width) &&
-		this.top_corner_x-AyirahStaticVars.direction_modifier[direction][0]>=0) ||
-		
-		((delta_y-AyirahStaticVars.direction_modifier[direction][1]>0) &&
-		(this.top_corner_y-AyirahStaticVars.direction_modifier[direction][1]<map.getHeight()-15))
-		
-		|| ((delta_y-AyirahStaticVars.direction_modifier[direction][1]>-tile_height) &&
-		this.top_corner_y-AyirahStaticVars.direction_modifier[direction][1]>=0))
+		if (direction==AyirahStaticVars.DIRECTION_SOUTH)
 		{
-			delta_x-=AyirahStaticVars.direction_modifier[direction][0];
-			delta_y-=AyirahStaticVars.direction_modifier[direction][1];
-			
-			if (delta_x>0)
+			delta_y--;
+			if (delta_y<=-tile_height)
 			{
-				top_corner_x--;
-				delta_x-=tile_width;
+				delta_y=0;
+				top_corner_y++;
 			}
 			
-			else if (delta_x<=-tile_width)
+			if (top_corner_y>=max_top_corner_y)
 			{
-				top_corner_x++;
-				delta_x+=tile_width;
+				top_corner_y=max_top_corner_y;
+				delta_y=0;
 			}
-			
+		}
+		
+		else if (direction==AyirahStaticVars.DIRECTION_NORTH)
+		{
+			delta_y++;
 			if (delta_y>0)
 			{
+				delta_y=delta_y-tile_height;
 				top_corner_y--;
-				delta_y-=tile_height;
 			}
 			
-			else if (delta_y<=-tile_height)
+			if (top_corner_y<0)
 			{
-				top_corner_y++;
-				delta_y+=tile_height;
+				top_corner_y=0;
+				delta_y=0;
 			}
-		}*/
+		}
 		
-		else
-			throw new IllegalTurnException("Scrollen unmöglich");
+		else if (direction==AyirahStaticVars.DIRECTION_EAST)
+		{
+			delta_x--;
+			if (delta_x<=-tile_width)
+			{
+				delta_x=0;
+				top_corner_x++;
+			}
+		
+			if (top_corner_x>=max_top_corner_x)
+			{
+				top_corner_x=max_top_corner_x;
+				delta_x=0;
+			}
+		}
+		
+		else if (direction==AyirahStaticVars.DIRECTION_WEST)
+		{
+			delta_x++;
+			if (delta_x>0)
+			{
+				delta_x=delta_x-tile_width;
+				top_corner_x--;
+			}
+		
+			if (top_corner_x<0)
+			{
+				top_corner_x=0;
+				delta_x=0;
+			}
+		}
 	}
 	
 	public void update (Graphics g)
@@ -257,8 +267,8 @@ public class AyirahComponent extends Canvas
 	
 	public void paint (Graphics g)
 	{
-		for (int zeile=0; zeile<16; zeile++)
-			for (int spalte=0; spalte<16; spalte++)
+		for (int zeile=0; zeile<17; zeile++)
+			for (int spalte=0; spalte<17; spalte++)
 			{
 				char actual_tile=map.getCharacterKnownTile
 				(map.getCharacter().getLayer(), zeile+top_corner_y, spalte+top_corner_x);
