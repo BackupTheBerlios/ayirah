@@ -43,9 +43,9 @@ public class GameMap {
 		"................3........",
 		".......4.................",
 		"...#...............>.....",
-		"..........x..............",
 		".........................",
-		".........X...............",
+		".........................",
+		".........................",
 		".........................",
 		".........................",
 		"#.......2................",
@@ -124,6 +124,12 @@ public class GameMap {
 	{
 		object_pos=new HashMap();
 		
+		this.addItem(new CoordVector3(0, 10, 9), 
+		new GameItem("box", "wooden_box", "open", "an open box", 0, 50000l, false));
+		
+		this.addItem(new CoordVector3(0, 9, 11), 
+		new GameItem("box", "wooden_box", "closed", "a closed box", 0, 50000l, false));
+		
 		this.characters_count=Math.max(1, Math.abs(characters_count));
 		
 		ayirah_char=new AyirahCharacter[this.characters_count];
@@ -136,6 +142,7 @@ public class GameMap {
 		
 		actual_character_index=0;
 	}
+	
 	public char getTile(int l, int zeile, int spalte)
 	{
 		if (!(isValidCoordPair(l, spalte, zeile)))
@@ -277,8 +284,17 @@ public class GameMap {
 			
 			else
 			{
-				return createGameTile(getTile(l, zeile, spalte), 
+				GameTile gt=createGameTile(getTile(l, zeile, spalte), 
 				c.getVisible(l, zeile, spalte), c.getKnown(l, zeile, spalte));
+				
+				Object item;
+				
+				if ((item=getItem(new CoordVector3(l, spalte, zeile)))!=null)
+				{
+					gt.setItem((GameItem) item);
+				}
+				
+				return gt;
 			}
 		}
 	}
