@@ -370,15 +370,6 @@ public class GameMap {
 		return (l>=0 && y>=0 && x>=0 && y<getHeight() && x<getWidth() && l<getLayersCount());
 	}
 	
-	public boolean isWall(int l, int y, int x)
-	{
-		int act_tile=this.getTile(l,y,x);
-		
-		return (act_tile=='#' || act_tile=='1' || act_tile=='2' ||
-		act_tile=='3' || act_tile=='4' || act_tile=='I' || act_tile=='i' ||
-		act_tile=='-' || act_tile=='_');
-	}
-	
 	public int getVisibilityType(int l, int zeile, int spalte)
 	{
 		if (isValidCoordPair(l, spalte, zeile))
@@ -434,7 +425,6 @@ public class GameMap {
 			return 0;
 		}
 	}
-	
 	
 	protected boolean isDoor(int layer, int zeile, int spalte)
 	{
