@@ -29,13 +29,11 @@
  */
 public abstract class HumanLikeCreature extends Creature {
 	public VisibleKnownNode[][][] isVisible;
-	public VisibleKnownNode[][][] isKnown;
-	protected boolean[][][] visibleWalls;	
+	public VisibleKnownNode[][][] isKnown;	
 	public HumanLikeCreature(GameMap map, int l, int x, int y, int direction) {
 		super(map, l, x, y, direction);		
 		isVisible=new VisibleKnownNode[map.getLayersCount()][map.getHeight()][map.getWidth()];
 		isKnown=new VisibleKnownNode[map.getLayersCount()][map.getHeight()][map.getWidth()];
-		visibleWalls=new boolean[map.getLayersCount()][map.getHeight()][map.getWidth()];
 		
 		for (int i=0; i<map.getLayersCount(); i++)
 			for (int j=0; j<map.getHeight(); j++)
@@ -60,12 +58,7 @@ public abstract class HumanLikeCreature extends Creature {
 	{
 		if (map.isValidCoordPair(l, x,y))
 		{
-			isVisible[l][y][x].addType(main_type);				
-			int act_tile=map.getTile(l, y,x);			
-			if (map.isWall(l, y,x))
-			{
-				visibleWalls[l][y][x]=true;
-			}
+			isVisible[l][y][x].addType(main_type);	
 		}		
 		else
 			System.out.println("Ungültige Koordinate: x="+x+" y="+y);
@@ -83,11 +76,7 @@ public abstract class HumanLikeCreature extends Creature {
 	{
 		if (map.isValidCoordPair(l, x,y))
 		{
-			isVisible[l][y][x].removeType(main_type);			
-			if (map.isWall(l, y,x) && getVisible(l, y, x)==0)
-			{
-				visibleWalls[l][y][x]=false;
-			}
+			isVisible[l][y][x].removeType(main_type);
 		}
 		else
 			System.out.println("Ungültige Koordinate: x="+x+" y="+y);
@@ -97,11 +86,7 @@ public abstract class HumanLikeCreature extends Creature {
 	{
 		if (map.isValidCoordPair(l,x,y))
 		{
-			isVisible[l][y][x].setType(main_type);			
-			if (map.isWall(l, y,x) && getVisible(l,y,x)==0)
-			{
-				visibleWalls[l][y][x]=false;
-			}
+			isVisible[l][y][x].setType(main_type);
 		}
 		
 		else
@@ -168,11 +153,9 @@ public abstract class HumanLikeCreature extends Creature {
 				int vis_type=map.getVisibilityType(getLayer(), zeile, spalte);
 				
 				if (vis_type>0
-				/*visibleWalls[getLayer()][zeile][spalte] */
 				&&  !(zeile==map.getCharacter().getPosY() &&
 				spalte==map.getCharacter().getPosX()))
 				{
-					// char wall_type=map.getTile(getLayer(), zeile, spalte);					
 					if (spalte==this.getPosX())
 					{						// Fall: Wand nördlich vom Character
 						if (this.getPosY()-zeile>0)
@@ -184,8 +167,13 @@ public abstract class HumanLikeCreature extends Creature {
 									removeEvenDirectionWallInvisible(getLayer(), spalte, zeile, 
 									AyirahStaticVars.DIRECTION_NORTH, false, false,0,0);
 									
+									if (vis_type!=5)
 									removeVisible(getLayer(), spalte, zeile, 
 									15-AyirahStaticVars.VISIBLE_KNOWN_SOUTH);
+									
+									else
+									removeVisible(getLayer(), spalte, zeile, 
+									AyirahStaticVars.VISIBLE_KNOWN_NORTH);
 								}
 								
 								if (vis_type==1)
@@ -203,11 +191,15 @@ public abstract class HumanLikeCreature extends Creature {
 								removeEvenDirectionWallInvisible(getLayer(), spalte, zeile, 
 								AyirahStaticVars.DIRECTION_NORTH, true, true,0,0);
 								
-								if (!(vis_type==1 || vis_type==3 || vis_type==9))
+								if (!(vis_type==1 || vis_type==3 || vis_type==9 || vis_type==5))
 								{
 									removeVisible(getLayer(), spalte, zeile, 
 									15-AyirahStaticVars.VISIBLE_KNOWN_SOUTH);
 								}
+								
+								else if (vis_type==5)
+								removeVisible(getLayer(), spalte, zeile, 
+								AyirahStaticVars.VISIBLE_KNOWN_NORTH);
 							}
 						}
 												// Fall: Wand südlich vom Character
@@ -220,8 +212,13 @@ public abstract class HumanLikeCreature extends Creature {
 									removeEvenDirectionWallInvisible(getLayer(), spalte, zeile, 
 									AyirahStaticVars.DIRECTION_SOUTH, false, false,0,0);
 									
+									if (vis_type!=5)
 									removeVisible(getLayer(), spalte, zeile, 
 									15-AyirahStaticVars.VISIBLE_KNOWN_NORTH);
+									
+									else
+									removeVisible(getLayer(), spalte, zeile, 
+									AyirahStaticVars.VISIBLE_KNOWN_SOUTH);
 								}
 								
 								if (vis_type==4)
@@ -239,11 +236,15 @@ public abstract class HumanLikeCreature extends Creature {
 								removeEvenDirectionWallInvisible(getLayer(), spalte, zeile, 
 								AyirahStaticVars.DIRECTION_SOUTH, true, true,0,0);
 								
-								if (!(vis_type==4 || vis_type==6 || vis_type==9))
+								if (!(vis_type==4 || vis_type==6 || vis_type==9 || vis_type==5))
 								{
 									removeVisible(getLayer(), spalte, zeile, 
 									15-AyirahStaticVars.VISIBLE_KNOWN_NORTH);
 								}
+								
+								else if (vis_type==5)
+								removeVisible(getLayer(), spalte, zeile, 
+								AyirahStaticVars.VISIBLE_KNOWN_SOUTH);
 							}
 						}
 					}
@@ -259,8 +260,13 @@ public abstract class HumanLikeCreature extends Creature {
 									removeEvenDirectionWallInvisible(getLayer(), spalte, zeile, 
 									AyirahStaticVars.DIRECTION_WEST, false, false,0,0);
 									
+									if (vis_type!=2)
 									removeVisible(getLayer(), spalte, zeile, 
 									15-AyirahStaticVars.VISIBLE_KNOWN_EAST);
+									
+									else
+									removeVisible(getLayer(), spalte, zeile, 
+									AyirahStaticVars.VISIBLE_KNOWN_WEST);
 								}
 								
 								if (vis_type==6)
@@ -278,11 +284,15 @@ public abstract class HumanLikeCreature extends Creature {
 								removeEvenDirectionWallInvisible(getLayer(), spalte, zeile, 
 								AyirahStaticVars.DIRECTION_WEST, true, true,0,0);
 								
-								if (!(vis_type==6 || vis_type==3 || vis_type==8))
+								if (!(vis_type==6 || vis_type==3 || vis_type==8 || vis_type==2))
 								{
 									removeVisible(getLayer(), spalte, zeile, 
 									15-AyirahStaticVars.VISIBLE_KNOWN_EAST);
 								}
+								
+								else if (vis_type==2)
+								removeVisible(getLayer(), spalte, zeile, 
+								AyirahStaticVars.VISIBLE_KNOWN_WEST);
 							}
 						}
 												// Fall: Wand östlich vom Character
@@ -295,11 +305,16 @@ public abstract class HumanLikeCreature extends Creature {
 									removeEvenDirectionWallInvisible(getLayer(), spalte, zeile, 
 									AyirahStaticVars.DIRECTION_EAST, false, false,0,0);
 									
+									if (vis_type!=2)
 									removeVisible(getLayer(), spalte, zeile, 
 									15-AyirahStaticVars.VISIBLE_KNOWN_WEST);
+									
+									else
+									removeVisible(getLayer(), spalte, zeile, 
+									AyirahStaticVars.VISIBLE_KNOWN_EAST);
 								}
 								
-								if (vis_type==8)
+								if (vis_type==1)
 								removeEvenDirectionWallInvisible(getLayer(), spalte, zeile, 
 								AyirahStaticVars.DIRECTION_EAST, false, true,0,0);
 								
@@ -314,11 +329,15 @@ public abstract class HumanLikeCreature extends Creature {
 								removeEvenDirectionWallInvisible(getLayer(), spalte, zeile, 
 								AyirahStaticVars.DIRECTION_EAST, true, true,0,0);
 								
-								if (!(vis_type==1 || vis_type==4 || vis_type==8))
+								if (!(vis_type==1 || vis_type==4 || vis_type==8 || vis_type==2))
 								{
 									removeVisible(getLayer(), spalte, zeile, 
 									15-AyirahStaticVars.VISIBLE_KNOWN_WEST);
 								}
+								
+								else if (vis_type==2)
+								removeVisible(getLayer(), spalte, zeile, 
+								AyirahStaticVars.VISIBLE_KNOWN_EAST);
 							}
 						}
 					}
@@ -337,9 +356,17 @@ public abstract class HumanLikeCreature extends Creature {
 									removeOddDirectionWallInvisible(getLayer(), spalte, zeile, 
 									AyirahStaticVars.DIRECTION_SOUTH_EAST);
 									
-									if (vis_type!=4)
+									if (!(vis_type==4 || vis_type==2 || vis_type==5))
 									removeVisible(getLayer(), spalte, zeile, 
 									AyirahStaticVars.VISIBLE_KNOWN_SOUTH_EAST);
+									
+									if (vis_type==2)
+									removeVisible(getLayer(), spalte, zeile, 
+									AyirahStaticVars.VISIBLE_KNOWN_EAST);
+									
+									if (vis_type==5)
+									removeVisible(getLayer(), spalte, zeile, 
+									AyirahStaticVars.VISIBLE_KNOWN_SOUTH);
 								}
 								
 								if (vis_type==1)
@@ -379,9 +406,17 @@ public abstract class HumanLikeCreature extends Creature {
 											AyirahStaticVars.VISIBLE_KNOWN_NORTH_EAST);
 									}
 									
-									if (vis_type!=4)
+									if (!(vis_type==4 || vis_type==2 || vis_type==5))
 									removeVisible(getLayer(), spalte, zeile, 
 									AyirahStaticVars.VISIBLE_KNOWN_SOUTH_EAST);
+									
+									if (vis_type==2)
+									removeVisible(getLayer(), spalte, zeile, 
+									AyirahStaticVars.VISIBLE_KNOWN_EAST);
+									
+									if (vis_type==5)
+									removeVisible(getLayer(), spalte, zeile, 
+									AyirahStaticVars.VISIBLE_KNOWN_SOUTH);
 								}
 								
 								if (vis_type==1)
@@ -431,9 +466,17 @@ public abstract class HumanLikeCreature extends Creature {
 									removeOddDirectionWallInvisible(getLayer(), spalte, zeile, 
 									AyirahStaticVars.DIRECTION_NORTH_WEST);
 									
-									if (vis_type!=3)
+									if (!(vis_type==3 || vis_type==2 || vis_type==5))
 									removeVisible(getLayer(), spalte, zeile, 
 									AyirahStaticVars.VISIBLE_KNOWN_NORTH_WEST);
+									
+									if (vis_type==2)
+									removeVisible(getLayer(), spalte, zeile, 
+									AyirahStaticVars.VISIBLE_KNOWN_WEST);
+									
+									if (vis_type==5)
+									removeVisible(getLayer(), spalte, zeile, 
+									AyirahStaticVars.VISIBLE_KNOWN_NORTH);
 								}
 								
 								if (vis_type==1)
@@ -472,9 +515,17 @@ public abstract class HumanLikeCreature extends Creature {
 											AyirahStaticVars.VISIBLE_KNOWN_SOUTH_WEST);
 									}
 									
-									if (vis_type!=3)
+									if (!(vis_type==3 || vis_type==2 || vis_type==5))
 									removeVisible(getLayer(), spalte, zeile, 
 									AyirahStaticVars.VISIBLE_KNOWN_NORTH_WEST);
+									
+									if (vis_type==2)
+									removeVisible(getLayer(), spalte, zeile, 
+									AyirahStaticVars.VISIBLE_KNOWN_WEST);
+									
+									if (vis_type==5)
+									removeVisible(getLayer(), spalte, zeile, 
+									AyirahStaticVars.VISIBLE_KNOWN_NORTH);
 								}
 								
 								if (vis_type==1)
@@ -525,9 +576,17 @@ public abstract class HumanLikeCreature extends Creature {
 									removeOddDirectionWallInvisible(getLayer(), spalte, zeile, 
 									AyirahStaticVars.DIRECTION_NORTH_EAST);
 									
-									if (vis_type!=1)
+									if (!(vis_type==1 || vis_type==2 || vis_type==5))
 									removeVisible(getLayer(), spalte, zeile, 
 									AyirahStaticVars.VISIBLE_KNOWN_NORTH_EAST);
+									
+									if (vis_type==2)
+									removeVisible(getLayer(), spalte, zeile, 
+									AyirahStaticVars.VISIBLE_KNOWN_EAST);
+									
+									if (vis_type==5)
+									removeVisible(getLayer(), spalte, zeile, 
+									AyirahStaticVars.VISIBLE_KNOWN_NORTH);
 								}
 								
 								if (vis_type==3)
@@ -566,9 +625,17 @@ public abstract class HumanLikeCreature extends Creature {
 											AyirahStaticVars.VISIBLE_KNOWN_SOUTH_EAST);
 									}
 									
-									if (vis_type!=1)
+									if (!(vis_type==1 || vis_type==2 || vis_type==5))
 									removeVisible(getLayer(), spalte, zeile, 
 									AyirahStaticVars.VISIBLE_KNOWN_NORTH_EAST);
+									
+									if (vis_type==2)
+									removeVisible(getLayer(), spalte, zeile, 
+									AyirahStaticVars.VISIBLE_KNOWN_EAST);
+									
+									if (vis_type==5)
+									removeVisible(getLayer(), spalte, zeile, 
+									AyirahStaticVars.VISIBLE_KNOWN_NORTH);
 								}
 								
 								if (vis_type==3)
@@ -615,9 +682,17 @@ public abstract class HumanLikeCreature extends Creature {
 									removeOddDirectionWallInvisible(getLayer(), spalte, zeile, 
 									AyirahStaticVars.DIRECTION_SOUTH_WEST);
 									
-									if (vis_type!=6)
+									if (!(vis_type==6 || vis_type==2 || vis_type==5))
 									removeVisible(getLayer(), spalte, zeile, 
 									AyirahStaticVars.VISIBLE_KNOWN_SOUTH_WEST);
+									
+									if (vis_type==2)
+									removeVisible(getLayer(), spalte, zeile, 
+									AyirahStaticVars.VISIBLE_KNOWN_WEST);
+									
+									if (vis_type==5)
+									removeVisible(getLayer(), spalte, zeile, 
+									AyirahStaticVars.VISIBLE_KNOWN_SOUTH);
 								}
 								
 								if (vis_type==4)
@@ -656,9 +731,17 @@ public abstract class HumanLikeCreature extends Creature {
 											AyirahStaticVars.VISIBLE_KNOWN_NORTH_WEST);
 									}
 									
-									if (vis_type!=6)
+									if (!(vis_type==6 || vis_type==2 || vis_type==5))
 									removeVisible(getLayer(), spalte, zeile, 
 									AyirahStaticVars.VISIBLE_KNOWN_SOUTH_WEST);
+									
+									if (vis_type==2)
+									removeVisible(getLayer(), spalte, zeile, 
+									AyirahStaticVars.VISIBLE_KNOWN_WEST);
+									
+									if (vis_type==5)
+									removeVisible(getLayer(), spalte, zeile, 
+									AyirahStaticVars.VISIBLE_KNOWN_SOUTH);
 								}
 								
 								if (vis_type==4)
@@ -981,7 +1064,6 @@ public abstract class HumanLikeCreature extends Creature {
 			for (int j=0; j<map.getWidth(); j++)
 			{
 				setVisible(getLayer(), j, i, AyirahStaticVars.VISIBLE_KNOWN_NONE, 0);
-				visibleWalls[getLayer()][i][j]=false;
 			}
 		
 		addVisible(getLayer(), getPosX(), getPosY(), AyirahStaticVars.VISIBLE_KNOWN_ALL);
