@@ -59,29 +59,23 @@ public abstract class HumanLikeCreature extends Creature {
 		else return isVisible[l][zeile][spalte].getType(); 
 	}
 	
+	protected void setVisible(int l, int x, int y, int main_type, int diagonal_visible)
+	{
+		if (map.isValidCoordPair(l,x,y))
+			isVisible[l][y][x].setType(main_type);
+		else
+			System.out.println("Ungültige Koordinate: x="+x+" y="+y);
+	}
 	
 	protected void addVisible(int l, int x, int y, int main_type)
 	{
 		if (map.isValidCoordPair(l, x,y))
 		{
 			isVisible[l][y][x].addType(main_type);
-		}		
+		}
+		
 		else
 			System.out.println("Ungültige Koordinate: x="+x+" y="+y);
-	}
-	
-	public VisibleKnownNode getKnownNode(int l, int zeile, int spalte)
-	{
-		return (VisibleKnownNode) (isKnown[l][zeile][spalte].clone());
-	}
-	
-	public int getKnown(int l, int zeile, int spalte)
-	{
-		if ((spalte >= map.getWidth()) || (spalte<0) || 
-		(zeile>=map.getHeight()) || (zeile<0))
-			return AyirahStaticVars.VISIBLE_KNOWN_NONE;
-		else 
-			return isKnown[l][zeile][spalte].getType();
 	}
 	
 	protected void removeVisible(int l, int x, int y, int main_type)
@@ -92,12 +86,13 @@ public abstract class HumanLikeCreature extends Creature {
 			System.out.println("Ungültige Koordinate: x="+x+" y="+y);
 	}
 	
-	protected void setVisible(int l, int x, int y, int main_type, int diagonal_visible)
+	public int getKnown(int l, int zeile, int spalte)
 	{
-		if (map.isValidCoordPair(l,x,y))
-			isVisible[l][y][x].setType(main_type);
-		else
-			System.out.println("Ungültige Koordinate: x="+x+" y="+y);
+		if ((spalte >= map.getWidth()) || (spalte<0) || 
+		(zeile>=map.getHeight()) || (zeile<0))
+			return AyirahStaticVars.VISIBLE_KNOWN_NONE;
+		else 
+			return isKnown[l][zeile][spalte].getType();
 	}
 	
 	protected void addKnown(int l, int x, int y, int main_type)
