@@ -642,6 +642,1055 @@ public abstract class HumanLikeCreature extends Creature {
 		return back;
 	}
 	
+	protected void removeInvisible(int layer, int x, int y, int vis_type)
+	{
+		if (getMap().isValidCoordPair(layer, x, y) && vis_type>0)
+		{
+			if (vis_type>0
+			&&  !(y==this.getPosY() &&
+			x==this.getPosX()))
+			{
+				if (x==this.getPosX())
+				{
+					// Fall: Wand nördlich vom Character
+					if (this.getPosY()-y>0)
+					{
+						if (this.getPosY()-y==1)
+						{
+							if (!(vis_type==1 || vis_type==3 || vis_type==9))
+							{
+								removeEvenDirectionWallInvisible
+								(getLayer(), x, y, 
+								AyirahStaticVars.DIRECTION_NORTH, 
+								false, false,0,0, false);
+					
+								if (vis_type!=5)
+								removeVisible(getLayer(), x, y, 
+								AyirahStaticVars.VISIBLE_KNOWN_ALL
+								-AyirahStaticVars.VISIBLE_KNOWN_SOUTH);
+					
+								else if (vis_type==5)
+								removeVisible(getLayer(), x, y, 
+								AyirahStaticVars.VISIBLE_KNOWN_NORTH);
+							}
+							
+							if (vis_type==1)
+							removeEvenDirectionWallInvisible
+							(getLayer(), x, y, 
+							AyirahStaticVars.DIRECTION_NORTH, 
+							true, false, 0,0, false);
+							
+							else if (vis_type==3)
+							removeEvenDirectionWallInvisible
+							(getLayer(), x, y, 
+							AyirahStaticVars.DIRECTION_NORTH, 
+							false, true, 0,0, false);
+							
+							else if (vis_type==9)
+							removeEvenDirectionWallInvisible
+							(getLayer(), x, y, 
+							AyirahStaticVars.DIRECTION_NORTH, 
+							false, false, 0,0, true);
+						}
+						
+						else
+						{
+							if (vis_type!=9)
+							removeEvenDirectionWallInvisible
+							(getLayer(), x, y, 
+							AyirahStaticVars.DIRECTION_NORTH, 
+							true, true,0,0, false);
+							
+							if (!(vis_type==1 || vis_type==3 || 
+							vis_type==9 || vis_type==5))
+							{
+								removeVisible(getLayer(), x, y, 
+								AyirahStaticVars.VISIBLE_KNOWN_ALL
+								-AyirahStaticVars.VISIBLE_KNOWN_SOUTH);
+							}
+							
+							else if (vis_type==5)
+							removeVisible(getLayer(), x, y, 
+							AyirahStaticVars.VISIBLE_KNOWN_NORTH);
+						}
+					}
+					
+					// Fall: Wand südlich vom Character
+					else
+					{
+						if (getPosY()-y==-1)
+						{
+							if (!(vis_type==4 || vis_type==6 || vis_type==9))
+							{
+								removeEvenDirectionWallInvisible
+								(getLayer(), x, y, 
+								AyirahStaticVars.DIRECTION_SOUTH, 
+								false, false,0,0, false);
+								
+								if (vis_type!=5)
+								removeVisible(getLayer(), x, y, 
+								AyirahStaticVars.VISIBLE_KNOWN_ALL
+								-AyirahStaticVars.VISIBLE_KNOWN_NORTH);
+								
+								else if (vis_type==5)
+								removeVisible(getLayer(), x, y, 
+								AyirahStaticVars.VISIBLE_KNOWN_SOUTH);
+							}
+							
+							if (vis_type==4)
+							removeEvenDirectionWallInvisible
+							(getLayer(), x, y, 
+							AyirahStaticVars.DIRECTION_SOUTH, 
+							false, true,0,0, false);
+							
+							else if (vis_type==6)
+							removeEvenDirectionWallInvisible
+							(getLayer(), x, y, 
+							AyirahStaticVars.DIRECTION_SOUTH, 
+							true, false,0,0, false);
+							
+							else if (vis_type==9)
+							removeEvenDirectionWallInvisible
+							(getLayer(), x, y, 
+							AyirahStaticVars.DIRECTION_SOUTH, 
+							false, false ,0,0, true);
+						}
+						
+						else
+						{
+							if (vis_type!=9)
+							removeEvenDirectionWallInvisible
+							(getLayer(), x, y, 
+							AyirahStaticVars.DIRECTION_SOUTH, 
+							true, true,0,0, false);
+							
+							if (!(vis_type==4 || vis_type==6 || 
+							vis_type==9 || vis_type==5))
+							{
+								removeVisible(getLayer(), x, y, 
+								AyirahStaticVars.VISIBLE_KNOWN_ALL
+								-AyirahStaticVars.VISIBLE_KNOWN_NORTH);
+							}
+							
+							else if (vis_type==5)
+							removeVisible(getLayer(), x, y, 
+							AyirahStaticVars.VISIBLE_KNOWN_SOUTH);
+						}
+					}
+				}
+				
+				else if (y==getPosY())
+				{
+					// Fall: Wand westlich vom Character
+					if (getPosX()-x>0)
+					{
+						if (getPosX()-x==1)
+						{
+							if (!(vis_type==6 || vis_type==3 || vis_type==8))
+							{
+								removeEvenDirectionWallInvisible
+								(getLayer(), x, y, 
+								AyirahStaticVars.DIRECTION_WEST, 
+								false, false,0,0, false);
+								
+								if (vis_type!=2)
+								removeVisible(getLayer(), x, y, 
+								AyirahStaticVars.VISIBLE_KNOWN_ALL
+								-AyirahStaticVars.VISIBLE_KNOWN_EAST);
+								
+								else if (vis_type==2)
+								removeVisible(getLayer(), x, y, 
+								AyirahStaticVars.VISIBLE_KNOWN_WEST);
+							}
+							
+							if (vis_type==6)
+							removeEvenDirectionWallInvisible
+							(getLayer(), x, y, 
+							AyirahStaticVars.DIRECTION_WEST, 
+							false, true,0,0, false);
+							
+							else if (vis_type==3)
+							removeEvenDirectionWallInvisible
+							(getLayer(), x, y, 
+							AyirahStaticVars.DIRECTION_WEST, 
+							true, false,0,0, false);
+							
+							else if (vis_type==8)
+							removeEvenDirectionWallInvisible
+							(getLayer(), x, y, 
+							AyirahStaticVars.DIRECTION_WEST, 
+							false, false,0,0, true);
+						}
+						
+						else
+						{
+							if (vis_type!=8)
+							removeEvenDirectionWallInvisible
+							(getLayer(), x, y, 
+							AyirahStaticVars.DIRECTION_WEST, 
+							true, true,0,0, false);
+							
+							if (!(vis_type==6 || vis_type==3 || 
+							vis_type==8 || vis_type==2))
+							{
+								removeVisible(getLayer(), x, y, 
+								AyirahStaticVars.VISIBLE_KNOWN_ALL
+								-AyirahStaticVars.VISIBLE_KNOWN_EAST);
+							}
+							
+							else if (vis_type==2)
+							removeVisible(getLayer(), x, y, 
+							AyirahStaticVars.VISIBLE_KNOWN_WEST);
+						}
+					}
+					
+					// Fall: Wand östlich vom Character
+					else
+					{
+						if (getPosX()-x==-1)
+						{
+							if (!(vis_type==1 || vis_type==4 || vis_type==8))
+							{
+								removeEvenDirectionWallInvisible
+								(getLayer(), x, y, 
+								AyirahStaticVars.DIRECTION_EAST, 
+								false, false,0,0, false);
+								
+								if (vis_type!=2)
+								removeVisible(getLayer(), x, y, 
+								AyirahStaticVars.VISIBLE_KNOWN_ALL
+								-AyirahStaticVars.VISIBLE_KNOWN_WEST);
+								
+								else if (vis_type==2)
+								removeVisible(getLayer(), x, y, 
+								AyirahStaticVars.VISIBLE_KNOWN_EAST);
+							}
+							
+							if (vis_type==1)
+							removeEvenDirectionWallInvisible
+							(getLayer(), x, y, 
+							AyirahStaticVars.DIRECTION_EAST, 
+							false, true,0,0, false);
+							
+							if (vis_type==4)
+							removeEvenDirectionWallInvisible
+							(getLayer(), x, y, 
+							AyirahStaticVars.DIRECTION_EAST, 
+							true, false,0,0, false);
+							
+							else if (vis_type==8)
+							removeEvenDirectionWallInvisible
+							(getLayer(), x, y, 
+							AyirahStaticVars.DIRECTION_EAST, 
+							false, false,0,0, true);
+						}
+							
+						else
+						{
+							if (vis_type!=8)
+							removeEvenDirectionWallInvisible
+							(getLayer(), x, y, 
+							AyirahStaticVars.DIRECTION_EAST, 
+							true, true,0,0, false);
+							
+							if (!(vis_type==1 || vis_type==4 || 
+							vis_type==8 || vis_type==2))
+							{
+								removeVisible(getLayer(), x, y, 
+								AyirahStaticVars.VISIBLE_KNOWN_ALL
+								-AyirahStaticVars.VISIBLE_KNOWN_WEST);
+							}
+							
+							else if (vis_type==2)
+							removeVisible(getLayer(), x, y, 
+							AyirahStaticVars.VISIBLE_KNOWN_EAST);
+						}
+					}
+				}
+				
+				
+				/* Jetzt die Diagonalen */
+				if (getPosX()-x==getPosY()-y)
+				{
+					// Fall Diagonale NW -> SO
+					if (getPosX()-x<0)
+					{
+						if (getPosX()-x==-1)
+						{
+							if (!(vis_type==1 || vis_type==6))
+							{
+								removeOddDirectionWallInvisible
+								(getLayer(), x, y, 
+								AyirahStaticVars.DIRECTION_SOUTH_EAST);
+								
+								if (vis_type==3 || vis_type==7 )
+								removeVisible(getLayer(), x, y, 
+								AyirahStaticVars.VISIBLE_KNOWN_SOUTH+
+								AyirahStaticVars.VISIBLE_KNOWN_EAST);
+								
+								if (vis_type==2 || vis_type==8)
+								removeVisible(getLayer(), x, y, 
+								AyirahStaticVars.VISIBLE_KNOWN_EAST);
+								
+								if (vis_type==5 || vis_type==9)
+								removeVisible(getLayer(), x, y, 
+								AyirahStaticVars.VISIBLE_KNOWN_SOUTH);
+							}
+							
+							if (vis_type==1)
+							{
+								removeEvenDirectionWallInvisible
+								(getLayer(), x, y, 
+								AyirahStaticVars.DIRECTION_EAST, 
+								true, false, 0, -1, false);
+								
+								removeVisible(getLayer(), x, y, 
+								AyirahStaticVars.VISIBLE_KNOWN_EAST);
+							}
+							
+							if (vis_type==6)
+							{
+								removeEvenDirectionWallInvisible
+								(getLayer(), x, y, 
+								AyirahStaticVars.DIRECTION_SOUTH, 
+								false, true, -1, 0, false);
+								
+								removeVisible(getLayer(), x, y, 
+								AyirahStaticVars.VISIBLE_KNOWN_SOUTH);
+							}
+						}
+						
+						else
+						{
+							if (!(vis_type==1 || vis_type==6))
+							{
+								for (int i=0; i<=Math.min(map.getWidth()-1-x, 
+								map.getHeight()-1-y); i++)
+								{
+									if (!(i==0) && map.isValidCoordPair
+									(getLayer(), x+i, y+i))
+										removeVisible(getLayer(), x+i, y+i,
+										AyirahStaticVars.VISIBLE_KNOWN_ALL);
+										
+									if (map.isValidCoordPair(getLayer(), 
+									x+i+1, y+i))
+										removeVisible
+										(getLayer(), x+i+1, y+i,
+										AyirahStaticVars.VISIBLE_KNOWN_SOUTH+
+										AyirahStaticVars.VISIBLE_KNOWN_WEST);
+									if (map.isValidCoordPair
+									(getLayer(), x+i, y+i+1))
+										removeVisible(getLayer(), x+i, y+i+1,
+										AyirahStaticVars.VISIBLE_KNOWN_NORTH+
+										AyirahStaticVars.VISIBLE_KNOWN_EAST);
+								}
+								
+								if (vis_type==1 || vis_type==3 || vis_type==6 ||
+								vis_type==7)
+								removeVisible(getLayer(), x, y, 
+								AyirahStaticVars.VISIBLE_KNOWN_SOUTH+
+								AyirahStaticVars.VISIBLE_KNOWN_EAST);
+								
+								if (vis_type==2 || vis_type==8)
+								removeVisible(getLayer(), x, y, 
+								AyirahStaticVars.VISIBLE_KNOWN_EAST);
+								
+								if (vis_type==5 || vis_type==9)
+								removeVisible(getLayer(), x, y, 
+								AyirahStaticVars.VISIBLE_KNOWN_SOUTH);
+							}
+							
+							if (vis_type==1)
+							{
+								for (int i=0; i<=Math.min(map.getWidth()-1-x, 
+								map.getHeight()-1-y); i++)
+								{
+									if (!(i==0) && map.isValidCoordPair
+									(getLayer(), x+i, y+i))
+										removeVisible(getLayer(), x+i, y+i,
+										AyirahStaticVars.VISIBLE_KNOWN_NORTH+
+										AyirahStaticVars.VISIBLE_KNOWN_EAST);
+									if (map.isValidCoordPair
+									(getLayer(), x+i+1, y+i))
+										removeVisible(getLayer(), x+i+1, y+i,
+										AyirahStaticVars.VISIBLE_KNOWN_SOUTH+
+										AyirahStaticVars.VISIBLE_KNOWN_WEST);
+								}
+								
+								removeVisible(getLayer(), x, y, 
+								AyirahStaticVars.VISIBLE_KNOWN_EAST);
+							}
+							
+							if (vis_type==6)
+							{
+								for (int i=0; i<=Math.min(map.getWidth()-1-x, 
+								map.getHeight()-1-y); i++)
+								{
+									if (!(i==0) && map.isValidCoordPair
+									(getLayer(), x+i, y+i))
+										removeVisible(getLayer(), x+i, y+i,
+										AyirahStaticVars.VISIBLE_KNOWN_SOUTH+
+										AyirahStaticVars.VISIBLE_KNOWN_WEST);
+										
+									if (map.isValidCoordPair
+									(getLayer(), x+i, y+i+1))
+										removeVisible(getLayer(), x+i, y+i+1,
+										AyirahStaticVars.VISIBLE_KNOWN_NORTH+
+										AyirahStaticVars.VISIBLE_KNOWN_EAST);
+								}
+									
+								removeVisible(getLayer(), x, y, 
+								AyirahStaticVars.VISIBLE_KNOWN_SOUTH);
+							}
+						}
+					}
+					
+					// Fall Diagonale SO -> NW
+					else // if (charpos_x-spalte)>0 danach ist verzeichtbar
+					{
+						if (getPosX()-x==1)
+						{
+							if (!(vis_type==1 || vis_type==6))
+							{
+								removeOddDirectionWallInvisible
+								(getLayer(), x, y, 
+								AyirahStaticVars.DIRECTION_NORTH_WEST);
+								
+								if (vis_type==4 || vis_type==7)
+								removeVisible(getLayer(), x, y, 
+								AyirahStaticVars.VISIBLE_KNOWN_NORTH+
+								AyirahStaticVars.VISIBLE_KNOWN_WEST);
+								
+								if (vis_type==2 || vis_type==8)
+								removeVisible(getLayer(), x, y, 
+								AyirahStaticVars.VISIBLE_KNOWN_WEST);
+								
+								if (vis_type==5 || vis_type==9)
+								removeVisible(getLayer(), x, y, 
+								AyirahStaticVars.VISIBLE_KNOWN_NORTH);
+							}
+								
+							if (vis_type==1)
+							{
+								removeEvenDirectionWallInvisible
+								(getLayer(), x, y,
+								AyirahStaticVars.DIRECTION_NORTH, 
+								false, true, -1, 0, false);
+								
+								removeVisible(getLayer(), x, y, 
+								AyirahStaticVars.VISIBLE_KNOWN_NORTH);
+							}
+							
+							if (vis_type==6)
+							{
+								removeEvenDirectionWallInvisible
+								(getLayer(), x, y,
+								AyirahStaticVars.DIRECTION_WEST, 
+								true, false, 0, -1, false);
+								
+								removeVisible(getLayer(), x, y, 
+								AyirahStaticVars.VISIBLE_KNOWN_WEST);
+							}
+						}
+							
+						else
+						{
+							if (!(vis_type==1 || vis_type==6))
+							{
+								for (int i=0; i<=Math.min(x, y); i++)
+								{
+									if (!(i==0) && map.isValidCoordPair
+									(getLayer(), x-i, y-i))
+										removeVisible(getLayer(), x-i, y-i,
+										AyirahStaticVars.VISIBLE_KNOWN_ALL);
+									if (map.isValidCoordPair(getLayer(), 
+									x-i-1, y-i))
+										removeVisible(getLayer(), x-i-1, y-i,
+										AyirahStaticVars.VISIBLE_KNOWN_NORTH+
+										AyirahStaticVars.VISIBLE_KNOWN_EAST);
+									if (map.isValidCoordPair(getLayer(), 
+									x-i, y-i-1))
+										removeVisible(getLayer(), x-i, y-i-1,
+										AyirahStaticVars.VISIBLE_KNOWN_SOUTH+
+										AyirahStaticVars.VISIBLE_KNOWN_WEST);
+								}
+								
+								if (vis_type==4 || vis_type==7)
+								removeVisible(getLayer(), x, y, 
+								AyirahStaticVars.VISIBLE_KNOWN_NORTH+
+								AyirahStaticVars.VISIBLE_KNOWN_WEST);
+								
+								if (vis_type==2 || vis_type==8)
+								removeVisible(getLayer(), x, y, 
+								AyirahStaticVars.VISIBLE_KNOWN_WEST);
+								
+								if (vis_type==5 || vis_type==9)
+								removeVisible(getLayer(), x, y, 
+								AyirahStaticVars.VISIBLE_KNOWN_NORTH);
+							}
+							
+							if (vis_type==1)
+							{
+								for (int i=0; i<=Math.min(x, y); i++)
+								{
+									if (!(i==0) && map.isValidCoordPair
+									(getLayer(), x-i, y-i))
+										removeVisible(getLayer(), x-i, y-i,
+										AyirahStaticVars.VISIBLE_KNOWN_NORTH+
+										AyirahStaticVars.VISIBLE_KNOWN_EAST);
+										
+									if (map.isValidCoordPair
+									(getLayer(), x-i, y-i-1))
+										removeVisible(getLayer(), x-i, y-i-1,
+										AyirahStaticVars.VISIBLE_KNOWN_SOUTH+
+										AyirahStaticVars.VISIBLE_KNOWN_WEST);
+								}
+									
+								removeVisible(getLayer(), x, y, 
+								AyirahStaticVars.VISIBLE_KNOWN_NORTH);
+							}
+							
+							if (vis_type==6)
+							{
+								for (int i=0; i<=Math.min(x, y); i++)
+								{
+									if (!(i==0) && map.isValidCoordPair
+									(getLayer(), x-i, y-i))
+										removeVisible(getLayer(), x-i, y-i,
+										AyirahStaticVars.VISIBLE_KNOWN_SOUTH+
+										AyirahStaticVars.VISIBLE_KNOWN_WEST);
+									if (map.isValidCoordPair
+									(getLayer(), x-i-1, y-i))
+										removeVisible(getLayer(), x-i-1, y-i,
+										AyirahStaticVars.VISIBLE_KNOWN_NORTH+
+										AyirahStaticVars.VISIBLE_KNOWN_EAST);			
+								}
+								
+								removeVisible(getLayer(), x, y, 
+								AyirahStaticVars.VISIBLE_KNOWN_WEST);
+							}
+						}
+					}
+				}
+				
+				// Fall: Diagonale SW -> NO
+				else if (getPosX()-x==y-getPosY())
+				{
+					if (getPosX()-x<0)
+					{
+						if (getPosX()-x==-1)
+						{
+							if (!(vis_type==3 || vis_type==4))
+							{
+								removeOddDirectionWallInvisible(getLayer(), 
+								x, y, 
+								AyirahStaticVars.DIRECTION_NORTH_EAST);
+								
+								if (vis_type==6 || vis_type==7)
+								removeVisible(getLayer(), x, y, 
+								AyirahStaticVars.VISIBLE_KNOWN_NORTH+
+								AyirahStaticVars.VISIBLE_KNOWN_EAST);
+								
+								if (vis_type==2 || vis_type==8)
+								removeVisible(getLayer(), x, y, 
+								AyirahStaticVars.VISIBLE_KNOWN_EAST);
+								
+								if (vis_type==5 || vis_type==9)
+								removeVisible(getLayer(), x, y, 
+								AyirahStaticVars.VISIBLE_KNOWN_NORTH);
+							}
+								
+							if (vis_type==3)
+							{
+								removeEvenDirectionWallInvisible
+								(getLayer(), x, y,
+								AyirahStaticVars.DIRECTION_NORTH, 
+								true, false, 0, -1, false);
+								
+								removeVisible(getLayer(), x, y, 
+								AyirahStaticVars.VISIBLE_KNOWN_NORTH);
+							}
+							
+							if (vis_type==4)
+							{
+								removeEvenDirectionWallInvisible
+								(getLayer(), x, y,
+								AyirahStaticVars.DIRECTION_EAST, 
+								false, true, -1, 0, false);
+								
+								removeVisible(getLayer(), x, y, 
+								AyirahStaticVars.VISIBLE_KNOWN_EAST);
+							}
+						}
+						
+						else
+						{
+							if (!(vis_type==3 || vis_type==4))
+							{
+								for (int i=0; i<=Math.min
+								(map.getWidth()-1-x, y); i++)
+								{
+									if (!(i==0) && map.isValidCoordPair
+									(getLayer(), x+i, y-i))
+										removeVisible
+										(getLayer(), x+i, y-i,
+										AyirahStaticVars.VISIBLE_KNOWN_ALL);
+									if (map.isValidCoordPair
+									(getLayer(), x+i+1, y-i))
+										removeVisible
+										(getLayer(), x+i+1, y-i,
+										AyirahStaticVars.VISIBLE_KNOWN_NORTH+
+										AyirahStaticVars.VISIBLE_KNOWN_WEST);
+									if (map.isValidCoordPair
+									(getLayer(), x+i, y-i-1))
+										removeVisible(getLayer(), x+i, y-i-1,
+										AyirahStaticVars.VISIBLE_KNOWN_SOUTH+
+									AyirahStaticVars.VISIBLE_KNOWN_EAST);
+								}
+									
+								if (vis_type==6 || vis_type==7)
+								removeVisible(getLayer(), x, y, 
+								AyirahStaticVars.VISIBLE_KNOWN_NORTH+
+								AyirahStaticVars.VISIBLE_KNOWN_EAST);
+								
+								if (vis_type==2 || vis_type==8)
+								removeVisible(getLayer(), x, y, 
+								AyirahStaticVars.VISIBLE_KNOWN_EAST);
+								
+								if (vis_type==5 || vis_type==9)
+								removeVisible(getLayer(), x, y, 
+								AyirahStaticVars.VISIBLE_KNOWN_NORTH);
+							}
+							
+							if (vis_type==3)
+							{
+								for (int i=0; i<=Math.min
+								(map.getWidth()-1-x, y); i++)
+								{
+									if (!(i==0) && map.isValidCoordPair
+									(getLayer(), x+i, y-i))
+										removeVisible(getLayer(), x+i, y-i,
+										AyirahStaticVars.VISIBLE_KNOWN_NORTH+
+										AyirahStaticVars.VISIBLE_KNOWN_WEST);
+										
+									if (map.isValidCoordPair
+									(getLayer(), x+i, y-i-1))
+										removeVisible(getLayer(), x+i, y-i-1,
+										AyirahStaticVars.VISIBLE_KNOWN_SOUTH+
+										AyirahStaticVars.VISIBLE_KNOWN_EAST);
+								}
+								
+								removeVisible(getLayer(), x, y, 
+								AyirahStaticVars.VISIBLE_KNOWN_NORTH);
+							}
+							
+							if (vis_type==4)
+							{
+								for (int i=0; i<=Math.min
+								(map.getWidth()-1-x, y); i++)
+								{
+									if (!(i==0) && map.isValidCoordPair
+									(getLayer(), x+i, y-i))
+										removeVisible(getLayer(), x+i, y-i,
+										AyirahStaticVars.VISIBLE_KNOWN_SOUTH+
+										AyirahStaticVars.VISIBLE_KNOWN_EAST);
+									if (map.isValidCoordPair
+									(getLayer(), x+i+1, y-i))
+										removeVisible(getLayer(), x+i+1, y-i,
+										AyirahStaticVars.VISIBLE_KNOWN_NORTH+
+										AyirahStaticVars.VISIBLE_KNOWN_WEST);
+								}
+								removeVisible(getLayer(), x, y, 
+								AyirahStaticVars.VISIBLE_KNOWN_EAST);
+							}
+						}
+					}
+					
+					// Fall: Diagonale NO -> SW
+					else // if (charpos_x-spalte)>0 danach ist verzeichtbar
+					{
+						if (getPosX()-x==1)
+						{
+							if (!(vis_type==3 || vis_type==4))
+							{
+								removeOddDirectionWallInvisible
+								(getLayer(), x, y, 
+								AyirahStaticVars.DIRECTION_SOUTH_WEST);
+								
+								if (vis_type==1 || vis_type==7)
+									removeVisible(getLayer(), x, y, 
+									AyirahStaticVars.VISIBLE_KNOWN_SOUTH+
+									AyirahStaticVars.VISIBLE_KNOWN_WEST);
+									
+								if (vis_type==2 || vis_type==8)
+									removeVisible(getLayer(), x, y, 
+									AyirahStaticVars.VISIBLE_KNOWN_WEST);
+								
+								if (vis_type==5 || vis_type==9)
+									removeVisible(getLayer(), x, y, 
+									AyirahStaticVars.VISIBLE_KNOWN_SOUTH);
+							}
+							
+							if (vis_type==3)
+							{
+								removeEvenDirectionWallInvisible
+								(getLayer(), x, y,
+								AyirahStaticVars.DIRECTION_WEST, 
+								false, true, -1, 0, false);
+								
+								removeVisible(getLayer(), x, y, 
+								AyirahStaticVars.VISIBLE_KNOWN_WEST);
+							}
+							
+							if (vis_type==4)
+							{
+								removeEvenDirectionWallInvisible
+								(getLayer(), x, y,
+								AyirahStaticVars.DIRECTION_SOUTH, 
+								true, false, 0, -1, false);
+								
+								removeVisible(getLayer(), x, y, 
+								AyirahStaticVars.VISIBLE_KNOWN_SOUTH);
+							}
+						}
+						
+						else
+						{
+							if (!(vis_type==3 || vis_type==4))
+							{
+								for (int i=0; i<=Math.min(x, 
+								(map.getHeight()-1-y)); i++)
+								{
+									if (!(i==0) && map.isValidCoordPair
+									(getLayer(), x-i, y+i))
+										removeVisible(
+										getLayer(), x-i, y+i,
+										AyirahStaticVars.VISIBLE_KNOWN_ALL);
+									if (map.isValidCoordPair
+									(getLayer(), x-i-1, y+i))
+										removeVisible(
+										getLayer(), x-i-1, y+i,
+										AyirahStaticVars.VISIBLE_KNOWN_SOUTH+
+										AyirahStaticVars.VISIBLE_KNOWN_EAST);
+									if (map.isValidCoordPair
+									(getLayer(), x-i, y+i+1))
+										removeVisible(
+										getLayer(), x-i, y+i+1,
+										AyirahStaticVars.VISIBLE_KNOWN_NORTH+
+										AyirahStaticVars.VISIBLE_KNOWN_WEST);
+								}
+								
+								if (vis_type==1 || vis_type==7)
+									removeVisible(getLayer(), x, y, 
+									AyirahStaticVars.VISIBLE_KNOWN_SOUTH+
+									AyirahStaticVars.VISIBLE_KNOWN_WEST);
+									
+								if (vis_type==2 || vis_type==8)
+									removeVisible(getLayer(), x, y, 
+									AyirahStaticVars.VISIBLE_KNOWN_WEST);
+									
+								if (vis_type==5 || vis_type==9)
+									removeVisible(getLayer(), x, y, 
+									AyirahStaticVars.VISIBLE_KNOWN_SOUTH);
+							}
+							
+							if (vis_type==3)
+							{
+								for (int i=0; i<=Math.min(x, 
+								(map.getHeight()-1-y)); i++)
+								{
+									if (!(i==0) && map.isValidCoordPair
+									(getLayer(), x-i, y+i))
+										removeVisible(
+										getLayer(), x-i, y+i,
+										AyirahStaticVars.VISIBLE_KNOWN_NORTH+
+										AyirahStaticVars.VISIBLE_KNOWN_WEST);
+									if (map.isValidCoordPair
+									(getLayer(), x-i-1, y+i))
+										removeVisible(
+										getLayer(), x-i-1, y+i,
+										AyirahStaticVars.VISIBLE_KNOWN_SOUTH+
+										AyirahStaticVars.VISIBLE_KNOWN_EAST);
+								}
+								
+								removeVisible(getLayer(), x, y, 
+								AyirahStaticVars.VISIBLE_KNOWN_WEST);
+							}
+							
+							if (vis_type==4)
+							{
+								for (int i=0; i<=Math.min(x, 
+								(map.getHeight()-1-y)); i++)
+								{
+									if (!(i==0) && map.isValidCoordPair
+									(getLayer(), x-i, y+i))
+										removeVisible(
+										getLayer(), x-i, y+i,
+										AyirahStaticVars.VISIBLE_KNOWN_SOUTH+
+										AyirahStaticVars.VISIBLE_KNOWN_EAST);
+									if (map.isValidCoordPair
+									(getLayer(), x-i, y+i+1))
+										removeVisible(
+										getLayer(), x-i, y+i+1,
+										AyirahStaticVars.VISIBLE_KNOWN_NORTH+
+										AyirahStaticVars.VISIBLE_KNOWN_WEST);
+								}
+								
+								removeVisible(getLayer(), x, y, 
+								AyirahStaticVars.VISIBLE_KNOWN_SOUTH);
+							}
+						}
+					}
+				}
+				
+				// jetzt die restlichen 8 Fälle
+				if (getPosX()>x && getPosY()>y)
+				{
+					// Fall: Wand NNW
+					if (getPosY()-getPosX()>y-x)
+					{
+						if (!(vis_type==1))
+						removeEvenDirectionWallInvisible
+						(getLayer(), x, y, 
+						AyirahStaticVars.DIRECTION_NORTH, 
+						false, true,0,0, false);
+						
+						if (vis_type==6 || vis_type==4 || vis_type==7 ||
+						vis_type==2 || vis_type==8)
+						removeVisible(getLayer(), x, y, 
+						AyirahStaticVars.VISIBLE_KNOWN_ALL
+						-AyirahStaticVars.VISIBLE_KNOWN_SOUTH);
+						
+						if (vis_type==1)
+						removeEvenDirectionWallInvisible
+						(getLayer(), x, y, 
+						AyirahStaticVars.DIRECTION_NORTH, 
+						false, true,-1,0, false);
+						
+						if (vis_type==5 || vis_type==9)
+						removeVisible(getLayer(), x, y, 
+						AyirahStaticVars.VISIBLE_KNOWN_NORTH);
+					}
+					
+					// Fall: Wand NWW
+					else if (getPosY()-getPosX()<y-x)
+					{
+						if (!(vis_type==6))
+						removeEvenDirectionWallInvisible
+						(getLayer(), x, y, 
+						AyirahStaticVars.DIRECTION_WEST, 
+						true, false,0,0, false);
+						
+						if (vis_type==1 || vis_type==4 || vis_type==7 ||
+						vis_type==5 || vis_type==9)
+						removeVisible(getLayer(), x, y, 
+						AyirahStaticVars.VISIBLE_KNOWN_ALL
+						-AyirahStaticVars.VISIBLE_KNOWN_EAST);
+						
+						if (vis_type==6)
+						removeEvenDirectionWallInvisible
+						(getLayer(), x, y, 
+						AyirahStaticVars.DIRECTION_WEST, 
+						true, false,0,-1, false);
+						
+						if (vis_type==2 || vis_type==8)
+						removeVisible(getLayer(), x, y, 
+						AyirahStaticVars.VISIBLE_KNOWN_WEST);
+					}
+				}
+				
+				else if (getPosX()>x && getPosY()<y)
+				{
+					// Fall: Wand SWW
+					if (getPosY()+getPosX()>y+x)
+					{
+						if (!(vis_type==3))
+						removeEvenDirectionWallInvisible
+						(getLayer(), x, y, 
+						AyirahStaticVars.DIRECTION_WEST, 
+						false, true,0,0, false);
+						
+						if (vis_type==4 || vis_type==1 || vis_type==7 ||
+						vis_type==5 || vis_type==9)
+						removeVisible(getLayer(), x, y, 
+						AyirahStaticVars.VISIBLE_KNOWN_ALL
+						-AyirahStaticVars.VISIBLE_KNOWN_EAST);
+						
+						if (vis_type==3)
+						removeEvenDirectionWallInvisible
+						(getLayer(), x, y, 
+						AyirahStaticVars.DIRECTION_WEST, 
+						false, true,-1,0, false);
+						
+						if (vis_type==2 || vis_type==8)
+						removeVisible(getLayer(), x, y, 
+						AyirahStaticVars.VISIBLE_KNOWN_WEST);
+					}
+					
+					// Fall: Wand SSW
+					else if (getPosY()+getPosX()<y+x)
+					{
+						if (!(vis_type==4))
+						removeEvenDirectionWallInvisible
+						(getLayer(), x, y, 
+						AyirahStaticVars.DIRECTION_SOUTH, 
+						true, false,0,0, false);
+						
+						if (vis_type==3 || vis_type==1 || vis_type==7 ||
+						vis_type==2 || vis_type==8)
+						removeVisible(getLayer(), x, y, 
+						AyirahStaticVars.VISIBLE_KNOWN_ALL
+						-AyirahStaticVars.VISIBLE_KNOWN_NORTH);
+						
+						if (vis_type==4)
+						removeEvenDirectionWallInvisible
+						(getLayer(), x, y, 
+						AyirahStaticVars.DIRECTION_SOUTH, 
+						true, false,0,-1, false);
+						
+						if (vis_type==5 || vis_type==9)
+						removeVisible(getLayer(), x, y, 
+						AyirahStaticVars.VISIBLE_KNOWN_SOUTH);
+					}
+				}
+				
+				else if (getPosX()<x && getPosY()<y)
+				{
+					// Fall: SSO
+					if (getPosY()-getPosX()<y-x)
+					{
+						if (!(vis_type==6))
+						removeEvenDirectionWallInvisible
+						(getLayer(), x, y, 
+						AyirahStaticVars.DIRECTION_SOUTH, 
+						false, true,0,0, false);
+						
+						if (vis_type==1 || vis_type==3 || vis_type==7 ||
+						vis_type==2 || vis_type==8)
+						removeVisible(getLayer(), x, y, 
+						AyirahStaticVars.VISIBLE_KNOWN_ALL
+						-AyirahStaticVars.VISIBLE_KNOWN_NORTH);
+						
+						if (vis_type==6)
+						removeEvenDirectionWallInvisible
+						(getLayer(), x, y, 
+						AyirahStaticVars.DIRECTION_SOUTH, 
+						false, true,-1,0, false);
+						
+						if (vis_type==5 || vis_type==9)
+						removeVisible(getLayer(), x, y, 
+						AyirahStaticVars.VISIBLE_KNOWN_SOUTH);
+					}
+					
+					// Fall: SOO
+					else if (getPosY()-getPosX()>y-x)
+					{
+						if (!(vis_type==1))
+						removeEvenDirectionWallInvisible
+						(getLayer(), x, y, 
+						AyirahStaticVars.DIRECTION_EAST, 
+						true, false,0,0, false);
+						
+						if (vis_type==6 || vis_type==3 || vis_type==7 ||
+						vis_type==5 || vis_type==9)
+						removeVisible(getLayer(), x, y, 
+						AyirahStaticVars.VISIBLE_KNOWN_ALL
+						-AyirahStaticVars.VISIBLE_KNOWN_WEST);
+						
+						if (vis_type==1)
+						removeEvenDirectionWallInvisible
+						(getLayer(), x, y, 
+						AyirahStaticVars.DIRECTION_EAST, 
+						true, false,0,-1, false);
+						
+						if (vis_type==2 || vis_type==8)
+						removeVisible(getLayer(), x, y, 
+						AyirahStaticVars.VISIBLE_KNOWN_EAST);
+					}
+				}
+				
+				else if (getPosX()<x && getPosY()>y)
+				{
+					// Fall: Wand NOO
+					if (getPosY()+getPosX()<y+x)
+					{
+						if (!(vis_type==4))
+						removeEvenDirectionWallInvisible
+						(getLayer(), x, y, 
+						AyirahStaticVars.DIRECTION_EAST, 
+						false, true,0,0, false);
+						
+						if (vis_type==4)
+						removeEvenDirectionWallInvisible
+						(getLayer(), x, y, 
+						AyirahStaticVars.DIRECTION_EAST, 
+						false, true,-1,0, false);
+						
+						if (vis_type==3 || vis_type==6 || vis_type==7 ||
+						vis_type==5 || vis_type==9)
+						removeVisible(getLayer(), x, y, 
+						AyirahStaticVars.VISIBLE_KNOWN_ALL
+						-AyirahStaticVars.VISIBLE_KNOWN_WEST);
+						
+						if (vis_type==2 || vis_type==8)
+						removeVisible(getLayer(), x, y, 
+						AyirahStaticVars.VISIBLE_KNOWN_EAST);
+					}
+					
+					// Fall: Wand NNO
+					else if (getPosY()+getPosX()>y+x)
+					{
+						if (!(vis_type==3))
+						removeEvenDirectionWallInvisible
+						(getLayer(), x, y, 
+						AyirahStaticVars.DIRECTION_NORTH, 
+						true, false,0,0, false);
+						
+						if (vis_type==4 || vis_type==6 || vis_type==7 ||
+						vis_type==2 || vis_type==8)
+						removeVisible(getLayer(), x, y, 
+						AyirahStaticVars.VISIBLE_KNOWN_ALL
+						-AyirahStaticVars.VISIBLE_KNOWN_SOUTH);
+						
+						if (vis_type==3)
+						removeEvenDirectionWallInvisible
+						(getLayer(), x, y, 
+						AyirahStaticVars.DIRECTION_NORTH, 
+						true, false,0,-1, false);
+						
+						if (vis_type==5 || vis_type==9)
+						removeVisible(getLayer(), x, y, 
+						AyirahStaticVars.VISIBLE_KNOWN_NORTH);
+					}
+				}
+			}
+			
+			// Dieser Fall macht bis jetzt nur bei Türen Sinn!
+			else if (vis_type>0 &&
+			y==this.getPosY() &&
+			x==this.getPosX())
+			{
+				if (vis_type==8) // senkrechte Tür
+				{
+					removeEvenDirectionWallInvisible(getLayer(), x, y, 
+					AyirahStaticVars.DIRECTION_NORTH, false, false,-1,-1, false);
+					
+					removeEvenDirectionWallInvisible(getLayer(), x, y, 
+					AyirahStaticVars.DIRECTION_SOUTH, false, false,-1,-1, false);
+				}
+				
+				else if (vis_type==9) // waagrechte Tür
+				{
+					removeEvenDirectionWallInvisible(getLayer(), x, y, 
+					AyirahStaticVars.DIRECTION_WEST, false, false,-1,-1, false);
+					
+					removeEvenDirectionWallInvisible(getLayer(), x, y, 
+					AyirahStaticVars.DIRECTION_EAST, false, false,-1,-1, false);
+				}
+			}
+		}
+	}
+	
 	protected void removeWallHiddenTiles()
 	{
 		int[] minmax_area=this.getMinMaxArea();
@@ -651,1043 +1700,7 @@ public abstract class HumanLikeCreature extends Creature {
 			{
 				int vis_type=map.getVisibilityType(getLayer(), zeile, spalte);
 				
-				if (vis_type>0
-				&&  !(zeile==this.getPosY() &&
-				spalte==this.getPosX()))
-				{
-					if (spalte==this.getPosX())
-					{						// Fall: Wand nördlich vom Character
-						if (this.getPosY()-zeile>0)
-						{
-							if (this.getPosY()-zeile==1)
-							{
-								if (!(vis_type==1 || vis_type==3 || vis_type==9))
-								{
-									removeEvenDirectionWallInvisible
-									(getLayer(), spalte, zeile, 
-									AyirahStaticVars.DIRECTION_NORTH, 
-									false, false,0,0, false);
-									
-									if (vis_type!=5)
-									removeVisible(getLayer(), spalte, zeile, 
-									AyirahStaticVars.VISIBLE_KNOWN_ALL
-									-AyirahStaticVars.VISIBLE_KNOWN_SOUTH);
-									
-									else if (vis_type==5)
-									removeVisible(getLayer(), spalte, zeile, 
-									AyirahStaticVars.VISIBLE_KNOWN_NORTH);
-								}
-								
-								if (vis_type==1)
-								removeEvenDirectionWallInvisible
-								(getLayer(), spalte, zeile, 
-								AyirahStaticVars.DIRECTION_NORTH, 
-								true, false, 0,0, false);
-								
-								else if (vis_type==3)
-								removeEvenDirectionWallInvisible
-								(getLayer(), spalte, zeile, 
-								AyirahStaticVars.DIRECTION_NORTH, 
-								false, true, 0,0, false);
-								
-								else if (vis_type==9)
-								removeEvenDirectionWallInvisible
-								(getLayer(), spalte, zeile, 
-								AyirahStaticVars.DIRECTION_NORTH, 
-								false, false, 0,0, true);
-							}
-							
-							else
-							{
-								if (vis_type!=9)
-								removeEvenDirectionWallInvisible
-								(getLayer(), spalte, zeile, 
-								AyirahStaticVars.DIRECTION_NORTH, 
-								true, true,0,0, false);
-								
-								if (!(vis_type==1 || vis_type==3 || 
-								vis_type==9 || vis_type==5))
-								{
-									removeVisible(getLayer(), spalte, zeile, 
-									AyirahStaticVars.VISIBLE_KNOWN_ALL
-									-AyirahStaticVars.VISIBLE_KNOWN_SOUTH);
-								}
-								
-								else if (vis_type==5)
-								removeVisible(getLayer(), spalte, zeile, 
-								AyirahStaticVars.VISIBLE_KNOWN_NORTH);
-							}
-						}
-												// Fall: Wand südlich vom Character
-						else
-						{
-							if (getPosY()-zeile==-1)
-							{
-								if (!(vis_type==4 || vis_type==6 || vis_type==9))
-								{
-									removeEvenDirectionWallInvisible
-									(getLayer(), spalte, zeile, 
-									AyirahStaticVars.DIRECTION_SOUTH, 
-									false, false,0,0, false);
-									
-									if (vis_type!=5)
-									removeVisible(getLayer(), spalte, zeile, 
-									AyirahStaticVars.VISIBLE_KNOWN_ALL
-									-AyirahStaticVars.VISIBLE_KNOWN_NORTH);
-									
-									else if (vis_type==5)
-									removeVisible(getLayer(), spalte, zeile, 
-									AyirahStaticVars.VISIBLE_KNOWN_SOUTH);
-								}
-								
-								if (vis_type==4)
-								removeEvenDirectionWallInvisible
-								(getLayer(), spalte, zeile, 
-								AyirahStaticVars.DIRECTION_SOUTH, 
-								false, true,0,0, false);
-								
-								else if (vis_type==6)
-								removeEvenDirectionWallInvisible
-								(getLayer(), spalte, zeile, 
-								AyirahStaticVars.DIRECTION_SOUTH, 
-								true, false,0,0, false);
-								
-								else if (vis_type==9)
-								removeEvenDirectionWallInvisible
-								(getLayer(), spalte, zeile, 
-								AyirahStaticVars.DIRECTION_SOUTH, 
-								false, false ,0,0, true);
-							}
-							
-							else
-							{
-								if (vis_type!=9)
-								removeEvenDirectionWallInvisible
-								(getLayer(), spalte, zeile, 
-								AyirahStaticVars.DIRECTION_SOUTH, 
-								true, true,0,0, false);
-								
-								if (!(vis_type==4 || vis_type==6 || 
-								vis_type==9 || vis_type==5))
-								{
-									removeVisible(getLayer(), spalte, zeile, 
-									AyirahStaticVars.VISIBLE_KNOWN_ALL
-									-AyirahStaticVars.VISIBLE_KNOWN_NORTH);
-								}
-								
-								else if (vis_type==5)
-								removeVisible(getLayer(), spalte, zeile, 
-								AyirahStaticVars.VISIBLE_KNOWN_SOUTH);
-							}
-						}
-					}
-					
-					else if (zeile==getPosY())
-					{						// Fall: Wand westlich vom Character
-						if (getPosX()-spalte>0)
-						{
-							if (getPosX()-spalte==1)
-							{
-								if (!(vis_type==6 || vis_type==3 || vis_type==8))
-								{
-									removeEvenDirectionWallInvisible
-									(getLayer(), spalte, zeile, 
-									AyirahStaticVars.DIRECTION_WEST, 
-									false, false,0,0, false);
-									
-									if (vis_type!=2)
-									removeVisible(getLayer(), spalte, zeile, 
-									AyirahStaticVars.VISIBLE_KNOWN_ALL
-									-AyirahStaticVars.VISIBLE_KNOWN_EAST);
-									
-									else if (vis_type==2)
-									removeVisible(getLayer(), spalte, zeile, 
-									AyirahStaticVars.VISIBLE_KNOWN_WEST);
-								}
-								
-								if (vis_type==6)
-								removeEvenDirectionWallInvisible
-								(getLayer(), spalte, zeile, 
-								AyirahStaticVars.DIRECTION_WEST, 
-								false, true,0,0, false);
-								
-								else if (vis_type==3)
-								removeEvenDirectionWallInvisible
-								(getLayer(), spalte, zeile, 
-								AyirahStaticVars.DIRECTION_WEST, 
-								true, false,0,0, false);
-								
-								else if (vis_type==8)
-								removeEvenDirectionWallInvisible
-								(getLayer(), spalte, zeile, 
-								AyirahStaticVars.DIRECTION_WEST, 
-								false, false,0,0, true);
-							}
-							
-							else
-							{
-								if (vis_type!=8)
-								removeEvenDirectionWallInvisible
-								(getLayer(), spalte, zeile, 
-								AyirahStaticVars.DIRECTION_WEST, 
-								true, true,0,0, false);
-								
-								if (!(vis_type==6 || vis_type==3 || 
-								vis_type==8 || vis_type==2))
-								{
-									removeVisible(getLayer(), spalte, zeile, 
-									AyirahStaticVars.VISIBLE_KNOWN_ALL
-									-AyirahStaticVars.VISIBLE_KNOWN_EAST);
-								}
-								
-								else if (vis_type==2)
-								removeVisible(getLayer(), spalte, zeile, 
-								AyirahStaticVars.VISIBLE_KNOWN_WEST);
-							}
-						}
-												// Fall: Wand östlich vom Character
-						else
-						{
-							if (getPosX()-spalte==-1)
-							{
-								if (!(vis_type==1 || vis_type==4 || vis_type==8))
-								{
-									removeEvenDirectionWallInvisible
-									(getLayer(), spalte, zeile, 
-									AyirahStaticVars.DIRECTION_EAST, 
-									false, false,0,0, false);
-									
-									if (vis_type!=2)
-									removeVisible(getLayer(), spalte, zeile, 
-									AyirahStaticVars.VISIBLE_KNOWN_ALL
-									-AyirahStaticVars.VISIBLE_KNOWN_WEST);
-									
-									else if (vis_type==2)
-									removeVisible(getLayer(), spalte, zeile, 
-									AyirahStaticVars.VISIBLE_KNOWN_EAST);
-								}
-								
-								if (vis_type==1)
-								removeEvenDirectionWallInvisible
-								(getLayer(), spalte, zeile, 
-								AyirahStaticVars.DIRECTION_EAST, 
-								false, true,0,0, false);
-								
-								if (vis_type==4)
-								removeEvenDirectionWallInvisible
-								(getLayer(), spalte, zeile, 
-								AyirahStaticVars.DIRECTION_EAST, 
-								true, false,0,0, false);
-
-								else if (vis_type==8)
-								removeEvenDirectionWallInvisible
-								(getLayer(), spalte, zeile, 
-								AyirahStaticVars.DIRECTION_EAST, 
-								false, false,0,0, true);
-							}
-							
-							else
-							{
-								if (vis_type!=8)
-								removeEvenDirectionWallInvisible
-								(getLayer(), spalte, zeile, 
-								AyirahStaticVars.DIRECTION_EAST, 
-								true, true,0,0, false);
-								
-								if (!(vis_type==1 || vis_type==4 || 
-								vis_type==8 || vis_type==2))
-								{
-									removeVisible(getLayer(), spalte, zeile, 
-									AyirahStaticVars.VISIBLE_KNOWN_ALL
-									-AyirahStaticVars.VISIBLE_KNOWN_WEST);
-								}
-								
-								else if (vis_type==2)
-								removeVisible(getLayer(), spalte, zeile, 
-								AyirahStaticVars.VISIBLE_KNOWN_EAST);
-							}
-						}
-					}
-					
-					
-					/* Jetzt die Diagonalen */
-					if (getPosX()-spalte==getPosY()-zeile)
-					{
-						// Fall Diagonale NW -> SO
-						if (getPosX()-spalte<0)
-						{
-							if (getPosX()-spalte==-1)
-							{
-								if (!(vis_type==1 || vis_type==6))
-								{
-									removeOddDirectionWallInvisible
-									(getLayer(), spalte, zeile, 
-									AyirahStaticVars.DIRECTION_SOUTH_EAST);
-									
-									if (vis_type==3 || vis_type==7 )
-									removeVisible(getLayer(), spalte, zeile, 
-									AyirahStaticVars.VISIBLE_KNOWN_SOUTH+
-									AyirahStaticVars.VISIBLE_KNOWN_EAST);
-									
-									if (vis_type==2 || vis_type==8)
-									removeVisible(getLayer(), spalte, zeile, 
-									AyirahStaticVars.VISIBLE_KNOWN_EAST);
-									
-									if (vis_type==5 || vis_type==9)
-									removeVisible(getLayer(), spalte, zeile, 
-									AyirahStaticVars.VISIBLE_KNOWN_SOUTH);
-								}
-								
-								if (vis_type==1)
-								{
-									removeEvenDirectionWallInvisible
-									(getLayer(), spalte, zeile, 
-									AyirahStaticVars.DIRECTION_EAST, 
-									true, false, 0, -1, false);
-									
-									removeVisible(getLayer(), spalte, zeile, 
-									AyirahStaticVars.VISIBLE_KNOWN_EAST);
-								}
-								
-								if (vis_type==6)
-								{
-									removeEvenDirectionWallInvisible
-									(getLayer(), spalte, zeile, 
-									AyirahStaticVars.DIRECTION_SOUTH, 
-									false, true, -1, 0, false);
-									
-									removeVisible(getLayer(), spalte, zeile, 
-									AyirahStaticVars.VISIBLE_KNOWN_SOUTH);
-								}
-							}
-							
-							else
-							{
-								if (!(vis_type==1 || vis_type==6))
-								{
-									for (int i=0; i<=Math.min(map.getWidth()-1-spalte, 
-									map.getHeight()-1-zeile); i++)
-									{
-										if (!(i==0) && map.isValidCoordPair
-										(getLayer(), spalte+i, zeile+i))
-											removeVisible(getLayer(), spalte+i, zeile+i,
-											AyirahStaticVars.VISIBLE_KNOWN_ALL);
-										if (map.isValidCoordPair(getLayer(), 
-										spalte+i+1, zeile+i))
-											removeVisible
-											(getLayer(), spalte+i+1, zeile+i,
-											AyirahStaticVars.VISIBLE_KNOWN_SOUTH+
-											AyirahStaticVars.VISIBLE_KNOWN_WEST);
-										if (map.isValidCoordPair
-										(getLayer(), spalte+i, zeile+i+1))
-											removeVisible(getLayer(), spalte+i, zeile+i+1,
-											AyirahStaticVars.VISIBLE_KNOWN_NORTH+
-											AyirahStaticVars.VISIBLE_KNOWN_EAST);
-									}
-									
-									if (vis_type==1 || vis_type==3 || vis_type==6 ||
-									vis_type==7)
-									removeVisible(getLayer(), spalte, zeile, 
-									AyirahStaticVars.VISIBLE_KNOWN_SOUTH+
-									AyirahStaticVars.VISIBLE_KNOWN_EAST);
-									
-									if (vis_type==2 || vis_type==8)
-									removeVisible(getLayer(), spalte, zeile, 
-									AyirahStaticVars.VISIBLE_KNOWN_EAST);
-									
-									if (vis_type==5 || vis_type==9)
-									removeVisible(getLayer(), spalte, zeile, 
-									AyirahStaticVars.VISIBLE_KNOWN_SOUTH);
-								}
-								
-								if (vis_type==1)
-								{
-									for (int i=0; i<=Math.min(map.getWidth()-1-spalte, 
-									map.getHeight()-1-zeile); i++)
-									{
-										if (!(i==0) && map.isValidCoordPair
-										(getLayer(), spalte+i, zeile+i))
-											removeVisible(getLayer(), spalte+i, zeile+i,
-											AyirahStaticVars.VISIBLE_KNOWN_NORTH+
-											AyirahStaticVars.VISIBLE_KNOWN_EAST);
-										if (map.isValidCoordPair
-										(getLayer(), spalte+i+1, zeile+i))
-											removeVisible(getLayer(), spalte+i+1, zeile+i,
-											AyirahStaticVars.VISIBLE_KNOWN_SOUTH+
-											AyirahStaticVars.VISIBLE_KNOWN_WEST);
-									}
-									
-									removeVisible(getLayer(), spalte, zeile, 
-									AyirahStaticVars.VISIBLE_KNOWN_EAST);
-								}
-								
-								if (vis_type==6)
-								{
-									for (int i=0; i<=Math.min(map.getWidth()-1-spalte, 
-									map.getHeight()-1-zeile); i++)
-									{
-										if (!(i==0) && map.isValidCoordPair
-										(getLayer(), spalte+i, zeile+i))
-											removeVisible(getLayer(), spalte+i, zeile+i,
-											AyirahStaticVars.VISIBLE_KNOWN_SOUTH+
-											AyirahStaticVars.VISIBLE_KNOWN_WEST);
-											
-										if (map.isValidCoordPair
-										(getLayer(), spalte+i, zeile+i+1))
-											removeVisible(getLayer(), spalte+i, zeile+i+1,
-											AyirahStaticVars.VISIBLE_KNOWN_NORTH+
-											AyirahStaticVars.VISIBLE_KNOWN_EAST);
-									}
-									
-									removeVisible(getLayer(), spalte, zeile, 
-									AyirahStaticVars.VISIBLE_KNOWN_SOUTH);
-								}
-							}
-						}
-						
-						// Fall Diagonale SO -> NW
-						else // if (charpos_x-spalte)>0 danach ist verzeichtbar
-						{
-							if (getPosX()-spalte==1)
-							{
-								if (!(vis_type==1 || vis_type==6))
-								{
-									removeOddDirectionWallInvisible
-									(getLayer(), spalte, zeile, 
-									AyirahStaticVars.DIRECTION_NORTH_WEST);
-									
-									if (vis_type==4 || vis_type==7)
-									removeVisible(getLayer(), spalte, zeile, 
-									AyirahStaticVars.VISIBLE_KNOWN_NORTH+
-									AyirahStaticVars.VISIBLE_KNOWN_WEST);
-									
-									if (vis_type==2 || vis_type==8)
-									removeVisible(getLayer(), spalte, zeile, 
-									AyirahStaticVars.VISIBLE_KNOWN_WEST);
-									
-									if (vis_type==5 || vis_type==9)
-									removeVisible(getLayer(), spalte, zeile, 
-									AyirahStaticVars.VISIBLE_KNOWN_NORTH);
-								}
-								
-								if (vis_type==1)
-								{
-									removeEvenDirectionWallInvisible
-									(getLayer(), spalte, zeile,
-									AyirahStaticVars.DIRECTION_NORTH, 
-									false, true, -1, 0, false);
-								
-									removeVisible(getLayer(), spalte, zeile, 
-									AyirahStaticVars.VISIBLE_KNOWN_NORTH);
-								}
-								
-								if (vis_type==6)
-								{
-									removeEvenDirectionWallInvisible
-									(getLayer(), spalte, zeile,
-									AyirahStaticVars.DIRECTION_WEST, 
-									true, false, 0, -1, false);
-									
-									removeVisible(getLayer(), spalte, zeile, 
-									AyirahStaticVars.VISIBLE_KNOWN_WEST);
-								}
-							}
-							
-							else
-							{
-								if (!(vis_type==1 || vis_type==6))
-								{
-									for (int i=0; i<=Math.min(spalte, zeile); i++)
-									{
-										if (!(i==0) && map.isValidCoordPair
-										(getLayer(), spalte-i, zeile-i))
-											removeVisible(getLayer(), spalte-i, zeile-i,
-											AyirahStaticVars.VISIBLE_KNOWN_ALL);
-										if (map.isValidCoordPair(getLayer(), 
-										spalte-i-1, zeile-i))
-											removeVisible(getLayer(), spalte-i-1, zeile-i,
-											AyirahStaticVars.VISIBLE_KNOWN_NORTH+
-											AyirahStaticVars.VISIBLE_KNOWN_EAST);
-										if (map.isValidCoordPair(getLayer(), 
-										spalte-i, zeile-i-1))
-											removeVisible(getLayer(), spalte-i, zeile-i-1,
-											AyirahStaticVars.VISIBLE_KNOWN_SOUTH+
-											AyirahStaticVars.VISIBLE_KNOWN_WEST);
-									}
-									
-									if (vis_type==4 || vis_type==7)
-									removeVisible(getLayer(), spalte, zeile, 
-									AyirahStaticVars.VISIBLE_KNOWN_NORTH+
-									AyirahStaticVars.VISIBLE_KNOWN_WEST);
-									
-									if (vis_type==2 || vis_type==8)
-									removeVisible(getLayer(), spalte, zeile, 
-									AyirahStaticVars.VISIBLE_KNOWN_WEST);
-									
-									if (vis_type==5 || vis_type==9)
-									removeVisible(getLayer(), spalte, zeile, 
-									AyirahStaticVars.VISIBLE_KNOWN_NORTH);
-								}
-								
-								if (vis_type==1)
-								{
-									for (int i=0; i<=Math.min(spalte, zeile); i++)
-									{
-										if (!(i==0) && map.isValidCoordPair
-										(getLayer(), spalte-i, zeile-i))
-											removeVisible(getLayer(), spalte-i, zeile-i,
-											AyirahStaticVars.VISIBLE_KNOWN_NORTH+
-											AyirahStaticVars.VISIBLE_KNOWN_EAST);
-											
-										if (map.isValidCoordPair
-										(getLayer(), spalte-i, zeile-i-1))
-											removeVisible(getLayer(), spalte-i, zeile-i-1,
-											AyirahStaticVars.VISIBLE_KNOWN_SOUTH+
-											AyirahStaticVars.VISIBLE_KNOWN_WEST);
-									}
-									
-									removeVisible(getLayer(), spalte, zeile, 
-									AyirahStaticVars.VISIBLE_KNOWN_NORTH);
-								}
-								
-								if (vis_type==6)
-								{
-									for (int i=0; i<=Math.min(spalte, zeile); i++)
-									{
-										if (!(i==0) && map.isValidCoordPair
-										(getLayer(), spalte-i, zeile-i))
-											removeVisible(getLayer(), spalte-i, zeile-i,
-											AyirahStaticVars.VISIBLE_KNOWN_SOUTH+
-											AyirahStaticVars.VISIBLE_KNOWN_WEST);
-										if (map.isValidCoordPair
-										(getLayer(), spalte-i-1, zeile-i))
-											removeVisible(getLayer(), spalte-i-1, zeile-i,
-											AyirahStaticVars.VISIBLE_KNOWN_NORTH+
-											AyirahStaticVars.VISIBLE_KNOWN_EAST);			
-									}
-									
-									removeVisible(getLayer(), spalte, zeile, 
-									AyirahStaticVars.VISIBLE_KNOWN_WEST);
-								}
-							}
-						}
-					}
-					
-					// Fall: Diagonale SW -> NO
-					else if (getPosX()-spalte==zeile-getPosY())
-					{
-						if (getPosX()-spalte<0)
-						{
-							if (getPosX()-spalte==-1)
-							{
-								if (!(vis_type==3 || vis_type==4))
-								{
-									removeOddDirectionWallInvisible(getLayer(), 
-									spalte, zeile, 
-									AyirahStaticVars.DIRECTION_NORTH_EAST);
-									
-									if (vis_type==6 || vis_type==7)
-									removeVisible(getLayer(), spalte, zeile, 
-									AyirahStaticVars.VISIBLE_KNOWN_NORTH+
-									AyirahStaticVars.VISIBLE_KNOWN_EAST);
-									
-									if (vis_type==2 || vis_type==8)
-									removeVisible(getLayer(), spalte, zeile, 
-									AyirahStaticVars.VISIBLE_KNOWN_EAST);
-									
-									if (vis_type==5 || vis_type==9)
-									removeVisible(getLayer(), spalte, zeile, 
-									AyirahStaticVars.VISIBLE_KNOWN_NORTH);
-								}
-								
-								if (vis_type==3)
-								{
-									removeEvenDirectionWallInvisible
-									(getLayer(), spalte, zeile,
-									AyirahStaticVars.DIRECTION_NORTH, 
-									true, false, 0, -1, false);
-									
-									removeVisible(getLayer(), spalte, zeile, 
-									AyirahStaticVars.VISIBLE_KNOWN_NORTH);
-								}
-								
-								if (vis_type==4)
-								{
-									removeEvenDirectionWallInvisible
-									(getLayer(), spalte, zeile,
-									AyirahStaticVars.DIRECTION_EAST, 
-									false, true, -1, 0, false);
-									
-									removeVisible(getLayer(), spalte, zeile, 
-									AyirahStaticVars.VISIBLE_KNOWN_EAST);
-								}
-							}
-							
-							else
-							{
-								if (!(vis_type==3 || vis_type==4))
-								{
-									for (int i=0; i<=Math.min
-									(map.getWidth()-1-spalte, zeile); i++)
-									{
-										if (!(i==0) && map.isValidCoordPair
-										(getLayer(), spalte+i, zeile-i))
-											removeVisible
-											(getLayer(), spalte+i, zeile-i,
-											AyirahStaticVars.VISIBLE_KNOWN_ALL);
-										if (map.isValidCoordPair
-										(getLayer(), spalte+i+1, zeile-i))
-											removeVisible
-											(getLayer(), spalte+i+1, zeile-i,
-											AyirahStaticVars.VISIBLE_KNOWN_NORTH+
-											AyirahStaticVars.VISIBLE_KNOWN_WEST);
-										if (map.isValidCoordPair
-										(getLayer(), spalte+i, zeile-i-1))
-											removeVisible(getLayer(), spalte+i, zeile-i-1,
-											AyirahStaticVars.VISIBLE_KNOWN_SOUTH+
-										AyirahStaticVars.VISIBLE_KNOWN_EAST);
-									}
-									
-									if (vis_type==6 || vis_type==7)
-									removeVisible(getLayer(), spalte, zeile, 
-									AyirahStaticVars.VISIBLE_KNOWN_NORTH+
-									AyirahStaticVars.VISIBLE_KNOWN_EAST);
-									
-									if (vis_type==2 || vis_type==8)
-									removeVisible(getLayer(), spalte, zeile, 
-									AyirahStaticVars.VISIBLE_KNOWN_EAST);
-									
-									if (vis_type==5 || vis_type==9)
-									removeVisible(getLayer(), spalte, zeile, 
-									AyirahStaticVars.VISIBLE_KNOWN_NORTH);
-								}
-								
-								if (vis_type==3)
-								{
-									for (int i=0; i<=Math.min
-									(map.getWidth()-1-spalte, zeile); i++)
-									{
-										if (!(i==0) && map.isValidCoordPair
-										(getLayer(), spalte+i, zeile-i))
-											removeVisible(getLayer(), spalte+i, zeile-i,
-											AyirahStaticVars.VISIBLE_KNOWN_NORTH+
-											AyirahStaticVars.VISIBLE_KNOWN_WEST);
-											
-										if (map.isValidCoordPair
-										(getLayer(), spalte+i, zeile-i-1))
-											removeVisible(getLayer(), spalte+i, zeile-i-1,
-											AyirahStaticVars.VISIBLE_KNOWN_SOUTH+
-											AyirahStaticVars.VISIBLE_KNOWN_EAST);
-									}
-									
-									removeVisible(getLayer(), spalte, zeile, 
-									AyirahStaticVars.VISIBLE_KNOWN_NORTH);
-								}
-								
-								if (vis_type==4)
-								{
-									for (int i=0; i<=Math.min
-									(map.getWidth()-1-spalte, zeile); i++)
-									{
-										if (!(i==0) && map.isValidCoordPair
-										(getLayer(), spalte+i, zeile-i))
-											removeVisible(getLayer(), spalte+i, zeile-i,
-											AyirahStaticVars.VISIBLE_KNOWN_SOUTH+
-											AyirahStaticVars.VISIBLE_KNOWN_EAST);
-										if (map.isValidCoordPair
-										(getLayer(), spalte+i+1, zeile-i))
-											removeVisible(getLayer(), spalte+i+1, zeile-i,
-											AyirahStaticVars.VISIBLE_KNOWN_NORTH+
-											AyirahStaticVars.VISIBLE_KNOWN_WEST);
-									}
-									removeVisible(getLayer(), spalte, zeile, 
-									AyirahStaticVars.VISIBLE_KNOWN_EAST);
-								}
-							}
-						}
-						
-						// Fall: Diagonale NO -> SW
-						else // if (charpos_x-spalte)>0 danach ist verzeichtbar
-						{
-							if (getPosX()-spalte==1)
-							{
-								if (!(vis_type==3 || vis_type==4))
-								{
-									removeOddDirectionWallInvisible
-									(getLayer(), spalte, zeile, 
-									AyirahStaticVars.DIRECTION_SOUTH_WEST);
-									
-									if (vis_type==1 || vis_type==7)
-									removeVisible(getLayer(), spalte, zeile, 
-									AyirahStaticVars.VISIBLE_KNOWN_SOUTH+
-									AyirahStaticVars.VISIBLE_KNOWN_WEST);
-									
-									if (vis_type==2 || vis_type==8)
-									removeVisible(getLayer(), spalte, zeile, 
-									AyirahStaticVars.VISIBLE_KNOWN_WEST);
-									
-									if (vis_type==5 || vis_type==9)
-									removeVisible(getLayer(), spalte, zeile, 
-									AyirahStaticVars.VISIBLE_KNOWN_SOUTH);
-								}
-								
-								if (vis_type==3)
-								{
-									removeEvenDirectionWallInvisible
-									(getLayer(), spalte, zeile,
-									AyirahStaticVars.DIRECTION_WEST, 
-									 false, true, -1, 0, false);
-									
-									removeVisible(getLayer(), spalte, zeile, 
-									AyirahStaticVars.VISIBLE_KNOWN_WEST);
-								}
-								
-								if (vis_type==4)
-								{
-									removeEvenDirectionWallInvisible
-									(getLayer(), spalte, zeile,
-									AyirahStaticVars.DIRECTION_SOUTH, 
-									true, false, 0, -1, false);
-									
-									removeVisible(getLayer(), spalte, zeile, 
-									AyirahStaticVars.VISIBLE_KNOWN_SOUTH);
-								}
-							}
-							
-							else
-							{
-								if (!(vis_type==3 || vis_type==4))
-								{
-									for (int i=0; i<=Math.min(spalte, 
-									(map.getHeight()-1-zeile)); i++)
-									{
-										if (!(i==0) && map.isValidCoordPair
-										(getLayer(), spalte-i, zeile+i))
-											removeVisible(
-											getLayer(), spalte-i, zeile+i,
-											AyirahStaticVars.VISIBLE_KNOWN_ALL);
-										if (map.isValidCoordPair
-										(getLayer(), spalte-i-1, zeile+i))
-											removeVisible(
-											getLayer(), spalte-i-1, zeile+i,
-											AyirahStaticVars.VISIBLE_KNOWN_SOUTH+
-											AyirahStaticVars.VISIBLE_KNOWN_EAST);
-										if (map.isValidCoordPair
-										(getLayer(), spalte-i, zeile+i+1))
-											removeVisible(
-											getLayer(), spalte-i, zeile+i+1,
-											AyirahStaticVars.VISIBLE_KNOWN_NORTH+
-											AyirahStaticVars.VISIBLE_KNOWN_WEST);
-									}
-									
-									if (vis_type==1 || vis_type==7)
-									removeVisible(getLayer(), spalte, zeile, 
-									AyirahStaticVars.VISIBLE_KNOWN_SOUTH+
-									AyirahStaticVars.VISIBLE_KNOWN_WEST);
-									
-									if (vis_type==2 || vis_type==8)
-									removeVisible(getLayer(), spalte, zeile, 
-									AyirahStaticVars.VISIBLE_KNOWN_WEST);
-									
-									if (vis_type==5 || vis_type==9)
-									removeVisible(getLayer(), spalte, zeile, 
-									AyirahStaticVars.VISIBLE_KNOWN_SOUTH);
-								}
-								
-								if (vis_type==3)
-								{
-									for (int i=0; i<=Math.min(spalte, 
-									(map.getHeight()-1-zeile)); i++)
-									{
-										if (!(i==0) && map.isValidCoordPair
-										(getLayer(), spalte-i, zeile+i))
-											removeVisible(
-											getLayer(), spalte-i, zeile+i,
-											AyirahStaticVars.VISIBLE_KNOWN_NORTH+
-											AyirahStaticVars.VISIBLE_KNOWN_WEST);
-										if (map.isValidCoordPair
-										(getLayer(), spalte-i-1, zeile+i))
-											removeVisible(
-											getLayer(), spalte-i-1, zeile+i,
-											AyirahStaticVars.VISIBLE_KNOWN_SOUTH+
-											AyirahStaticVars.VISIBLE_KNOWN_EAST);
-									}
-									
-									removeVisible(getLayer(), spalte, zeile, 
-									AyirahStaticVars.VISIBLE_KNOWN_WEST);
-								}
-								
-								if (vis_type==4)
-								{
-									for (int i=0; i<=Math.min(spalte, 
-									(map.getHeight()-1-zeile)); i++)
-									{
-										if (!(i==0) && map.isValidCoordPair
-										(getLayer(), spalte-i, zeile+i))
-											removeVisible(
-											getLayer(), spalte-i, zeile+i,
-											AyirahStaticVars.VISIBLE_KNOWN_SOUTH+
-											AyirahStaticVars.VISIBLE_KNOWN_EAST);
-										if (map.isValidCoordPair
-										(getLayer(), spalte-i, zeile+i+1))
-											removeVisible(
-											getLayer(), spalte-i, zeile+i+1,
-											AyirahStaticVars.VISIBLE_KNOWN_NORTH+
-											AyirahStaticVars.VISIBLE_KNOWN_WEST);
-									}
-									
-									removeVisible(getLayer(), spalte, zeile, 
-									AyirahStaticVars.VISIBLE_KNOWN_SOUTH);
-								}
-							}
-						}
-					}
-					
-					// jetzt die restlichen 8 Fälle
-					if (getPosX()>spalte && getPosY()>zeile)
-					{
-						// Fall: Wand NNW
-						if (getPosY()-getPosX()>zeile-spalte)
-						{
-							if (!(vis_type==1))
-							removeEvenDirectionWallInvisible
-							(getLayer(), spalte, zeile, 
-							AyirahStaticVars.DIRECTION_NORTH, 
-							false, true,0,0, false);
-
-							if (vis_type==6 || vis_type==4 || vis_type==7 ||
-							vis_type==2 || vis_type==8)
-							removeVisible(getLayer(), spalte, zeile, 
-							AyirahStaticVars.VISIBLE_KNOWN_ALL
-							-AyirahStaticVars.VISIBLE_KNOWN_SOUTH);
-							
-							if (vis_type==1)
-							removeEvenDirectionWallInvisible
-							(getLayer(), spalte, zeile, 
-							AyirahStaticVars.DIRECTION_NORTH, 
-							false, true,-1,0, false);
-							
-							if (vis_type==5 || vis_type==9)
-							removeVisible(getLayer(), spalte, zeile, 
-							AyirahStaticVars.VISIBLE_KNOWN_NORTH);
-						}
-						
-						// Fall: Wand NWW
-						else if (getPosY()-getPosX()<zeile-spalte)
-						{
-							if (!(vis_type==6))
-							removeEvenDirectionWallInvisible
-							(getLayer(), spalte, zeile, 
-							AyirahStaticVars.DIRECTION_WEST, 
-							true, false,0,0, false);
-							
-							if (vis_type==1 || vis_type==4 || vis_type==7 ||
-							vis_type==5 || vis_type==9)
-							removeVisible(getLayer(), spalte, zeile, 
-							AyirahStaticVars.VISIBLE_KNOWN_ALL
-							-AyirahStaticVars.VISIBLE_KNOWN_EAST);
-							
-							if (vis_type==6)
-							removeEvenDirectionWallInvisible
-							(getLayer(), spalte, zeile, 
-							AyirahStaticVars.DIRECTION_WEST, 
-							true, false,0,-1, false);
-							
-							if (vis_type==2 || vis_type==8)
-							removeVisible(getLayer(), spalte, zeile, 
-							AyirahStaticVars.VISIBLE_KNOWN_WEST);
-						}
-					}
-					
-					else if (getPosX()>spalte && getPosY()<zeile)
-					{
-						// Fall: Wand SWW
-						if (getPosY()+getPosX()>zeile+spalte)
-						{
-							if (!(vis_type==3))
-							removeEvenDirectionWallInvisible
-							(getLayer(), spalte, zeile, 
-							AyirahStaticVars.DIRECTION_WEST, 
-							false, true,0,0, false);
-							
-							if (vis_type==4 || vis_type==1 || vis_type==7 ||
-							vis_type==5 || vis_type==9)
-							removeVisible(getLayer(), spalte, zeile, 
-							AyirahStaticVars.VISIBLE_KNOWN_ALL
-							-AyirahStaticVars.VISIBLE_KNOWN_EAST);
-							
-							if (vis_type==3)
-							removeEvenDirectionWallInvisible
-							(getLayer(), spalte, zeile, 
-							AyirahStaticVars.DIRECTION_WEST, 
-							false, true,-1,0, false);
-							
-							if (vis_type==2 || vis_type==8)
-							removeVisible(getLayer(), spalte, zeile, 
-							AyirahStaticVars.VISIBLE_KNOWN_WEST);
-						}
-						
-						// Fall: Wand SSW
-						else if (getPosY()+getPosX()<zeile+spalte)
-						{
-							if (!(vis_type==4))
-							removeEvenDirectionWallInvisible
-							(getLayer(), spalte, zeile, 
-							AyirahStaticVars.DIRECTION_SOUTH, 
-							true, false,0,0, false);
-							
-							if (vis_type==3 || vis_type==1 || vis_type==7 ||
-							vis_type==2 || vis_type==8)
-							removeVisible(getLayer(), spalte, zeile, 
-							AyirahStaticVars.VISIBLE_KNOWN_ALL
-							-AyirahStaticVars.VISIBLE_KNOWN_NORTH);
-							
-							if (vis_type==4)
-							removeEvenDirectionWallInvisible
-							(getLayer(), spalte, zeile, 
-							AyirahStaticVars.DIRECTION_SOUTH, 
-							true, false,0,-1, false);
-							
-							if (vis_type==5 || vis_type==9)
-							removeVisible(getLayer(), spalte, zeile, 
-							AyirahStaticVars.VISIBLE_KNOWN_SOUTH);
-						}
-					}
-					
-					else if (getPosX()<spalte && getPosY()<zeile)
-					{
-						// Fall: SSO
-						if (getPosY()-getPosX()<zeile-spalte)
-						{
-							if (!(vis_type==6))
-							removeEvenDirectionWallInvisible
-							(getLayer(), spalte, zeile, 
-							AyirahStaticVars.DIRECTION_SOUTH, 
-							false, true,0,0, false);
-							
-							if (vis_type==1 || vis_type==3 || vis_type==7 ||
-							vis_type==2 || vis_type==8)
-							removeVisible(getLayer(), spalte, zeile, 
-							AyirahStaticVars.VISIBLE_KNOWN_ALL
-							-AyirahStaticVars.VISIBLE_KNOWN_NORTH);
-							
-							if (vis_type==6)
-							removeEvenDirectionWallInvisible
-							(getLayer(), spalte, zeile, 
-							AyirahStaticVars.DIRECTION_SOUTH, 
-							false, true,-1,0, false);
-							
-							if (vis_type==5 || vis_type==9)
-							removeVisible(getLayer(), spalte, zeile, 
-							AyirahStaticVars.VISIBLE_KNOWN_SOUTH);
-						}
-						
-						// Fall: SOO
-						else if (getPosY()-getPosX()>zeile-spalte)
-						{
-							if (!(vis_type==1))
-							removeEvenDirectionWallInvisible
-							(getLayer(), spalte, zeile, 
-							AyirahStaticVars.DIRECTION_EAST, 
-							true, false,0,0, false);
-							
-							if (vis_type==6 || vis_type==3 || vis_type==7 ||
-							vis_type==5 || vis_type==9)
-							removeVisible(getLayer(), spalte, zeile, 
-							AyirahStaticVars.VISIBLE_KNOWN_ALL
-							-AyirahStaticVars.VISIBLE_KNOWN_WEST);
-							
-							if (vis_type==1)
-							removeEvenDirectionWallInvisible
-							(getLayer(), spalte, zeile, 
-							AyirahStaticVars.DIRECTION_EAST, 
-							true, false,0,-1, false);
-							
-							if (vis_type==2 || vis_type==8)
-							removeVisible(getLayer(), spalte, zeile, 
-							AyirahStaticVars.VISIBLE_KNOWN_EAST);
-						}
-					}
-					
-					else if (getPosX()<spalte && getPosY()>zeile)
-					{
-						// Fall: Wand NOO
-						if (getPosY()+getPosX()<zeile+spalte)
-						{
-							if (!(vis_type==4))
-							removeEvenDirectionWallInvisible
-							(getLayer(), spalte, zeile, 
-							AyirahStaticVars.DIRECTION_EAST, 
-							false, true,0,0, false);
-							
-							if (vis_type==4)
-							removeEvenDirectionWallInvisible
-							(getLayer(), spalte, zeile, 
-							AyirahStaticVars.DIRECTION_EAST, 
-							false, true,-1,0, false);
-							
-							if (vis_type==3 || vis_type==6 || vis_type==7 ||
-							vis_type==5 || vis_type==9)
-							removeVisible(getLayer(), spalte, zeile, 
-							AyirahStaticVars.VISIBLE_KNOWN_ALL
-							-AyirahStaticVars.VISIBLE_KNOWN_WEST);
-							
-							if (vis_type==2 || vis_type==8)
-							removeVisible(getLayer(), spalte, zeile, 
-							AyirahStaticVars.VISIBLE_KNOWN_EAST);
-						}
-						
-						// Fall: Wand NNO
-						else if (getPosY()+getPosX()>zeile+spalte)
-						{
-							if (!(vis_type==3))
-							removeEvenDirectionWallInvisible
-							(getLayer(), spalte, zeile, 
-							AyirahStaticVars.DIRECTION_NORTH, 
-							true, false,0,0, false);
-							
-							if (vis_type==4 || vis_type==6 || vis_type==7 ||
-							vis_type==2 || vis_type==8)
-							removeVisible(getLayer(), spalte, zeile, 
-							AyirahStaticVars.VISIBLE_KNOWN_ALL
-							-AyirahStaticVars.VISIBLE_KNOWN_SOUTH);
-							
-							if (vis_type==3)
-							removeEvenDirectionWallInvisible
-							(getLayer(), spalte, zeile, 
-							AyirahStaticVars.DIRECTION_NORTH, 
-							true, false,0,-1, false);
-							
-							if (vis_type==5 || vis_type==9)
-							removeVisible(getLayer(), spalte, zeile, 
-							AyirahStaticVars.VISIBLE_KNOWN_NORTH);
-						}
-					}
-				}
-				
-				// Dieser Fall macht bis jetzt nur bei Türen Sinn!
-				else if (vis_type>0 &&
-				zeile==this.getPosY() &&
-				spalte==this.getPosX())
-				{
-					if (vis_type==8) // senkrechte Tür
-					{
-						removeEvenDirectionWallInvisible(getLayer(), spalte, zeile, 
-						AyirahStaticVars.DIRECTION_NORTH, false, false,-1,-1, false);
-						
-						removeEvenDirectionWallInvisible(getLayer(), spalte, zeile, 
-						AyirahStaticVars.DIRECTION_SOUTH, false, false,-1,-1, false);
-					}
-					
-					else if (vis_type==9) // waagrechte Tür
-					{
-						removeEvenDirectionWallInvisible(getLayer(), spalte, zeile, 
-						AyirahStaticVars.DIRECTION_WEST, false, false,-1,-1, false);
-						
-						removeEvenDirectionWallInvisible(getLayer(), spalte, zeile, 
-						AyirahStaticVars.DIRECTION_EAST, false, false,-1,-1, false);
-					}
-				}
+				this.removeInvisible(getLayer(), spalte, zeile, vis_type);
 			}
 	}
 		
