@@ -592,19 +592,6 @@ public abstract class HumanLikeCreature extends Creature {
 			}
 	}
 	
-	// eine ältere, aber 100% funktioniernde Version
-//	protected int[] getMinMaxArea()
-//	{
-//		int[] back=new int[4];
-//		
-//		back[0]=0;
-//		back[1]=getMap().getWidth()-1;
-//		back[2]=0;
-//		back[3]=getMap().getHeight()-1;
-//		
-//		return back;
-//	}
-	
 	/**
 	 * @return int[4]: minX, maxX, minY, maxY
 	 */
@@ -1640,9 +1627,7 @@ public abstract class HumanLikeCreature extends Creature {
 		
 		int dir_left=(direction+6)%8;
 		int dir_right=(direction+2)%8;
-		
-		//System.out.println(left_tile_type+" Visible_Left"+visible_left);
-		
+
 		for (int i=0; i<=max; i++)
 			for (int j=(visible_right?0:(-i-1)); 
 			j<=(visible_left?0:(i+1)); j++)
@@ -1689,8 +1674,6 @@ public abstract class HumanLikeCreature extends Creature {
 						(!(line_type==0 && x==actual_x) && 
 						!(line_type==2 && y==actual_y)))
 						{
-							
-							
 							if ((j==0) && (i==0))
 								removeVisible(l, actual_x, actual_y,
 								front_invisible);
@@ -1702,7 +1685,7 @@ public abstract class HumanLikeCreature extends Creature {
 				}
 			}
 	}
-		
+	
 	protected void removeOddDirectionInvisibleArea(int l, int x, int y, int direction)
 	{
 		if (!((direction==AyirahStaticVars.DIRECTION_NORTH_EAST) || 
