@@ -1,5 +1,6 @@
 /*
  * Created on 06.03.2004
+ * Last modified on 14.07.2004
  * 
  * Ayirah - a Java (tm)-based Roleplaying Game 
  * Copyright (C) 2003  Wolfgang Keller
@@ -38,24 +39,27 @@ public class GameItem implements Cloneable {
 	private String state; // Status des Objekts
 	private String name; // lange Bezeichnung
 	private int vis_type;
+	private int using_directions;
 	private long weight; // Gewicht in Gramm
 	private boolean walk_on_able;
 	private boolean takeable; // kann der Character das Objekt aufnehmen (rein theoretisch!)
 	
 	GameItem(String type, String sub_type, String state, String name, 
-	int vis_type, boolean takeable, boolean walk_on_able, long weight)
+	int vis_type, int using_directions,
+	boolean takeable, boolean walk_on_able, long weight)
 	{
 		setType(type);
 		setSubType(sub_type);
 		setState(state);
 		setName(name);
 		setVisibilityType(vis_type);
+		setUsingDirections(using_directions);
 		setWeight(Math.abs(weight));
 		setWalkOnAble(walk_on_able);
 		setTakeable(takeable);
 	}
 	
-	protected void setType(String type) {
+	public void setType(String type) {
 		this.type = type;
 	}
 	
@@ -63,7 +67,7 @@ public class GameItem implements Cloneable {
 		return type;
 	}
 
-	protected void setSubType(String sub_type) {
+	public void setSubType(String sub_type) {
 		this.sub_type = sub_type;
 	}
 
@@ -79,7 +83,7 @@ public class GameItem implements Cloneable {
 		return state;
 	}
 
-	protected void setName(String name) {
+	public void setName(String name) {
 		this.name = name;
 	}
 
@@ -94,8 +98,16 @@ public class GameItem implements Cloneable {
 	public int getVisibilityType() {
 		return vis_type;
 	}
-
-	protected void setWeight(long weight) {
+	
+	public void setUsingDirections(int using_directions) {
+		this.using_directions = using_directions;
+	}
+	
+	public int getUsingDirections() {
+		return using_directions;
+	}
+	
+	public void setWeight(long weight) {
 		this.weight = weight;
 	}
 
@@ -103,7 +115,7 @@ public class GameItem implements Cloneable {
 		return weight;
 	}
 	
-	protected void setWalkOnAble(boolean move_on_able) {
+	public void setWalkOnAble(boolean move_on_able) {
 		this.walk_on_able = move_on_able;
 	}
 	
@@ -111,7 +123,7 @@ public class GameItem implements Cloneable {
 		return walk_on_able;
 	}
 
-	protected void setTakeable(boolean takeable) {
+	public void setTakeable(boolean takeable) {
 		this.takeable = takeable;
 	}
 
@@ -128,7 +140,9 @@ public class GameItem implements Cloneable {
 			this.getState()==gi.getState() &&
 			this.getName()==gi.getName() &&
 			this.getVisibilityType()==gi.getVisibilityType() &&
+			this.getUsingDirections()==gi.getUsingDirections() &&
 			this.getWeight()==gi.getWeight() &&
+			this.isWalkOnAble()==gi.isWalkOnAble() &&
 			this.isTakeable()==gi.isTakeable());
 		}
 		else
@@ -149,6 +163,7 @@ public class GameItem implements Cloneable {
 	
 	public Object clone()
 	{
-		return new GameItem(getType(), getSubType(), getState(), getName(), getVisibilityType(), isTakeable(), false, getWeight());
+		return new GameItem(getType(), getSubType(), getState(), getName(), 
+		getVisibilityType(), getUsingDirections(), isTakeable(), false, getWeight());
 	}
 }
