@@ -28,8 +28,8 @@
 /**
  * @author Wolfgang Keller
  * 
- * MapObject repräsentiert alle Objekte, die auf
- * der Karte auftreten (darunter auch Items, sie haben
+ * GameItem repräsentiert alle Objekte, die auf
+ * der Karte auftreten (Items haben
  * die Eigenschaft takeable=true)
  */
 public class GameItem {
