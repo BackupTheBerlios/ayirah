@@ -27,24 +27,26 @@
 /**
  * @author Wolfgang Keller
  */
+import java.util.*;
 import java.awt.*;
 import java.awt.event.*;import java.applet.*;
 import java.net.*;
 
-// import org.mozilla.javascript.*;
-// import org.mozilla.javascript.tools.ToolErrorReporter;
-
 public class Ayirah extends Frame implements KeyListener {
 	protected AyirahComponent ac;
+	protected GameMap gm;
 	
-	public Ayirah() {
+	public Ayirah(HashMap level) {
 		addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent e) {
 				dispose();
 				System.exit(0);
 			}
 		});
-		ac=new AyirahComponent();
+		
+		gm=new GameMap(2, level);
+		
+		ac=new AyirahComponent(gm);
 		this.add(ac);
 		this.addKeyListener(this);
 		
@@ -56,6 +58,7 @@ public class Ayirah extends Frame implements KeyListener {
 		{
 			mt.waitForAll();
 		}
+		
 		catch (InterruptedException e)
 		{
 		}
@@ -82,41 +85,14 @@ public class Ayirah extends Frame implements KeyListener {
 	}
 	
 	public static void main(String args[]) {
-		Ayirah mainFrame = new Ayirah();
+		HashMap hm=LevelLoader.loadLevel("levels/level.xml");
+		
+		Ayirah mainFrame = new Ayirah(hm);
 		mainFrame.setSize(700, 500);
 		mainFrame.setTitle("Ayirah");
 		mainFrame.setResizable(false);
 		mainFrame.pack();
 		mainFrame.setVisible(true);
-		
-		
-		// Nein, der JavaScript-Interpreter wird allenfalls später eingebunden
-//		Context cx=Context.enter();
-//		
-//		try {
-//			Scriptable scope = cx.initStandardObjects();
-//			
-//			//String s="java.lang.System.out.println(3)";
-//			String s="ayirahFrame.getAyirahComponent().getScrollingPixelsCount()";
-//			
-//			Scriptable jsArgs = Context.toObject(mainFrame, scope);
-//			scope.put("ayirahFrame", scope, jsArgs);
-//			
-//		 	// Now evaluate the string we've colected.
-//		 	Object result = cx.evaluateString(scope, s, "<cmd>", 1, null);
-//		 	
-//		 	// Convert the result to a string and print it.
-//			System.err.println(cx.toString(result));
-//		}
-//		catch(Exception jse)
-//		{
-//			System.out.println(jse.toString());
-//		}
-//			
-//		finally {
-//			// Exit from the context.
-//			Context.exit();
-//		}
 		
 		try
 		{
@@ -124,6 +100,7 @@ public class Ayirah extends Frame implements KeyListener {
 			new URL( "file:" + System.getProperty( "user.dir" ) + "/sound/jacklight.mid" ));
 			ac.loop();
 		}
+		
 		catch(MalformedURLException e)
 		{
 			System.out.println(e.toString());
