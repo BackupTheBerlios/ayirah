@@ -34,7 +34,7 @@ public class GameMap {
 		".........................",
 		"........I................",
 		"............1............",
-		"...-....#...............#",
+		"...w....s...............#",
 		".........................",
 		"................3........",
 		".......4.................",
@@ -178,7 +178,7 @@ public class GameMap {
 		{
 			char r=map[l][zeile].charAt(spalte);
 			
-			if (r=='1' || r=='2' || r=='3' || r=='4')
+			if (r=='1' || r=='2' || r=='3' || r=='4' || r=='s' || r=='w')
 			{
 				int known=c.getKnown(l, zeile, spalte);
 				boolean[] known_part=new boolean[4];
@@ -204,6 +204,12 @@ public class GameMap {
 					case '4':
 						array_index=3;
 						break;
+					case 's':
+						array_index=4;
+						break;
+					case 'w':
+						array_index=5;
+						break;
 					default:
 						// darf eigentlich nicht auftreten
 						System.out.println("Fehler ungültiges Tile");
@@ -214,7 +220,7 @@ public class GameMap {
 				for (int i=0; i<tile_part.length; i++)
 				{
 					tile_part[i]=known_part[i] ? 
-					AyirahStaticVars.diagonal_tiles_tile_parts[array_index][i] : ' ';
+					AyirahStaticVars.non_block_tiles_tile_parts[array_index][i] : ' ';
 				}
 				
 				return new GameTile(tile_part[0], tile_part[1], 

@@ -27,7 +27,6 @@
 /**
  * @author Wolfgang Keller
  */
-import java.awt.*;
 public class AyirahStaticVars {
 	
 	/** Die Richtungen: */
@@ -90,18 +89,17 @@ public class AyirahStaticVars {
 	/*
 	 * Index 0: Tile '1' usw.
 	 */
-	public static char[][] diagonal_tiles_tile_parts=
+	public static char[][] non_block_tiles_tile_parts=
 	{
 		{'#', '#', '.', '.'},
 		{'.', '#', '#', '.'},
 		{'.', '.', '#', '#'},
-		{'#', '.', '.', '#'}
+		{'#', '.', '.', '#'},
+		{'#', '.', '#', '.'},
+		{'.', '#', '.', '#'}
 	};
 	
 	public static final String avtr_prefix="avatars/avtr2";
 	public static final String tile_prefix="tiles/";
 	public static final String item_prefix="items/";
-	
-	public static final Color color_invisible=new Color(0,0,0,127);
-	public static final Color color_unknown=new Color(0,0,0,255);
 }
