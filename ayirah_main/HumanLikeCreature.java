@@ -667,17 +667,10 @@ public abstract class HumanLikeCreature extends Creature {
 								AyirahStaticVars.VISIBLE_CENTER | 
 								AyirahStaticVars.VISIBLE_RIGHT,
 								AyirahStaticVars.SIDE_TILE_INVISIBLE,
-								AyirahStaticVars.FRONT_TILE_VISIBLE,
+								vis_type==5 ? 
+								AyirahStaticVars.FRONT_TILE_MOST_VISIBLE : 
+								AyirahStaticVars.FRONT_TILE_MOST_INVISIBLE,
 								AyirahStaticVars.SIDE_TILE_INVISIBLE);
-					
-								if (vis_type!=5)
-								removeVisible(getLayer(), x, y, 
-								AyirahStaticVars.VISIBLE_KNOWN_ALL
-								-AyirahStaticVars.VISIBLE_KNOWN_SOUTH);
-					
-								else if (vis_type==5)
-								removeVisible(getLayer(), x, y, 
-								AyirahStaticVars.VISIBLE_KNOWN_NORTH);
 							}
 							
 							if (vis_type==1)
@@ -750,17 +743,10 @@ public abstract class HumanLikeCreature extends Creature {
 								AyirahStaticVars.VISIBLE_CENTER | 
 								AyirahStaticVars.VISIBLE_RIGHT,
 								AyirahStaticVars.SIDE_TILE_INVISIBLE,
-								AyirahStaticVars.FRONT_TILE_VISIBLE,
+								vis_type==5 ? 
+								AyirahStaticVars.FRONT_TILE_MOST_VISIBLE : 
+								AyirahStaticVars.FRONT_TILE_MOST_INVISIBLE,
 								AyirahStaticVars.SIDE_TILE_INVISIBLE);
-								
-								if (vis_type!=5)
-								removeVisible(getLayer(), x, y, 
-								AyirahStaticVars.VISIBLE_KNOWN_ALL
-								-AyirahStaticVars.VISIBLE_KNOWN_NORTH);
-								
-								else if (vis_type==5)
-								removeVisible(getLayer(), x, y, 
-								AyirahStaticVars.VISIBLE_KNOWN_SOUTH);
 							}
 							
 							if (vis_type==4)
@@ -836,17 +822,10 @@ public abstract class HumanLikeCreature extends Creature {
 								AyirahStaticVars.VISIBLE_CENTER | 
 								AyirahStaticVars.VISIBLE_RIGHT,
 								AyirahStaticVars.SIDE_TILE_INVISIBLE,
-								AyirahStaticVars.FRONT_TILE_VISIBLE,
+								vis_type==2 ? 
+								AyirahStaticVars.FRONT_TILE_MOST_VISIBLE : 
+								AyirahStaticVars.FRONT_TILE_MOST_INVISIBLE,
 								AyirahStaticVars.SIDE_TILE_INVISIBLE);
-								
-								if (vis_type!=2)
-								removeVisible(getLayer(), x, y, 
-								AyirahStaticVars.VISIBLE_KNOWN_ALL
-								-AyirahStaticVars.VISIBLE_KNOWN_EAST);
-								
-								else if (vis_type==2)
-								removeVisible(getLayer(), x, y, 
-								AyirahStaticVars.VISIBLE_KNOWN_WEST);
 							}
 							
 							if (vis_type==6)
@@ -919,17 +898,10 @@ public abstract class HumanLikeCreature extends Creature {
 								AyirahStaticVars.VISIBLE_CENTER | 
 								AyirahStaticVars.VISIBLE_RIGHT,
 								AyirahStaticVars.SIDE_TILE_INVISIBLE,
-								AyirahStaticVars.FRONT_TILE_VISIBLE,
+								vis_type==2 ? 
+								AyirahStaticVars.FRONT_TILE_MOST_VISIBLE : 
+								AyirahStaticVars.FRONT_TILE_MOST_INVISIBLE,
 								AyirahStaticVars.SIDE_TILE_INVISIBLE);
-								
-								if (vis_type!=2)
-								removeVisible(getLayer(), x, y, 
-								AyirahStaticVars.VISIBLE_KNOWN_ALL
-								-AyirahStaticVars.VISIBLE_KNOWN_WEST);
-								
-								else if (vis_type==2)
-								removeVisible(getLayer(), x, y, 
-								AyirahStaticVars.VISIBLE_KNOWN_EAST);
 							}
 							
 							if (vis_type==1)
@@ -1963,10 +1935,10 @@ public abstract class HumanLikeCreature extends Creature {
 				front_invisible=AyirahStaticVars.VISIBLE_KNOWN_ALL;
 				break;
 			case AyirahStaticVars.FRONT_TILE_MOST_INVISIBLE:
-				front_invisible=(1<<(direction/2));
+				front_invisible=AyirahStaticVars.VISIBLE_KNOWN_ALL-(1<<(((direction+4)%8)/2));
 				break;
 			case AyirahStaticVars.FRONT_TILE_MOST_VISIBLE:
-				front_invisible=AyirahStaticVars.VISIBLE_KNOWN_ALL-(1<<(direction/2));
+				front_invisible=(1<<(direction/2));
 				break;
 			case AyirahStaticVars.FRONT_TILE_VISIBLE:
 				front_invisible=AyirahStaticVars.VISIBLE_KNOWN_NONE;
@@ -2007,7 +1979,6 @@ public abstract class HumanLikeCreature extends Creature {
 				
 				if (map.isValidCoordPair(l, actual_x, actual_y))
 				{
-					if (!((j==0) && (i==0)))
 						// rechts
 						if (j==(-i-1))
 						{
@@ -2040,7 +2011,11 @@ public abstract class HumanLikeCreature extends Creature {
 						
 						else
 						{
-							if (!ignore_center || 
+							if ((j==0) && (i==0))
+								removeVisible(l, actual_x, actual_y,
+								front_invisible);
+							
+							else if (!ignore_center || 
 							(!(line_type==0 && x==actual_x) && 
 							!(line_type==2 && y==actual_y)))
 								removeVisible(l, actual_x, actual_y,
