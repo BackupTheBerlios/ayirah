@@ -64,14 +64,16 @@ public class AyirahStaticVars {
 	public static final int VISIBLE_CENTER=2;
 	public static final int VISIBLE_RIGHT=1;
 	
-	public static final int FRONT_TILE_INVISIBLE=0;
-	public static final int FRONT_TILE_MOST_INVISIBLE=1;
-	public static final int FRONT_TILE_MOST_VISIBLE=2;
-	public static final int FRONT_TILE_VISIBLE=3;
+	public static final int FRONT_FULL_VISIBLE=0;
+	public static final int FRONT_TILE_INVISIBLE=1;
+	public static final int FRONT_TILE_MOST_INVISIBLE=2;
+	public static final int FRONT_TILE_MOST_VISIBLE=3;
+	public static final int FRONT_TILE_VISIBLE=4;
 	
-	public static final int SIDE_TILE_INVISIBLE=0;
-	public static final int SIDE_TILE_HALFVISIBLE=1;
-	public static final int SIDE_TILE_VISIBLE=2;
+	public static final int SIDE_FULL_VISIBLE=0;
+	public static final int SIDE_TILE_INVISIBLE=1;
+	public static final int SIDE_TILE_HALFVISIBLE=2;
+	public static final int SIDE_TILE_VISIBLE=3;
 	
 	public static char[][] non_block_tiles_tile_parts=
 	{
