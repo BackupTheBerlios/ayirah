@@ -404,18 +404,20 @@ public class AyirahComponent extends Canvas
 						tile_height*zeile+im_delta_y[i], this);
 				}
 				
-				String item=gt.getItem();
 				
-				if (item!="")
+				if (gt.getItem()!=null)
 				{
+					String item_type=gt.getItem().getType();
+					String item_state=gt.getItem().getState();
+					
 					int item_index=-1;
 					
-					if (item=="box_open")
+					if (item_type=="box" && item_state=="open")
 					{
 						item_index=0;
 					}
 					
-					else if (item=="box_closed")
+					else if (item_type=="box" && item_state=="closed")
 					{
 						item_index=1;
 					}

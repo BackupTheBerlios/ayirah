@@ -32,17 +32,44 @@
  * der Karte auftreten (darunter auch Items, sie haben
  * die Eigenschaft takeable=true)
  */
-public class MapObject {
-	String type; // um was für einen Objekttyp handelt es sich
-	String name; // lange Bezeichnung
-	long weight; // Gewicht in Gramm
-	boolean takeable; // kann der Character das Objekt aufnehmen (rein theoretisch!)
+public class GameItem {
+	protected String type; // um was für einen Objekttyp handelt es sich
+	protected String state; // Status des Objekts
+	protected String name; // lange Bezeichnung
+	protected long weight; // Gewicht in Gramm
+	protected boolean takeable; // kann der Character das Objekt aufnehmen (rein theoretisch!)
 	
-	MapObject(String type, String name, long weight, boolean takeable)
+	GameItem(String type, String state, String name, long weight, boolean takeable)
 	{
 		this.type=type;
+		this.state=state;
 		this.name=name;
 		this.weight=Math.abs(weight);
 		this.takeable=takeable;
+	}
+	
+	public String getType()
+	{
+		return this.type;
+	}
+	
+	public String getState()
+	{
+		return this.state;
+	}
+	
+	public String getName()
+	{
+		return this.name;
+	}
+	
+	public long getWeight()
+	{
+		return this.weight;
+	}
+	
+	public boolean isTakeAble()
+	{
+		return takeable;
 	}
 }

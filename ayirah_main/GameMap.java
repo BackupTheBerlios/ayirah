@@ -197,7 +197,7 @@ public class GameMap {
 		char tile_south= known_south ? tile_type : '?';
 		char tile_west= known_west ? tile_type : '?';
 		
-		return new GameTile(tile_north, tile_east, tile_south, tile_west, visible, known, "");
+		return new GameTile(tile_north, tile_east, tile_south, tile_west, visible, known, null);
 	}
 	
 	public GameTile getCreatureKnownTile(HumanLikeCreature c, int l, int zeile, int spalte)
@@ -258,7 +258,7 @@ public class GameMap {
 				
 				return new GameTile(tile_part[0], tile_part[1], 
 				tile_part[2], tile_part[3], c.getVisible(l, zeile, spalte), 
-				c.getKnown(l, zeile, spalte),"");
+				c.getKnown(l, zeile, spalte), null);
 			}
 			
 			else if (r=='X' || r=='x')
@@ -266,9 +266,9 @@ public class GameMap {
 				GameTile gt=createGameTile('.', c.getVisible(l, zeile, spalte), 
 				c.getKnown(l, zeile, spalte));
 				if (r=='x')
-					gt.setItem("box_open");
+					gt.setItem(new GameItem("box", "open", "an open box", 50000, false));
 				else
-					gt.setItem("box_closed");
+					gt.setItem(new GameItem("box", "closed", "a closed box", 50000, false));
 				return gt;
 			}
 			
@@ -322,8 +322,8 @@ public class GameMap {
 			getActualCharacterIndex()).getLayer())
 			basic.setVisibleOther(basic.getVisibleOther() | chartiles[i].getVisible());
 			
-			if ((basic.getItem()=="" || basic.getItem()==null) && 
-			(chartiles[i].getItem()!="" && chartiles[i].getItem()!=null))
+			if ((basic.getItem()==null) && 
+			(chartiles[i].getItem()!=null))
 			{
 				basic.setItem(chartiles[i].getItem());
 			}

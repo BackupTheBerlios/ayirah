@@ -35,15 +35,15 @@ public class GameTile {
 	protected int visible_other;
 	protected int known;
 	
-	protected String item;
+	protected GameItem gi;
 	
-	GameTile(char t_north, char t_east, char t_south, char t_west, int visible, int known, String item)
+	GameTile(char t_north, char t_east, char t_south, char t_west, int visible, int known, GameItem item)
 	{
 		this.visibility=visible;
 		this.visible_other=0;
 		directionParts=new char[4];
 		this.known=known;
-		this.item=item;
+		this.gi=item;
 		
 		directionParts[0]=t_north;
 		directionParts[1]=t_east;
@@ -115,13 +115,13 @@ public class GameTile {
 		this.known=known;
 	}
 	
-	public String getItem()
+	public GameItem getItem()
 	{
-		return item;
+		return gi;
 	}
 	
-	public void setItem(String item)
+	public void setItem(GameItem item)
 	{
-		this.item=item;
+		this.gi=item;
 	}
 }
