@@ -693,6 +693,7 @@ public abstract class HumanLikeCreature extends Creature {
 					// jetzt die restlichen 8 Fälle
 					if (getPosX()>spalte && getPosY()>zeile)
 					{
+						// Fall: Wand NNW
 						if (getPosY()-getPosX()>zeile-spalte)
 						{
 							if (!(wall_type=='1'))
@@ -712,6 +713,7 @@ public abstract class HumanLikeCreature extends Creature {
 							AyirahStaticVars.DIRECTION_NORTH, false, true,-1,0);
 						}
 						
+						// Fall: Wand NWW
 						else if (getPosY()-getPosX()<zeile-spalte)
 						{
 							if (!(wall_type=='3'))
@@ -734,6 +736,7 @@ public abstract class HumanLikeCreature extends Creature {
 					
 					else if (getPosX()>spalte && getPosY()<zeile)
 					{
+						// Fall: Wand SWW
 						if (getPosY()+getPosX()>zeile+spalte)
 						{
 							if (!(wall_type=='4'))
@@ -752,7 +755,8 @@ public abstract class HumanLikeCreature extends Creature {
 							removeEvenDirectionWallInvisible(getLayer(), spalte, zeile, 
 							AyirahStaticVars.DIRECTION_WEST, false, true,-1,0);
 						}
-					
+						
+						// Fall: Wand SSW
 						else if (getPosY()+getPosX()<zeile+spalte)
 						{
 							if (!(wall_type=='2'))
@@ -775,26 +779,8 @@ public abstract class HumanLikeCreature extends Creature {
 					
 					else if (getPosX()<spalte && getPosY()<zeile)
 					{
-						if (getPosY()-getPosX()>zeile-spalte)
-						{
-							if (!(wall_type=='1'))
-							removeEvenDirectionWallInvisible(getLayer(), spalte, zeile, 
-							AyirahStaticVars.DIRECTION_EAST, true, false,0,0);
-							
-							if (wall_type=='4')
-							removeVisible(getLayer(), spalte, zeile, 
-							AyirahStaticVars.VISIBLE_KNOWN_SOUTH_EAST);
-							
-							if (wall_type=='3')
-							removeVisible(getLayer(), spalte, zeile, 
-							AyirahStaticVars.VISIBLE_KNOWN_NORTH_EAST);
-							
-							if (wall_type=='1')
-							removeEvenDirectionWallInvisible(getLayer(), spalte, zeile, 
-							AyirahStaticVars.DIRECTION_EAST, true, false,0,-1);
-						}
-						
-						else if (getPosY()-getPosX()<zeile-spalte)
+						// Fall: SSO
+						if (getPosY()-getPosX()<zeile-spalte)
 						{
 							if (!(wall_type=='3'))
 							removeEvenDirectionWallInvisible(getLayer(), spalte, zeile, 
@@ -812,30 +798,32 @@ public abstract class HumanLikeCreature extends Creature {
 							removeEvenDirectionWallInvisible(getLayer(), spalte, zeile, 
 							AyirahStaticVars.DIRECTION_SOUTH, false, true,-1,0);
 						}
-					}
-					
-					else if (getPosX()<spalte && getPosY()>zeile)
-					{
-						if (getPosY()+getPosX()>zeile+spalte)
+						
+						// Fall: SOO
+						else if (getPosY()-getPosX()>zeile-spalte)
 						{
-							if (!(wall_type=='4'))
+							if (!(wall_type=='1'))
 							removeEvenDirectionWallInvisible(getLayer(), spalte, zeile, 
-							AyirahStaticVars.DIRECTION_NORTH, true, false,0,0);
+							AyirahStaticVars.DIRECTION_EAST, true, false,0,0);
 							
-							if (wall_type=='2')
+							if (wall_type=='4')
 							removeVisible(getLayer(), spalte, zeile, 
-							AyirahStaticVars.VISIBLE_KNOWN_NORTH_WEST);
+							AyirahStaticVars.VISIBLE_KNOWN_SOUTH_EAST);
 							
 							if (wall_type=='3')
 							removeVisible(getLayer(), spalte, zeile, 
 							AyirahStaticVars.VISIBLE_KNOWN_NORTH_EAST);
 							
-							if (wall_type=='4')
+							if (wall_type=='1')
 							removeEvenDirectionWallInvisible(getLayer(), spalte, zeile, 
-							AyirahStaticVars.DIRECTION_NORTH, true, false,0,-1);
+							AyirahStaticVars.DIRECTION_EAST, true, false,0,-1);
 						}
-						
-						else if (getPosY()+getPosX()<zeile+spalte)
+					}
+					
+					else if (getPosX()<spalte && getPosY()>zeile)
+					{
+						// Fall: Wand NOO
+						if (getPosY()+getPosX()<zeile+spalte)
 						{
 							if (!(wall_type=='2'))
 							removeEvenDirectionWallInvisible(getLayer(), spalte, zeile, 
@@ -852,6 +840,26 @@ public abstract class HumanLikeCreature extends Creature {
 							if (wall_type=='4')
 							removeVisible(getLayer(), spalte, zeile, 
 							AyirahStaticVars.VISIBLE_KNOWN_SOUTH_EAST);
+						}
+						
+						// Fall: Wand NNO
+						else if (getPosY()+getPosX()>zeile+spalte)
+						{
+							if (!(wall_type=='4'))
+							removeEvenDirectionWallInvisible(getLayer(), spalte, zeile, 
+							AyirahStaticVars.DIRECTION_NORTH, true, false,0,0);
+							
+							if (wall_type=='2')
+							removeVisible(getLayer(), spalte, zeile, 
+							AyirahStaticVars.VISIBLE_KNOWN_NORTH_WEST);
+							
+							if (wall_type=='3')
+							removeVisible(getLayer(), spalte, zeile, 
+							AyirahStaticVars.VISIBLE_KNOWN_NORTH_EAST);
+							
+							if (wall_type=='4')
+							removeEvenDirectionWallInvisible(getLayer(), spalte, zeile, 
+							AyirahStaticVars.DIRECTION_NORTH, true, false,0,-1);
 						}
 					}
 				}
