@@ -48,7 +48,7 @@ public class AyirahStaticVars {
 	*/
 	public static final int[][] direction_modifier=
 	{{0,-1}, {1,-1}, {1,0}, {1,1}, {0,1}, {-1,1},{-1,0}, {-1,-1}};
-		
+	
 	public static final int VISIBLE_KNOWN_NONE=0;
 	public static final int VISIBLE_KNOWN_NORTH=1;
 	public static final int VISIBLE_KNOWN_NORTH_EAST=3;
@@ -63,6 +63,11 @@ public class AyirahStaticVars {
 	public static final int VISIBLE_LEFT=4;
 	public static final int VISIBLE_CENTER=2;
 	public static final int VISIBLE_RIGHT=1;
+	
+	public static final int FRONT_TILE_INVISIBLE=0;
+	public static final int FRONT_TILE_MOST_INVISIBLE=1;
+	public static final int FRONT_TILE_MOST_VISIBLE=2;
+	public static final int FRONT_TILE_VISIBLE=3;
 	
 	public static char[][] non_block_tiles_tile_parts=
 	{
