@@ -341,20 +341,21 @@ public class AyirahComponent extends Canvas
 		for (int zeile=0; zeile<map.getHeight(); zeile++)
 			for (int spalte=0; spalte<map.getWidth(); spalte++)
 			{
-				GameTile gt=map.getCreatureKnownTile
-				(map.getCharacter(map.getActualCharacterIndex()),
-				map.getCharacter(map.getActualCharacterIndex()).getLayer(), 
-				zeile, spalte);
+				GameTile gt=map.getAllCharacterKnownTile
+				(map.getCharacter(map.getActualCharacterIndex())
+				.getLayer(), zeile, spalte);
 				
 				char[] actual_tile=gt.getTiles();
 				
 				int visible=gt.getVisible();
+				int vis_other=gt.getVisibleOther();
 				
 				int[] array_index=new int[4];
 				
 				for (int i=0; i<array_index.length; i++)
 				{
 					boolean isVisible=(visible & (1 << i))!=0;
+					boolean isVisibleOther=(vis_other & (1 << i))!=0;
 					
 					if (actual_tile[i]=='?')
 						array_index[i]=0;
@@ -379,10 +380,24 @@ public class AyirahComponent extends Canvas
 					else if (actual_tile[i]==' ')
 						array_index[i]=3;
 					
-					if (!(array_index[i]==0))
-						g.drawImage(tiles[array_index[i]][i][isVisible?1:0], 
+					if (array_index[i]!=0)
+					{
+						if (isVisible)
+						g.drawImage(tiles[array_index[i]][i][1], 
 						tile_width*spalte+im_delta_x[i], 
 						tile_height*zeile+im_delta_y[i], this);
+						
+						else if (isVisibleOther)
+						g.drawImage(tiles[array_index[i]][i][2], 
+						tile_width*spalte+im_delta_x[i], 
+						tile_height*zeile+im_delta_y[i], this);
+						
+						else
+						g.drawImage(tiles[array_index[i]][i][0], 
+						tile_width*spalte+im_delta_x[i], 
+						tile_height*zeile+im_delta_y[i], this);
+						
+					}
 					else
 						g.drawImage(tiles[array_index[i]][i][0], 
 						tile_width*spalte+im_delta_x[i], 
@@ -411,11 +426,25 @@ public class AyirahComponent extends Canvas
 							int known=gt.getKnown();
 							
 							boolean isVisible=(visible & (1 << i))!=0;
+							boolean isVisibleOther=(vis_other & (1 << i))!=0;
 							
 							if ((known & (1 << i))!=0)
-								g.drawImage(items[item_index][i][isVisible?1:0], 
+							{
+								if (isVisible)
+								g.drawImage(items[item_index][i][1], 
 								tile_width*spalte+im_delta_x[i], 
 								tile_height*zeile+im_delta_y[i], this);
+								
+								else if (isVisibleOther)
+								g.drawImage(items[item_index][i][2], 
+								tile_width*spalte+im_delta_x[i], 
+								tile_height*zeile+im_delta_y[i], this);
+								
+								else
+								g.drawImage(items[item_index][i][0], 
+								tile_width*spalte+im_delta_x[i], 
+								tile_height*zeile+im_delta_y[i], this);
+							}
 						}
 				}
 			}
