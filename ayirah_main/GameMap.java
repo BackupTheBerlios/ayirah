@@ -259,56 +259,55 @@ public class GameMap {
 		}
 	}
 	
-//	public GameTile getAllCharacterKnownTile(int l, int zeile, int spalte)
-//	{
-//		// erst mal eine Quick & Dirty-Implementierung
-//		boolean[] known=new boolean[4];
-//		boolean[] visible=new boolean[4];
-//		boolean[] known_neu=new boolean[4];
-//		boolean[] visible_neu=new boolean[4];
-//		
-//		GameTile[] chartiles=new GameTile[characters_count];
-//		
-//		for (int i=0; i<characters_count; i++)
-//		{
-//			chartiles[i]=getCreatureKnownTile(getCharacter(i), l, zeile, spalte);
-//		}
-//		
-//		GameTile basic=chartiles[0];
-//		for (int i=0; i<4; i++)
-//		{
-//			visible[i]=((basic.getVisible() & (1<<i)) != 0);
-//			known[i]=((basic.getKnown() & (1<<i)) != 0);
-//		}
-//		
-//		for (int i=1; i<characters_count; i++)
-//		{
-//			for (int j=0; j<4; j++)
-//			{
-//				visible_neu[j]=((chartiles[i].getVisible() & (1<<j)) != 0);
-//				known_neu[j]=((chartiles[i].getKnown() & (1<<j)) != 0);
-//				
-//				if (known_neu[j] && !((basic.getKnown() & (1<<j)) != 0))
-//				{
-//					basic.setKnown(basic.getKnown() | (1<<j));
-//					basic.setTile(j, chartiles[i].getTiles()[j]);
-//				}
-//				
-//				if (visible_neu[j] && !((basic.getVisible() & (1<<j)) != 0))
-//				{
-//					basic.setVisible(basic.getVisible() | (1<<j));
-//				}
-//			}
-//			
-//			if ((basic.getItem()=="" || basic.getItem()==null) && 
-//			(chartiles[i].getItem()!="" && chartiles[i].getItem()!=null))
-//			{
-//				basic.setItem(chartiles[i].getItem());
-//			}
-//		}
-//		
-//		return basic;
-//	}
+	public GameTile getAllCharacterKnownTile(int l, int zeile, int spalte)
+	{
+		// erst mal eine Quick & Dirty-Implementierung
+		boolean[] known=new boolean[4];
+		boolean[] visible=new boolean[4];
+		boolean[] known_neu=new boolean[4];
+		boolean[] visible_neu=new boolean[4];
+		
+		GameTile[] chartiles=new GameTile[characters_count];
+		
+		for (int i=0; i<characters_count; i++)
+		{
+			chartiles[i]=getCreatureKnownTile(getCharacter(i), l, zeile, spalte);
+		}
+		
+		GameTile basic=chartiles[getActualCharacterIndex()];
+		
+		for (int i=0; i<4; i++)
+		{
+			visible[i]=((basic.getVisible() & (1<<i)) != 0);
+			known[i]=((basic.getKnown() & (1<<i)) != 0);
+		}
+		
+		for (int i=0; i<characters_count; i++)
+		{
+			for (int j=0; j<4; j++)
+			{
+				visible_neu[j]=((chartiles[i].getVisible() & (1<<j)) != 0);
+				known_neu[j]=((chartiles[i].getKnown() & (1<<j)) != 0);
+				
+				if (known_neu[j] && !((basic.getKnown() & (1<<j)) != 0))
+				{
+					basic.setKnown(basic.getKnown() | (1<<j));
+					basic.setTile(j, chartiles[i].getTiles()[j]);
+				}
+				
+			}
+			
+			basic.setVisibleOther(basic.getVisibleOther() | chartiles[i].getVisible());
+			
+			if ((basic.getItem()=="" || basic.getItem()==null) && 
+			(chartiles[i].getItem()!="" && chartiles[i].getItem()!=null))
+			{
+				basic.setItem(chartiles[i].getItem());
+			}
+		}
+		
+		return basic;
+	}
 	
 	public AyirahCharacter getCharacter(int i)
 	{
