@@ -60,10 +60,6 @@ public class AyirahStaticVars {
 	public static final int VISIBLE_KNOWN_NORTH_WEST=9;
 	public static final int VISIBLE_KNOWN_ALL=15;
 	
-	public static final int VISIBLE_LEFT=4;
-	public static final int VISIBLE_CENTER=2;
-	public static final int VISIBLE_RIGHT=1;
-	
 	public static final int FRONT_FULL_VISIBLE=0;
 	public static final int FRONT_TILE_INVISIBLE=1;
 	public static final int FRONT_TILE_MOST_INVISIBLE=2;
