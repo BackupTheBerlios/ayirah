@@ -1762,14 +1762,14 @@ public abstract class HumanLikeCreature extends Creature {
 						if (j==(-i-1-delta_right))
 						{
 							removeVisible(l, actual_x, actual_y,
-							(1<<((direction%8)/2))+(1<<(((direction+6)%8)/2)));
+							(1<<((direction%8)/2)) | (1<<(((direction+6)%8)/2)));
 						}
 						
 						// links
 						else if (j==(i+1+delta_left))
 						{
 							removeVisible(l, actual_x, actual_y,
-							(1<<((direction%8)/2))+(1<<(((direction+2)%8)/2)));
+							(1<<((direction%8)/2)) | (1<<(((direction+2)%8)/2)));
 						}
 						
 						else
@@ -1866,7 +1866,7 @@ public abstract class HumanLikeCreature extends Creature {
 							j*AyirahStaticVars.direction_modifier[dir_left][0], 
 							y+i*AyirahStaticVars.direction_modifier[direction][1]+
 							j*AyirahStaticVars.direction_modifier[dir_left][1],
-							(1<<((direction%8)/2))+(1<<(((direction+2)%8)/2)));
+							(1<<((direction%8)/2)) | (1<<(((direction+2)%8)/2)));
 						}
 							
 						else if (!(j==0 && i==0))
@@ -1910,7 +1910,7 @@ public abstract class HumanLikeCreature extends Creature {
 						removeVisible(getLayer(), col, row, 
 						AyirahStaticVars.VISIBLE_KNOWN_ALL
 						-((1<<(((getViewDirection()+1)%8)/2))
-						+(1<<(((getViewDirection()+7)%8)/2))));
+						| (1<<(((getViewDirection()+7)%8)/2))));
 					}
 				}
 		}
