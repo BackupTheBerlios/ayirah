@@ -30,43 +30,55 @@
  */
 public abstract class Creature {
 	protected GameMap map;
-	protected int view_direction;	protected CoordVector coords;
+	protected int view_direction;	private CoordVector pos;
 	
 	public Creature(GameMap map, int l, int x, int y, int direction) {
 		super();
 		this.map=map;
-		this.coords=new CoordVector(l, x, y);
+		this.pos=new CoordVector(l, x, y);
 		this.view_direction=direction;
+	}
+	
+	public void setPos(CoordVector pos) {
+		this.pos = pos;
+	}
+	
+	public CoordVector getPos() {
+		return pos;
+	}
+	
+	public CoordVector getPosClone() {
+		return (CoordVector) (pos.clone());
 	}
 	
 	public int getPosX()
 	{
-		return coords.getPosX();
+		return pos.getPosX();
 	}
 	
 	public void setPosX(int x)
 	{
-		coords.setPosX(x);
+		pos.setPosX(x);
 	}
 	
 	public int getPosY()
 	{
-		return coords.getPosY();
+		return pos.getPosY();
 	}
 	
 	public void setPosY(int y)
 	{
-		coords.setPosY(y);
+		pos.setPosY(y);
 	}
 	
 	public int getLayer()
 	{
-		return coords.getLayer();
+		return pos.getLayer();
 	}
 	
 	public void setLayer(int l)
 	{
-		coords.setLayer(l);
+		pos.setLayer(l);
 	}
 	
 	public void rotateLeft()

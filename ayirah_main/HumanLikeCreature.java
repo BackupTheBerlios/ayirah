@@ -131,7 +131,7 @@ public abstract class HumanLikeCreature extends Creature {
 		else if (getLayer()<=0) // <=: nur zur Sicherheit; eigentlich reichte ==
 			throw new IllegalTurnException("GoUp(): Oberste Ebene");
 		
-		if (map.isTileEmpty(getLayer()-1, getPosY(), getPosX()))
+		if (map.isTileWithoutCreature(getLayer()-1, getPosY(), getPosX()))
 		{
 		setLayer(getLayer()-1);
 		calculateVisible();
@@ -149,7 +149,7 @@ public abstract class HumanLikeCreature extends Creature {
 													   // eigentlich reichte ==
 			throw new IllegalTurnException("GoDown(): Unterste Ebene");
 		
-		if (map.isTileEmpty(getLayer()+1, getPosY(), getPosX()))
+		if (map.isTileWithoutCreature(getLayer()+1, getPosY(), getPosX()))
 		{
 		setLayer(getLayer()+1);
 		calculateVisible();
@@ -299,10 +299,22 @@ public abstract class HumanLikeCreature extends Creature {
 		if (direction<0 || direction>=8)
 			return false;
 		
-		if (!map.isTileEmpty(getLayer(), 
+		if (!map.isTileWithoutCreature(getLayer(), 
 		this.getPosY()+AyirahStaticVars.direction_modifier[direction][1],
 		this.getPosX()+AyirahStaticVars.direction_modifier[direction][0]))
 			return false;
+		
+		GameItem pot_item;
+		
+		if ((pot_item=map.getItem(
+		new CoordVector(this.getLayer(),
+		this.getPosX()+AyirahStaticVars.direction_modifier[direction][0],
+		this.getPosY()+AyirahStaticVars.direction_modifier[direction][1])
+		))!=null)
+		{
+			if (!pot_item.isWalkOnAble())
+				return false;
+		}
 		
 		char tile_to=getMap().getTile(this.getLayer(),
 		this.getPosY()+AyirahStaticVars.direction_modifier[direction][1],

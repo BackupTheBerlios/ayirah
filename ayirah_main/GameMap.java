@@ -171,7 +171,7 @@ public class GameMap {
 		}
 	}
 	
-	public boolean isTileEmpty(int l, int zeile, int spalte)
+	public boolean isTileWithoutCreature(int l, int zeile, int spalte)
 	{
 		if (this.isValidCoordPair(l, spalte, zeile))
 		{
