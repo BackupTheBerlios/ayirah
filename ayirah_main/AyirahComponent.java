@@ -41,6 +41,8 @@ public class AyirahComponent extends Canvas
 	// tiles[tile_number][direction][visible]
 	private Image[][][] tiles; // Alle Tiles
 	private Image[][] character;
+	private Image[] items;
+	
 	private GameMap map;
 	
 	// obere Ecke des angezeigten Bereichs der Map
@@ -57,10 +59,10 @@ public class AyirahComponent extends Canvas
 	private Image dbImage;
 	private Graphics dbGraphics;
 	
-	protected final int[] im_delta_x={
+	private final int[] im_delta_x={
 		0, tile_width/2, 0, 0
 	};
-	protected final int[] im_delta_y={
+	private final int[] im_delta_y={
 		0, 0, tile_height/2, 0
 	};
 	
@@ -70,6 +72,7 @@ public class AyirahComponent extends Canvas
 		m_tiles=new MediaTracker(this);
 		tiles=new Image[6][4][2];
 		character=new Image[8][4];
+		items=new Image[2];
 		
 		Image[] prepareImage=new Image[11];
 		
@@ -79,34 +82,44 @@ public class AyirahComponent extends Canvas
 		max_top_corner_x=map.getWidth()-16;
 		max_top_corner_y=map.getHeight()-16;
 		
-		prepareImage[1]=getToolkit().getImage(AyirahStaticVars.tile_prefix+"boden1_invisible.gif");
+		prepareImage[1]=getToolkit().getImage(
+		AyirahStaticVars.tile_prefix+"boden1_invisible.gif");
 		m_tiles.addImage(prepareImage[1], 1);
 		
-		prepareImage[2]=getToolkit().getImage(AyirahStaticVars.tile_prefix+"boden1_visible.gif");
+		prepareImage[2]=getToolkit().getImage(
+		AyirahStaticVars.tile_prefix+"boden1_visible.gif");
 		m_tiles.addImage(prepareImage[2], 2);
 		
-		prepareImage[3]=getToolkit().getImage(AyirahStaticVars.tile_prefix+"wand1_invisible.gif");
+		prepareImage[3]=getToolkit().getImage(
+		AyirahStaticVars.tile_prefix+"wand1_invisible.gif");
 		m_tiles.addImage(prepareImage[3], 3);
 		
-		prepareImage[4]=getToolkit().getImage(AyirahStaticVars.tile_prefix+"wand1_visible.gif");
+		prepareImage[4]=getToolkit().getImage(
+		AyirahStaticVars.tile_prefix+"wand1_visible.gif");
 		m_tiles.addImage(prepareImage[4], 4);
 		
-		prepareImage[5]=getToolkit().getImage(AyirahStaticVars.tile_prefix+"placeholder1_invisible.gif");
+		prepareImage[5]=getToolkit().getImage(
+		AyirahStaticVars.tile_prefix+"placeholder1_invisible.gif");
 		m_tiles.addImage(prepareImage[5], 5);
 		
-		prepareImage[6]=getToolkit().getImage(AyirahStaticVars.tile_prefix+"placeholder1_visible.gif");
+		prepareImage[6]=getToolkit().getImage(
+		AyirahStaticVars.tile_prefix+"placeholder1_visible.gif");
 		m_tiles.addImage(prepareImage[6], 6);
 		
-		prepareImage[7]=getToolkit().getImage(AyirahStaticVars.tile_prefix+"tuer_waagrecht_offen_invisible.gif");
+		prepareImage[7]=getToolkit().getImage(
+		AyirahStaticVars.tile_prefix+"tuer_waagrecht_offen_invisible.gif");
 		m_tiles.addImage(prepareImage[7], 7);
 		
-		prepareImage[8]=getToolkit().getImage(AyirahStaticVars.tile_prefix+"tuer_waagrecht_offen_visible.gif");
+		prepareImage[8]=getToolkit().getImage(
+		AyirahStaticVars.tile_prefix+"tuer_waagrecht_offen_visible.gif");
 		m_tiles.addImage(prepareImage[8], 8);
 		
-		prepareImage[9]=getToolkit().getImage(AyirahStaticVars.tile_prefix+"tuer_senkrecht_offen_invisible.gif");
+		prepareImage[9]=getToolkit().getImage(
+		AyirahStaticVars.tile_prefix+"tuer_senkrecht_offen_invisible.gif");
 		m_tiles.addImage(prepareImage[9], 9);
 		
-		prepareImage[10]=getToolkit().getImage(AyirahStaticVars.tile_prefix+"tuer_senkrecht_offen_visible.gif");
+		prepareImage[10]=getToolkit().getImage(
+		AyirahStaticVars.tile_prefix+"tuer_senkrecht_offen_visible.gif");
 		m_tiles.addImage(prepareImage[10], 10);
 		
 		try {
@@ -160,6 +173,14 @@ public class AyirahComponent extends Canvas
 				+sprite_name[j]+i+".gif");
 				m_tiles.addImage(character[i][j], 9+4*i+j);
 			}
+		
+		items[0]=getToolkit().createImage(AyirahStaticVars.item_prefix
+		+"box_open.gif");
+		m_tiles.addImage(items[0], 41);
+		
+		items[1]=getToolkit().createImage(AyirahStaticVars.item_prefix
+		+"box_closed.gif");
+		m_tiles.addImage(items[1], 42);
 		
 		ackl=new AyirahComponentKeyListener(this);
 		this.addKeyListener(ackl);
@@ -359,8 +380,31 @@ public class AyirahComponent extends Canvas
 						tile_width*spalte+delta_x+im_delta_x[i], 
 						tile_height*zeile+delta_y+im_delta_y[i], this);
 				}
+				
+				String item=map.getCreatureKnownTile
+				(map.getCharacter(), map.getCharacter().getLayer(), 
+				zeile+top_corner_y, spalte+top_corner_x).getItem();
+				
+				if (item!="")
+				{
+					int item_index=-1;
+					
+					if (item=="box_open")
+					{
+						item_index=0;
+					}
+					else if (item=="box_closed")
+					{
+						item_index=1;
+					}
+					
+					if (item_index!=-1)
+						g.drawImage(items[item_index], 
+						tile_width*spalte+delta_x, 
+						tile_height*zeile+delta_y, this);
+				}
 			}
-			
+		
 		int character_width=30;
 		int character_height=48;
 		
@@ -370,5 +414,6 @@ public class AyirahComponent extends Canvas
 		+(tile_width-character_width)/2+delta_x, 
 		tile_height*(map.getCharacter().getPosY()-top_corner_y)
 		+(tile_height-character_height)/2+delta_y, character_width, character_height, this);
+		
 	}
 }
