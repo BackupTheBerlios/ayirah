@@ -72,9 +72,9 @@ public class AyirahComponent extends Canvas
 	{
 		map=gm;
 		m_tiles=new MediaTracker(this);
-		tiles=new Image[11][4][3];
+		tiles=new Image[AyirahStaticVars.tile_names.length+1][4][3];
 		character=new Image[2][8][4];
-		items=new Image[2][4][3];
+		items=new Image[AyirahStaticVars.item_names.length][4][3];
 		
 		Image[] prepareImage=new Image[1+AyirahStaticVars.
 		map_object_states.length*AyirahStaticVars.tile_names.length];
@@ -300,16 +300,9 @@ public class AyirahComponent extends Canvas
 		repaint();
 	}
 	
-	/*public void update(Graphics g)
-	{
-		paint(g);
-	}*/
-	
 	public void update (Graphics g)
 	{
 		if (dbImage == null || map_changed) {
-			// Diese Zeile verursacht den Fehler bei der Soundwiedergabe
-			// (seltsamerweise störte sie in der alten Version nicht)
 			dbImage = createImage(map.getWidth()*tile_width, 
 			map.getHeight()*tile_height);
 		}
@@ -424,6 +417,11 @@ public class AyirahComponent extends Canvas
 						item_index=1;
 					}
 					
+					else if (item_type.equals("wall"))
+					{
+						item_index=2;
+					}
+					
 					if (item_index!=-1)
 						for (int i=0; i<array_index.length; i++)
 						{
@@ -479,7 +477,5 @@ public class AyirahComponent extends Canvas
 			+(tile_height-character_height)/2, character_width, 
 			character_height, this);
 		}
-		
-//		g.drawImage(test, 0,0, this);
 	}
 }

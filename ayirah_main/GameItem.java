@@ -37,21 +37,21 @@ public class GameItem implements Cloneable {
 	private String type; // um was für einen Objekttyp handelt es sich
 	private String sub_type; // Unter-Typ
 	private String state; // Status des Objekts
-	private String name; // lange Bezeichnung
+	private String description; // lange Bezeichnung
 	private int vis_type;
 	private int using_directions;
 	private long weight; // Gewicht in Gramm
 	private boolean walk_on_able;
 	private boolean takeable; // kann der Character das Objekt aufnehmen (rein theoretisch!)
 	
-	GameItem(String type, String sub_type, String state, String name, 
+	GameItem(String type, String sub_type, String state, String description, 
 	int vis_type, int using_directions,
 	boolean takeable, boolean walk_on_able, long weight)
 	{
 		setType(type);
 		setSubType(sub_type);
 		setState(state);
-		setName(name);
+		setDescription(description);
 		setVisibilityType(vis_type);
 		setUsingDirections(using_directions);
 		setWeight(Math.abs(weight));
@@ -83,12 +83,12 @@ public class GameItem implements Cloneable {
 		return state;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
-	public String getName() {
-		return name;
+	public String getDescription() {
+		return description;
 	}
 
 	public void setVisibilityType(int vis_type) {
@@ -138,7 +138,7 @@ public class GameItem implements Cloneable {
 			return (this.getType()==gi.getType() && 
 			this.getSubType()==gi.getSubType() &&
 			this.getState()==gi.getState() &&
-			this.getName()==gi.getName() &&
+			this.getDescription()==gi.getDescription() &&
 			this.getVisibilityType()==gi.getVisibilityType() &&
 			this.getUsingDirections()==gi.getUsingDirections() &&
 			this.getWeight()==gi.getWeight() &&
@@ -154,7 +154,7 @@ public class GameItem implements Cloneable {
 		((getType().hashCode() & ((1<<6)-1))<<26) |
 		((getSubType().hashCode() & ((1<<6)-1))<<20 |
 		((getState().hashCode() & ((1<<6)-1))<<14) |
-		((getName().hashCode() & ((1<<6)-1))<<8) |
+		((getDescription().hashCode() & ((1<<6)-1))<<8) |
 		((getVisibilityType() & ((1<<3)-1))<<5) |
 		(((int) getWeight() & ((1<<3)-1))<<1) |
 		(isTakeable() ? 1 : 0)
@@ -163,7 +163,7 @@ public class GameItem implements Cloneable {
 	
 	public Object clone()
 	{
-		return new GameItem(getType(), getSubType(), getState(), getName(), 
+		return new GameItem(getType(), getSubType(), getState(), getDescription(), 
 		getVisibilityType(), getUsingDirections(), isTakeable(), false, getWeight());
 	}
 }
