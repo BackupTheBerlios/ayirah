@@ -112,9 +112,9 @@ public class GameMap {
 	
 	protected AyirahCharacter ayirah_char;
 	protected int mapsize_x=25, mapsize_y=25, layers_count=3;
+	
 	public GameMap()
 	{
-	
 		ayirah_char=new AyirahCharacter(this, 0, 1, 1, AyirahStaticVars.DIRECTION_SOUTH);
 		ayirah_char.calculateVisible();
 	}
@@ -152,17 +152,17 @@ public class GameMap {
 		}
 	}
 	
-	public char getCharacterKnownTile(int l, int zeile, int spalte)
+	public char getCreatureKnownTile(HumanLikeCreature c, int l, int zeile, int spalte)
 	{
 		if ((zeile >= mapsize_y) || (zeile<0) || 
 		(spalte>=mapsize_x) || (spalte<0))
 			return ' ';
-		else if (getCharacter().getKnown(l, zeile, spalte)		==AyirahStaticVars.VISIBLE_KNOWN_NONE)
+		else if (c.getKnown(l, zeile, spalte)		==AyirahStaticVars.VISIBLE_KNOWN_NONE)
 			return ' ';
 		else
 		{
 			char r=map[l][zeile].charAt(spalte);
-			int known=getCharacter().getKnown(l, zeile, spalte);
+			int known=c.getKnown(l, zeile, spalte);
 			
 			if (r=='1')
 			{

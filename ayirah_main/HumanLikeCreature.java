@@ -970,8 +970,8 @@ public abstract class HumanLikeCreature extends Creature {
 					col==getPosX())
 					{
 						removeVisible(getLayer(), col, row, 
-						AyirahStaticVars.invert_visible
-						[AyirahStaticVars.diagonal_view_visible[(getViewDirection()-1)/2]]);
+						15-
+						(AyirahStaticVars.diagonal_view_visible[(getViewDirection()-1)/2]));
 					}
 			
 					else if (row==getPosY() && 
@@ -979,8 +979,8 @@ public abstract class HumanLikeCreature extends Creature {
 					[getViewDirection()][0]))
 					{
 						removeVisible(getLayer(), col, row, 
-						AyirahStaticVars.invert_visible
-						[AyirahStaticVars.diagonal_view_visible[(getViewDirection()-1)/2]]);
+						15-
+						(AyirahStaticVars.diagonal_view_visible[(getViewDirection()-1)/2]));
 					}
 				}
 		}

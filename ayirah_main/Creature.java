@@ -29,11 +29,7 @@
  */
 public abstract class Creature {
 	protected GameMap map;
-	protected int pos_x, pos_y, layer, view_direction;
-
-	/**
-	 * 
-	 */
+	protected int pos_x, pos_y, layer, view_direction;	
 	public Creature(GameMap map, int l, int x, int y, int direction) {
 		super();
 		this.map=map;

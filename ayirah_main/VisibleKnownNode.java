@@ -24,7 +24,7 @@ public class VisibleKnownNode implements Cloneable {
 	
 	protected boolean isValidVisibleType(int main_type)
 	{
-		return (main_type>=0 && main_type<6);
+		return (main_type>=0 && main_type<16);
 	}
 	
 	public void setType(int main_type)
@@ -39,31 +39,9 @@ public class VisibleKnownNode implements Cloneable {
 	{
 		if (isValidVisibleType(main_type))
 		{
-			if (this.main_type==AyirahStaticVars.VISIBLE_KNOWN_ALL || 
-			main_type==AyirahStaticVars.VISIBLE_KNOWN_NONE)
-				;
-			else if (this.main_type==AyirahStaticVars.VISIBLE_KNOWN_NONE)
-				setType(main_type);
-			else
-			{
-				if (this.main_type==main_type)
-					;
-				else
-					this.main_type=AyirahStaticVars.VISIBLE_KNOWN_ALL;
-			}
+			this.main_type=this.main_type | main_type;
 		}
 	}
-		public void removeType(int main_type)	{		if (isValidVisibleType(main_type))		{			if (this.main_type==AyirahStaticVars.VISIBLE_KNOWN_NONE || 			main_type==AyirahStaticVars.VISIBLE_KNOWN_NONE)				;			else if (this.main_type==AyirahStaticVars.VISIBLE_KNOWN_ALL)			{				setType(AyirahStaticVars.invert_visible[main_type]);			}			else			{				if (this.main_type==AyirahStaticVars.invert_visible[main_type])					;				else					this.main_type=AyirahStaticVars.VISIBLE_KNOWN_NONE;			}		}
-	}
-	
-	/*
-	 *  (non-Javadoc)
-	 * @see java.lang.Object#clone()
-	 * 
-	 * Warnung! macht gravierende Probleme!
-	 */
-	public Object clone()
-	{
-		return new VisibleKnownNode(main_type);
+		public void removeType(int main_type)	{		if (isValidVisibleType(main_type))		{			this.main_type=this.main_type & (15-main_type);		}
 	}
 }

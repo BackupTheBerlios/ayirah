@@ -270,8 +270,8 @@ public class AyirahComponent extends Canvas
 		for (int zeile=0; zeile<17; zeile++)
 			for (int spalte=0; spalte<17; spalte++)
 			{
-				char actual_tile=map.getCharacterKnownTile
-				(map.getCharacter().getLayer(), zeile+top_corner_y, spalte+top_corner_x);
+				char actual_tile=map.getCreatureKnownTile
+				(map.getCharacter(), map.getCharacter().getLayer(), zeile+top_corner_y, spalte+top_corner_x);
 				int array_index=0;
 
 				if (actual_tile==' ')

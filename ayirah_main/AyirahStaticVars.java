@@ -51,11 +51,15 @@ public class AyirahStaticVars {
 	{{0,-1}, {1,-1}, {1,0}, {1,1}, {0,1}, {-1,1},{-1,0}, {-1,-1}};
 		
 	public static final int VISIBLE_KNOWN_NONE=0;
-	public static final int VISIBLE_KNOWN_NORTH_EAST=1;
-	public static final int VISIBLE_KNOWN_SOUTH_EAST=2;
-	public static final int VISIBLE_KNOWN_SOUTH_WEST=3;
-	public static final int VISIBLE_KNOWN_NORTH_WEST=4;
-	public static final int VISIBLE_KNOWN_ALL=5;
+	public static final int VISIBLE_KNOWN_NORTH=1;
+	public static final int VISIBLE_KNOWN_NORTH_EAST=3;
+	public static final int VISIBLE_KNOWN_EAST=2;
+	public static final int VISIBLE_KNOWN_SOUTH_EAST=6;
+	public static final int VISIBLE_KNOWN_SOUTH=4;
+	public static final int VISIBLE_KNOWN_SOUTH_WEST=12;
+	public static final int VISIBLE_KNOWN_WEST=8;
+	public static final int VISIBLE_KNOWN_NORTH_WEST=9;
+	public static final int VISIBLE_KNOWN_ALL=15;
 	
 	public static final int[] dir_left_visible_modifier=
 	{
