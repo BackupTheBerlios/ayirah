@@ -116,12 +116,28 @@ public class AyirahComponent extends Canvas
 		m_tiles.addImage(prepareImage[8], 0);
 		
 		prepareImage[9]=getToolkit().getImage(
-		AyirahStaticVars.tile_prefix+"tuer_senkrecht_offen_invisible.gif");
+		AyirahStaticVars.tile_prefix+"tuer_waagrecht_geschlossen_invisible.gif");
 		m_tiles.addImage(prepareImage[9], 0);
 		
 		prepareImage[10]=getToolkit().getImage(
-		AyirahStaticVars.tile_prefix+"tuer_senkrecht_offen_visible.gif");
+		AyirahStaticVars.tile_prefix+"tuer_waagrecht_geschlossen_visible.gif");
 		m_tiles.addImage(prepareImage[10], 0);
+		
+		prepareImage[11]=getToolkit().getImage(
+		AyirahStaticVars.tile_prefix+"tuer_senkrecht_offen_invisible.gif");
+		m_tiles.addImage(prepareImage[11], 0);
+		
+		prepareImage[12]=getToolkit().getImage(
+		AyirahStaticVars.tile_prefix+"tuer_senkrecht_offen_visible.gif");
+		m_tiles.addImage(prepareImage[12], 0);
+		
+		prepareImage[13]=getToolkit().getImage(
+		AyirahStaticVars.tile_prefix+"tuer_senkrecht_geschlossen_invisible.gif");
+		m_tiles.addImage(prepareImage[13], 0);
+		
+		prepareImage[14]=getToolkit().getImage(
+		AyirahStaticVars.tile_prefix+"tuer_senkrecht_geschlossen_visible.gif");
+		m_tiles.addImage(prepareImage[14], 0);
 		
 		prepareImage[15]=getToolkit().getImage(
 		AyirahStaticVars.tile_prefix+"treppe_hoch_invisible.gif");
@@ -434,10 +450,14 @@ public class AyirahComponent extends Canvas
 						array_index[i]=1;
 					else if (actual_tile[i]=='#')
 						array_index[i]=2;
-//					else if (actual_tile[i]=='_')
-//						array_index[i]=4;
-//					else if (actual_tile[i]=='i')
-//						array_index[i]=5;
+					else if (actual_tile[i]=='_')
+						array_index[i]=4;
+					else if (actual_tile[i]=='-')
+						array_index[i]=5;
+					else if (actual_tile[i]=='i')
+						array_index[i]=6;
+					else if (actual_tile[i]=='I')
+						array_index[i]=7;
 					else if (actual_tile[i]=='<')
 						array_index[i]=8;
 					else if (actual_tile[i]=='|')
