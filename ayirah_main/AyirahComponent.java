@@ -48,6 +48,9 @@ public class AyirahComponent extends Canvas
 	private int top_x, top_y;
 	
 	private int max_top_x, max_top_y;
+	
+	private int scrolling_pixels_count=2;
+	
 	private static final int tile_width=48;
 	private static final int tile_height=48;
 	
@@ -298,20 +301,25 @@ public class AyirahComponent extends Canvas
 		return map;
 	}
 	
-	public void scrollMap(int direction)
+	public int getScrollingPixelsCount()
+	{
+		return this.scrolling_pixels_count;
+	}
+	
+	public void scrollMap(int direction, int pixels)
 	{
 		if (direction<0 || direction>=8)
 			throw new IllegalTurnException("Falscher Parameter");
 		
 		if (direction%2!=0)
 		{
-			scrollMap((direction+7)%8);
-			scrollMap((direction+1)%8);
+			scrollMap((direction+7)%8, pixels);
+			scrollMap((direction+1)%8, pixels);
 		}
 		
 		if (direction==AyirahStaticVars.DIRECTION_SOUTH)
 		{
-			top_y++;
+			top_y+=pixels;
 			
 			if (top_y>max_top_y)
 				top_y=max_top_y;
@@ -319,7 +327,7 @@ public class AyirahComponent extends Canvas
 		
 		else if (direction==AyirahStaticVars.DIRECTION_NORTH)
 		{
-			top_y--;
+			top_y-=pixels;
 			
 			if (top_y<0)
 				top_y=0;
@@ -327,7 +335,7 @@ public class AyirahComponent extends Canvas
 		
 		else if (direction==AyirahStaticVars.DIRECTION_EAST)
 		{
-			top_x++;
+			top_x+=pixels;
 			
 			if (top_x>max_top_x)
 				top_x=max_top_x;
@@ -335,7 +343,7 @@ public class AyirahComponent extends Canvas
 		
 		else if (direction==AyirahStaticVars.DIRECTION_WEST)
 		{
-			top_x--;
+			top_x-=pixels;
 			
 			if (top_x<0)
 				top_x=0;

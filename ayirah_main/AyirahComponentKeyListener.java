@@ -179,7 +179,8 @@ public class AyirahComponentKeyListener extends KeyAdapter {
 			{
 				try
 				{
-					ac.scrollMap(AyirahStaticVars.DIRECTION_SOUTH);
+					ac.scrollMap(AyirahStaticVars.DIRECTION_SOUTH,
+					ac.getScrollingPixelsCount());
 					ac.repaint();
 				}
 				catch (IllegalTurnException exc) {}
@@ -190,7 +191,8 @@ public class AyirahComponentKeyListener extends KeyAdapter {
 			{
 				try
 				{
-					ac.scrollMap(AyirahStaticVars.DIRECTION_NORTH);
+					ac.scrollMap(AyirahStaticVars.DIRECTION_NORTH,
+					ac.getScrollingPixelsCount());
 					ac.repaint();
 				}
 				catch (IllegalTurnException exc) {}
@@ -201,7 +203,8 @@ public class AyirahComponentKeyListener extends KeyAdapter {
 			{
 				try
 				{
-					ac.scrollMap(AyirahStaticVars.DIRECTION_WEST);
+					ac.scrollMap(AyirahStaticVars.DIRECTION_WEST,
+					ac.getScrollingPixelsCount());
 					ac.repaint();
 				}
 				catch (IllegalTurnException exc) {}
@@ -212,7 +215,8 @@ public class AyirahComponentKeyListener extends KeyAdapter {
 			{
 				try
 				{
-					ac.scrollMap(AyirahStaticVars.DIRECTION_EAST);
+					ac.scrollMap(AyirahStaticVars.DIRECTION_EAST,
+					ac.getScrollingPixelsCount());
 					ac.repaint();
 				}
 				catch (IllegalTurnException exc) {}
@@ -222,7 +226,8 @@ public class AyirahComponentKeyListener extends KeyAdapter {
 			{
 				try
 				{
-					ac.scrollMap(AyirahStaticVars.DIRECTION_NORTH_EAST);
+					ac.scrollMap(AyirahStaticVars.DIRECTION_NORTH_EAST,
+					ac.getScrollingPixelsCount());
 					ac.repaint();
 				}
 				catch (IllegalTurnException exc) {}
@@ -232,7 +237,8 @@ public class AyirahComponentKeyListener extends KeyAdapter {
 			{
 				try
 				{
-					ac.scrollMap(AyirahStaticVars.DIRECTION_SOUTH_EAST);
+					ac.scrollMap(AyirahStaticVars.DIRECTION_SOUTH_EAST,
+					ac.getScrollingPixelsCount());
 					ac.repaint();
 				}
 				catch (IllegalTurnException exc) {}
@@ -242,7 +248,8 @@ public class AyirahComponentKeyListener extends KeyAdapter {
 			{
 				try
 				{
-					ac.scrollMap(AyirahStaticVars.DIRECTION_NORTH_WEST);
+					ac.scrollMap(AyirahStaticVars.DIRECTION_NORTH_WEST,
+					ac.getScrollingPixelsCount());
 					ac.repaint();
 				}
 				catch (IllegalTurnException exc) {}
@@ -252,7 +259,8 @@ public class AyirahComponentKeyListener extends KeyAdapter {
 			{
 				try
 				{
-					ac.scrollMap(AyirahStaticVars.DIRECTION_SOUTH_WEST);
+					ac.scrollMap(AyirahStaticVars.DIRECTION_SOUTH_WEST,
+					ac.getScrollingPixelsCount());
 					ac.repaint();
 				}
 				catch (IllegalTurnException exc) {}
