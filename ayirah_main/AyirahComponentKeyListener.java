@@ -43,128 +43,119 @@ public class AyirahComponentKeyListener extends KeyAdapter {
 		
 		if (!s)
 		{
-		if (kc==KeyEvent.VK_DOWN || kc==KeyEvent.VK_KP_DOWN || 
-		kc==KeyEvent.VK_NUMPAD2)
-		{
-			try
+			if (kc==KeyEvent.VK_DOWN || kc==KeyEvent.VK_KP_DOWN || 
+			kc==KeyEvent.VK_NUMPAD2)
 			{
-				ac.getGameMap().move(AyirahStaticVars.DIRECTION_SOUTH, 
-				ac.getGameMap().getCharacter());
+				try
+				{
+					ac.getGameMap().move(AyirahStaticVars.DIRECTION_SOUTH, 
+					ac.getGameMap().getCharacter());
+					ac.repaint();
+				}
+				catch (IllegalTurnException exc) {}
+			}
+			else if (kc==KeyEvent.VK_UP || kc==KeyEvent.VK_KP_UP ||
+			kc==KeyEvent.VK_NUMPAD8)
+			{
+				try
+				{
+					ac.getGameMap().move(AyirahStaticVars.DIRECTION_NORTH, 
+					ac.getGameMap().getCharacter());
+					ac.repaint();
+				}
+				catch (IllegalTurnException exc) {}
+			}
+			else if (kc==KeyEvent.VK_LEFT || kc==KeyEvent.VK_KP_LEFT ||
+			kc==KeyEvent.VK_NUMPAD4)
+			{
+				try
+				{
+					ac.getGameMap().move(AyirahStaticVars.DIRECTION_WEST, 
+					ac.getGameMap().getCharacter());
+					ac.repaint();
+				}
+				catch (IllegalTurnException exc) {}
+			}
+			else if (kc==KeyEvent.VK_RIGHT || kc==KeyEvent.VK_KP_RIGHT ||
+			kc==KeyEvent.VK_NUMPAD6)
+			{
+				try
+				{
+					ac.getGameMap().move(AyirahStaticVars.DIRECTION_EAST, 
+					ac.getGameMap().getCharacter());
+					ac.repaint();
+				}
+				catch (IllegalTurnException exc) {}
+			}
+			else if (kc==KeyEvent.VK_PAGE_UP || kc==KeyEvent.VK_NUMPAD9)
+			{
+				try
+				{
+					ac.getGameMap().move(AyirahStaticVars.DIRECTION_NORTH_EAST, 
+					ac.getGameMap().getCharacter());
+					ac.repaint();
+				}
+					catch (IllegalTurnException exc) {}
+			}
+			else if (kc==KeyEvent.VK_PAGE_DOWN || kc==KeyEvent.VK_NUMPAD3)
+			{
+				try
+				{					ac.getGameMap().move(AyirahStaticVars.DIRECTION_SOUTH_EAST, 					ac.getGameMap().getCharacter());					ac.repaint();				}				catch (IllegalTurnException exc) {}			}			else if (kc==KeyEvent.VK_HOME || kc==KeyEvent.VK_NUMPAD7)			{				try				{					ac.getGameMap().move(AyirahStaticVars.DIRECTION_NORTH_WEST, 					ac.getGameMap().getCharacter());					ac.repaint();				}				catch (IllegalTurnException exc) {}			}			else if (kc==KeyEvent.VK_END || kc==KeyEvent.VK_NUMPAD1)
+			{
+				try				{
+					ac.getGameMap().move(AyirahStaticVars.DIRECTION_SOUTH_WEST, 
+					ac.getGameMap().getCharacter());					ac.repaint();				}				catch (IllegalTurnException exc) {}			}
+			else if (kc==KeyEvent.VK_X)
+			{
+				try
+				{
+					ac.getGameMap().getCharacter().goDown();
+					ac.repaint();
+				}
+				catch (IllegalTurnException exc) {}
+			}
+			else if (kc==KeyEvent.VK_Y)
+			{
+				try
+				{
+					ac.getGameMap().getCharacter().goUp();
+					ac.repaint();
+				}
+				catch (IllegalTurnException exc) {}
+			}
+			else if (kc==KeyEvent.VK_Q)
+			{
+				ac.getGameMap().getCharacter().rotateLeft();
+				ac.repaint();
+			} 
+			else if (kc==KeyEvent.VK_W)
+			{
+				ac.getGameMap().getCharacter().rotateRight();
 				ac.repaint();
 			}
-			catch (IllegalTurnException exc) {}
-		}
-		else if (kc==KeyEvent.VK_UP || kc==KeyEvent.VK_KP_UP ||
-		kc==KeyEvent.VK_NUMPAD8)
-		{
-			try
+			else if (kc==KeyEvent.VK_ESCAPE)
 			{
-				ac.getGameMap().move(AyirahStaticVars.DIRECTION_NORTH, 
-				ac.getGameMap().getCharacter());
-				ac.repaint();
+				System.exit(0);
 			}
-			catch (IllegalTurnException exc) {}
-		}
-		else if (kc==KeyEvent.VK_LEFT || kc==KeyEvent.VK_KP_LEFT ||
-		kc==KeyEvent.VK_NUMPAD4)
-		{
-			try
+			else if (kc==KeyEvent.VK_O)
 			{
-				ac.getGameMap().move(AyirahStaticVars.DIRECTION_WEST, 
-				ac.getGameMap().getCharacter());
-				ac.repaint();
+				try
+				{
+					ac.getGameMap().openThing(ac.getGameMap().getCharacter());
+					ac.repaint();
+				}
+				catch (IllegalTurnException exc) {}
 			}
-			catch (IllegalTurnException exc) {}
-		}
-		else if (kc==KeyEvent.VK_RIGHT || kc==KeyEvent.VK_KP_RIGHT ||
-		kc==KeyEvent.VK_NUMPAD6)
-		{
-			try
+			else if (kc==KeyEvent.VK_C)
 			{
-				ac.getGameMap().move(AyirahStaticVars.DIRECTION_EAST, 
-				ac.getGameMap().getCharacter());
-				ac.repaint();
+				try
+				{
+					ac.getGameMap().closeThing(ac.getGameMap().getCharacter());
+					ac.repaint();
+				}
+				catch (IllegalTurnException exc) {}
 			}
-			catch (IllegalTurnException exc) {}
-		}
-		
-		else if (kc==KeyEvent.VK_PAGE_UP || kc==KeyEvent.VK_NUMPAD9)
-		{
-			try
-			{
-				ac.getGameMap().move(AyirahStaticVars.DIRECTION_NORTH_EAST, 
-				ac.getGameMap().getCharacter());
-				ac.repaint();
-			}
-			catch (IllegalTurnException exc) {}
-		}
-		else if (kc==KeyEvent.VK_PAGE_DOWN || kc==KeyEvent.VK_NUMPAD3)
-		{
-			try
-			{				ac.getGameMap().move(AyirahStaticVars.DIRECTION_SOUTH_EAST, 				ac.getGameMap().getCharacter());				ac.repaint();			}			catch (IllegalTurnException exc) {}		}				else if (kc==KeyEvent.VK_HOME || kc==KeyEvent.VK_NUMPAD7)		{			try			{				ac.getGameMap().move(AyirahStaticVars.DIRECTION_NORTH_WEST, 				ac.getGameMap().getCharacter());				ac.repaint();			}			catch (IllegalTurnException exc) {}		}				else if (kc==KeyEvent.VK_END || kc==KeyEvent.VK_NUMPAD1)
-		{
-			try			{
-				ac.getGameMap().move(AyirahStaticVars.DIRECTION_SOUTH_WEST, 
-				ac.getGameMap().getCharacter());				ac.repaint();			}			catch (IllegalTurnException exc) {}		}
-			
-		else if (kc==KeyEvent.VK_X)
-		{
-			try
-			{
-				ac.getGameMap().getCharacter().goDown();
-				ac.repaint();
-			}
-			catch (IllegalTurnException exc) {}
-		}
-		
-		else if (kc==KeyEvent.VK_Y)
-		{
-			try
-			{
-				ac.getGameMap().getCharacter().goUp();
-				ac.repaint();
-			}
-			catch (IllegalTurnException exc) {}
-		}
-		
-		else if (kc==KeyEvent.VK_Q)
-		{
-			ac.getGameMap().getCharacter().rotateLeft();
-			ac.repaint();
-		} 
-		
-		else if (kc==KeyEvent.VK_W)
-		{
-			ac.getGameMap().getCharacter().rotateRight();
-			ac.repaint();
-		}
-		
-		else if (kc==KeyEvent.VK_ESCAPE)
-		{
-			System.exit(0);
-		}
-		
-		else if (kc==KeyEvent.VK_O)
-		{
-			try
-			{
-				ac.getGameMap().openThing(ac.getGameMap().getCharacter());
-				ac.repaint();
-			}
-			catch (IllegalTurnException exc) {}
-		}
-		
-		else if (kc==KeyEvent.VK_C)
-		{
-			try
-			{
-				ac.getGameMap().closeThing(ac.getGameMap().getCharacter());
-				ac.repaint();
-			}
-			catch (IllegalTurnException exc) {}
-		}
-	}
-		
+		}		
 		
 		else if (s)
 		{
@@ -178,7 +169,6 @@ public class AyirahComponentKeyListener extends KeyAdapter {
 				}
 				catch (IllegalTurnException exc) {}
 			}
-
 			else if (kc==KeyEvent.VK_UP || kc==KeyEvent.VK_KP_UP ||
 			kc==KeyEvent.VK_NUMPAD8)
 			{
@@ -189,7 +179,6 @@ public class AyirahComponentKeyListener extends KeyAdapter {
 				}
 				catch (IllegalTurnException exc) {}
 			}
-
 			else if (kc==KeyEvent.VK_LEFT || kc==KeyEvent.VK_KP_LEFT ||
 			kc==KeyEvent.VK_NUMPAD4)
 			{
@@ -200,7 +189,6 @@ public class AyirahComponentKeyListener extends KeyAdapter {
 				}
 				catch (IllegalTurnException exc) {}
 			}
-
 			else if (kc==KeyEvent.VK_RIGHT || kc==KeyEvent.VK_KP_RIGHT ||
 			kc==KeyEvent.VK_NUMPAD6)
 			{
@@ -211,7 +199,6 @@ public class AyirahComponentKeyListener extends KeyAdapter {
 				}
 				catch (IllegalTurnException exc) {}
 			}
-
 			else if (kc==KeyEvent.VK_PAGE_UP || kc==KeyEvent.VK_NUMPAD9)
 			{
 				try
@@ -221,7 +208,6 @@ public class AyirahComponentKeyListener extends KeyAdapter {
 				}
 				catch (IllegalTurnException exc) {}
 			}
-
 			else if (kc==KeyEvent.VK_PAGE_DOWN || kc==KeyEvent.VK_NUMPAD3)
 			{
 				try
@@ -231,7 +217,6 @@ public class AyirahComponentKeyListener extends KeyAdapter {
 				}
 				catch (IllegalTurnException exc) {}
 			}
-
 			else if (kc==KeyEvent.VK_HOME || kc==KeyEvent.VK_NUMPAD7)
 			{
 				try
@@ -241,7 +226,6 @@ public class AyirahComponentKeyListener extends KeyAdapter {
 				}
 				catch (IllegalTurnException exc) {}
 			}
-
 			else if (kc==KeyEvent.VK_END || kc==KeyEvent.VK_NUMPAD1)
 			{
 				try
@@ -251,8 +235,6 @@ public class AyirahComponentKeyListener extends KeyAdapter {
 				}
 				catch (IllegalTurnException exc) {}
 			}
-			
-			
 		}
 	}
 }
