@@ -41,7 +41,6 @@ public class AyirahStaticVars {
 	public static final int DIRECTION_NORTH_WEST=7;
 	
 	public static final int TURN_INVALID_TURN=-1;
-	
 	/**
 	[n][0]:x
 	[n][1]:y
@@ -72,12 +71,6 @@ public class AyirahStaticVars {
 		VISIBLE_KNOWN_SOUTH_WEST
 	};
 	
-	public static final int[] invert_visible=
-	{
-		VISIBLE_KNOWN_ALL, VISIBLE_KNOWN_SOUTH_WEST, VISIBLE_KNOWN_NORTH_WEST,
-		VISIBLE_KNOWN_NORTH_EAST, VISIBLE_KNOWN_SOUTH_EAST, VISIBLE_KNOWN_NONE
-	};
-	
 	public static final int[] diagonal_view_visible=
 	{
 		AyirahStaticVars.VISIBLE_KNOWN_NORTH_EAST,
@@ -86,9 +79,6 @@ public class AyirahStaticVars {
 		AyirahStaticVars.VISIBLE_KNOWN_NORTH_WEST
 	};
 	
-	/*
-	 * Index 0: Tile '1' usw.
-	 */
 	public static char[][] non_block_tiles_tile_parts=
 	{
 		{'#', '#', '.', '.'},
