@@ -265,9 +265,9 @@ public class GameMap {
 				GameTile gt=createGameTile('.', c.getVisible(l, zeile, spalte), 
 				c.getKnown(l, zeile, spalte));
 				if (r=='x')
-					gt.setItem(new GameItem("box", "open", "an open box", 0, 50000l, false));
+					gt.setItem(new GameItem("box", "wooden_box", "open", "an open box", 0, 50000l, false));
 				else
-					gt.setItem(new GameItem("box", "closed", "a closed box", 0, 50000l, false));
+					gt.setItem(new GameItem("box", "wooden_box", "closed", "a closed box", 0, 50000l, false));
 				return gt;
 			}
 			
