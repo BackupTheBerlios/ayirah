@@ -45,7 +45,19 @@ public class Ayirah extends Frame implements KeyListener {
 		this.add(ac);
 		this.addKeyListener(this);
 		
+		MediaTracker mt=new MediaTracker(this);
+		Image ic=getToolkit().createImage("cursor/hand_sm.gif");
+		mt.addImage(ic, 0);
 		
+		try
+		{
+			mt.waitForAll();
+		}
+		catch (InterruptedException e)
+		{
+		}
+		
+		this.setCursor(this.getToolkit().createCustomCursor(ic, new Point(2,2), "cursor"));
 	}
 	
 	public void keyPressed(KeyEvent e)
