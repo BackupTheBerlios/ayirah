@@ -70,11 +70,11 @@ public class AyirahComponent extends Canvas
 	{
 		map=new GameMap();
 		m_tiles=new MediaTracker(this);
-		tiles=new Image[17][4][2];
+		tiles=new Image[11][4][2];
 		character=new Image[8][4];
 		items=new Image[2][4][2];
 		
-		Image[] prepareImage=new Image[17];
+		Image[] prepareImage=new Image[21];
 		Image[] prepareItems=new Image[4];
 		
 		max_top_corner_x=map.getWidth()-16;
@@ -123,29 +123,29 @@ public class AyirahComponent extends Canvas
 		AyirahStaticVars.tile_prefix+"tuer_senkrecht_offen_visible.gif");
 		m_tiles.addImage(prepareImage[10], 0);
 		
-		prepareImage[11]=getToolkit().getImage(
-		AyirahStaticVars.tile_prefix+"treppe_hoch_invisible.gif");
-		m_tiles.addImage(prepareImage[11], 0);
-		
-		prepareImage[12]=getToolkit().getImage(
-		AyirahStaticVars.tile_prefix+"treppe_hoch_visible.gif");
-		m_tiles.addImage(prepareImage[12], 0);
-		
-		prepareImage[13]=getToolkit().getImage(
-		AyirahStaticVars.tile_prefix+"treppe_hoch_runter_invisible.gif");
-		m_tiles.addImage(prepareImage[13], 0);
-		
-		prepareImage[14]=getToolkit().getImage(
-		AyirahStaticVars.tile_prefix+"treppe_hoch_runter_visible.gif");
-		m_tiles.addImage(prepareImage[14], 0);
-		
 		prepareImage[15]=getToolkit().getImage(
-		AyirahStaticVars.tile_prefix+"treppe_runter_invisible.gif");
+		AyirahStaticVars.tile_prefix+"treppe_hoch_invisible.gif");
 		m_tiles.addImage(prepareImage[15], 0);
 		
 		prepareImage[16]=getToolkit().getImage(
+		AyirahStaticVars.tile_prefix+"treppe_hoch_visible.gif");
+		m_tiles.addImage(prepareImage[15], 0);
+		
+		prepareImage[17]=getToolkit().getImage(
+		AyirahStaticVars.tile_prefix+"treppe_hoch_runter_invisible.gif");
+		m_tiles.addImage(prepareImage[17], 0);
+		
+		prepareImage[18]=getToolkit().getImage(
+		AyirahStaticVars.tile_prefix+"treppe_hoch_runter_visible.gif");
+		m_tiles.addImage(prepareImage[18], 0);
+		
+		prepareImage[19]=getToolkit().getImage(
+		AyirahStaticVars.tile_prefix+"treppe_runter_invisible.gif");
+		m_tiles.addImage(prepareImage[19], 0);
+		
+		prepareImage[20]=getToolkit().getImage(
 		AyirahStaticVars.tile_prefix+"treppe_runter_visible.gif");
-		m_tiles.addImage(prepareImage[16], 0);
+		m_tiles.addImage(prepareImage[20], 0);
 		
 		// -------jetzt Items--------------
 		
@@ -194,27 +194,30 @@ public class AyirahComponent extends Canvas
 			m_tiles.waitForAll();
 		} catch (InterruptedException e) { }
 		
-		for (int i=1; i<9; i++)
+		for (int i=1; i<11; i++)
 		{
 			for (int j=0; j<2; j++)
 			{
-				collectionProducer=prepareImage[i*2+j-1].getSource();
-				
-				tiles[i][0][j]=createImage(new FilteredImageSource(
-				collectionProducer,filter_north));
-				m_tiles.addImage(tiles[i][0][j], 2);
-				
-				tiles[i][1][j]=createImage(new FilteredImageSource(
-				collectionProducer,filter_east));
-				m_tiles.addImage(tiles[i][1][j], 2);
-				
-				tiles[i][2][j]=createImage(new FilteredImageSource(
-				collectionProducer,filter_south));
-				m_tiles.addImage(tiles[i][2][j], 2);
-				
-				tiles[i][3][j]=createImage(new FilteredImageSource(
-				collectionProducer,filter_west));
-				m_tiles.addImage(tiles[i][3][j], 2);
+				if (prepareImage[i*2+j-1]!=null)
+				{
+					collectionProducer=prepareImage[i*2+j-1].getSource();
+					
+					tiles[i][0][j]=createImage(new FilteredImageSource(
+					collectionProducer,filter_north));
+					m_tiles.addImage(tiles[i][0][j], 2);
+					
+					tiles[i][1][j]=createImage(new FilteredImageSource(
+					collectionProducer,filter_east));
+					m_tiles.addImage(tiles[i][1][j], 2);
+					
+					tiles[i][2][j]=createImage(new FilteredImageSource(
+					collectionProducer,filter_south));
+					m_tiles.addImage(tiles[i][2][j], 2);
+					
+					tiles[i][3][j]=createImage(new FilteredImageSource(
+					collectionProducer,filter_west));
+					m_tiles.addImage(tiles[i][3][j], 2);
+				}
 			}
 		}
 		
@@ -431,16 +434,16 @@ public class AyirahComponent extends Canvas
 						array_index[i]=1;
 					else if (actual_tile[i]=='#')
 						array_index[i]=2;
-					else if (actual_tile[i]=='_')
-						array_index[i]=4;
-					else if (actual_tile[i]=='i')
-						array_index[i]=5;
+//					else if (actual_tile[i]=='_')
+//						array_index[i]=4;
+//					else if (actual_tile[i]=='i')
+//						array_index[i]=5;
 					else if (actual_tile[i]=='<')
-						array_index[i]=6;
-					else if (actual_tile[i]=='|')
-						array_index[i]=7;
-					else if (actual_tile[i]=='>')
 						array_index[i]=8;
+					else if (actual_tile[i]=='|')
+						array_index[i]=9;
+					else if (actual_tile[i]=='>')
+						array_index[i]=10;
 					else
 						array_index[i]=3;
 					
