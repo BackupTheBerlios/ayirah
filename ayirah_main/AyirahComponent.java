@@ -38,7 +38,6 @@ public class AyirahComponent extends Canvas
 	
 	// tiles[tile_number][direction][visible]
 	private Image[][][] tiles; // Alle Tiles
-	private Image sidebar;
 	private Image[][] character;
 	private GameMap map;
 	
@@ -138,9 +137,6 @@ public class AyirahComponent extends Canvas
 				m_tiles.addImage(tiles[i][3][j], 7);
 			}
 		}
-		
-		sidebar=getToolkit().getImage("sidebar.png");
-		m_tiles.addImage(sidebar, 8);
 		
 		for (int i=0; i<8; i++)
 			for (int j=0; j<4; j++)
@@ -352,7 +348,5 @@ public class AyirahComponent extends Canvas
 		+(tile_width-character_width)/2+delta_x, 
 		tile_height*(map.getCharacter().getPosY()-top_corner_y)
 		+(tile_height-character_height)/2+delta_y, character_width, character_height, this);
-		
-		g.drawImage(sidebar, 768, 0, this);
 	}
 }
