@@ -49,7 +49,7 @@ public class AyirahComponent extends Canvas
 	
 	private int max_top_x, max_top_y;
 	
-	private int scrolling_pixels_count=2;
+	private int scrolling_pixels_count=4;
 	
 	private static final int tile_width=48;
 	private static final int tile_height=48;
