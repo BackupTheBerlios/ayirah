@@ -209,6 +209,7 @@ public abstract class HumanLikeCreature extends Creature {
 			this.calculateVisible();
 			return true;
 		}
+		
 		else if (tile=='X' && isReachable(this.getViewDirection()))
 		{
 			getMap().setTile(this.getLayer(),
