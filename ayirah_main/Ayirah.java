@@ -85,7 +85,7 @@ public class Ayirah extends Frame implements KeyListener {
 	}
 	
 	public static void main(String args[]) {
-		HashMap hm=LevelLoader.loadLevel("levels/level.xml");
+		HashMap hm=LevelLoader.loadLevel("levels/level.xml", true);
 		
 		Ayirah mainFrame = new Ayirah(hm);
 		mainFrame.setSize(700, 500);

@@ -67,15 +67,19 @@ public final class LevelLoader extends DefaultHandler {
 	
 	private boolean inMapTile;
 	
-	protected LevelLoader()
+	private boolean verbose;
+	
+	protected LevelLoader(boolean verbose)
 	{
 		coords_items=new HashMap();
 		names_objects=new HashMap();
+		
+		this.verbose=verbose;
 	}
 	
-	public static final HashMap loadLevel(String file_name)
+	public static final HashMap loadLevel(String file_name, boolean verbose)
 	{
-		LevelLoader handler=new LevelLoader();
+		LevelLoader handler=new LevelLoader(verbose);
 		
 		SAXParserFactory factory = SAXParserFactory.newInstance();
 		
@@ -243,7 +247,7 @@ public final class LevelLoader extends DefaultHandler {
 		}
 		
 		else if (eName.equals("object") && !inMapTile)
-			System.out.println("<object>-Tags dürfen nur in <maptile>-Tags benutzt werden");
+			ifVerbosePrintln("<object>-Tags dürfen nur in <maptile>-Tags benutzt werden");
 		
 		else if (eName.equals("defobject"))
 		{
@@ -416,28 +420,28 @@ public final class LevelLoader extends DefaultHandler {
 					
 					else
 					{
-						System.out.print("Ein Objekt mit dem Namen ");
-						System.out.print(use_name);
-						System.out.println(" zeigt auf null");
+						ifVerbosePrint("Ein Objekt mit dem Namen ");
+						ifVerbosePrint(use_name);
+						ifVerbosePrintln(" zeigt auf null");
 					}
 				}
 				
 				else
 				{
-					System.out.print("Ein Objekt mit dem Namen ");
-					System.out.print(use_name);
-					System.out.println(" existiert nicht.");
+				    ifVerbosePrint("Ein Objekt mit dem Namen ");
+				    ifVerbosePrint(use_name);
+				    ifVerbosePrintln(" existiert nicht.");
 				}
 			}
 			
 			else
 			{
-				System.out.println("<useobject> muss ein name-Attribut besitzen");
+			    ifVerbosePrintln("<useobject> muss ein name-Attribut besitzen");
 			}
 		}
 		
 		else if (eName.equals("useobject") && !inMapTile)
-			System.out.println("<useobject>-Tags dürfen nur in <maptile>-Tags benutzt werden");
+		    ifVerbosePrintln("<useobject>-Tags dürfen nur in <maptile>-Tags benutzt werden");
 	}
 	
 	public void endElement(String namespaceURI,
@@ -507,5 +511,17 @@ public final class LevelLoader extends DefaultHandler {
 		use_takeable=false;
 		use_walk_on_able=false;
 		use_weight=false;
+	}
+	
+	private void ifVerbosePrintln(String to_print)
+	{
+	    if (verbose)
+	        System.out.println(to_print);
+	}
+	
+	private void ifVerbosePrint(String to_print)
+	{
+	    if (verbose)
+	        System.out.print(to_print);
 	}
 }
