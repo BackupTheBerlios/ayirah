@@ -29,9 +29,7 @@
  */
 public abstract class HumanLikeCreature extends Creature {
 	public VisibleKnownNode[][][] isVisible;
-	public VisibleKnownNode[][][] isKnown;
-	
-	GameMap map;	
+	public VisibleKnownNode[][][] isKnown;	
 	public HumanLikeCreature(GameMap map, int l, int x, int y, int direction) {
 		super(map, l, x, y, direction);		
 		isVisible=new VisibleKnownNode[map.getLayersCount()][map.getHeight()][map.getWidth()];
@@ -46,11 +44,6 @@ public abstract class HumanLikeCreature extends Creature {
 					isVisible[i][j][k]=new VisibleKnownNode();
 					isKnown[i][j][k]=new VisibleKnownNode();
 				}
-	}
-	
-	public GameMap getMap()
-	{
-		return this.map;
 	}
 	
 	public int getVisible(int l, int zeile, int spalte)
@@ -553,10 +546,63 @@ public abstract class HumanLikeCreature extends Creature {
 			}
 	}
 	
+	// eine ältere, aber 100% funktioniernde Version
+//	protected int[] getMinMaxArea()
+//	{
+//		int[] back=new int[4];
+//		
+//		back[0]=0;
+//		
+//		back[1]=getMap().getWidth()-1;
+//		
+//		back[2]=0;
+//		
+//		back[3]=getMap().getHeight()-1;
+//		
+//		return back;
+//	}
+
+	protected int[] getMinMaxArea()
+	{
+		int[] back=new int[4];
+		
+		if (!(getViewDirection()==AyirahStaticVars.DIRECTION_NORTH_EAST || 
+		getViewDirection()==AyirahStaticVars.DIRECTION_EAST || 
+		getViewDirection()==AyirahStaticVars.DIRECTION_SOUTH_EAST))
+		back[0]=0;
+		else
+		back[0]=Math.max(0, getPosX()-1);
+		
+		if (!(getViewDirection()==AyirahStaticVars.DIRECTION_NORTH_WEST || 
+		getViewDirection()==AyirahStaticVars.DIRECTION_WEST || 
+		getViewDirection()==AyirahStaticVars.DIRECTION_SOUTH_WEST))
+		back[1]=getMap().getWidth()-1;
+		else
+		back[1]=Math.min(getMap().getWidth()-1, getPosX()+1);
+		
+		if (!(getViewDirection()==AyirahStaticVars.DIRECTION_SOUTH_EAST || 
+		getViewDirection()==AyirahStaticVars.DIRECTION_SOUTH || 
+		getViewDirection()==AyirahStaticVars.DIRECTION_SOUTH_WEST))
+		back[2]=0;
+		else
+		back[2]=Math.max(0, getPosY()-1);
+		
+		if (!(getViewDirection()==AyirahStaticVars.DIRECTION_NORTH_EAST || 
+		getViewDirection()==AyirahStaticVars.DIRECTION_NORTH || 
+		getViewDirection()==AyirahStaticVars.DIRECTION_NORTH_WEST))
+		back[3]=getMap().getHeight()-1;
+		else
+		back[3]=Math.min(getMap().getHeight()-1, getPosY()+1);
+		
+		return back;
+	}
+	
 	protected void removeWallHiddenTiles()
 	{
-		for (int zeile=0; zeile<map.getHeight();zeile++)
-			for (int spalte=0; spalte<map.getWidth(); spalte++)
+		int[] minmax_area=this.getMinMaxArea();
+		
+		for (int zeile=minmax_area[2]; zeile<=minmax_area[3]; zeile++)
+			for (int spalte=minmax_area[0]; spalte<=minmax_area[1]; spalte++)
 			{
 				int vis_type=map.getVisibilityType(getLayer(), zeile, spalte);
 				
@@ -1520,7 +1566,9 @@ public abstract class HumanLikeCreature extends Creature {
 					removeVisible(l, spalte, zeile, AyirahStaticVars.VISIBLE_KNOWN_ALL);
 			}
 	}
-		
+	
+	
+	
 	/**
 	 * Die Methode calculateVisible() muss aus technischen 
 	 * Gründen nach der Konstruktion des Objektes manuell 
@@ -1639,13 +1687,5 @@ public abstract class HumanLikeCreature extends Creature {
 		
 		removeWallHiddenTiles();
 		makeVisibleKnown();
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see Creature#getTurn()
-	 */
-	public int getTurn() {
-		return AyirahStaticVars.TURN_INVALID_TURN;
 	}
 }
