@@ -30,44 +30,43 @@
  */
 public abstract class Creature {
 	protected GameMap map;
-	protected int pos_x, pos_y, pos_layer, view_direction;	
+	protected int view_direction;	protected CoordVector3 coords;
+	
 	public Creature(GameMap map, int l, int x, int y, int direction) {
 		super();
 		this.map=map;
-		this.pos_layer=l;
-		this.pos_x=x;
-		this.pos_y=y;
+		this.coords=new CoordVector3(l, x, y);
 		this.view_direction=direction;
 	}
 	
 	public int getPosX()
 	{
-		return pos_x;
+		return coords.getPosX();
 	}
 	
 	public void setPosX(int x)
 	{
-		this.pos_x=x;
+		coords.setPosX(x);
 	}
 	
 	public int getPosY()
 	{
-		return pos_y;
+		return coords.getPosY();
 	}
 	
 	public void setPosY(int y)
 	{
-		this.pos_y=y;
+		coords.setPosY(y);
 	}
 	
 	public int getLayer()
 	{
-		return pos_layer;
+		return coords.getLayer();
 	}
 	
-	public void setLayer(int layer)
+	public void setLayer(int l)
 	{
-		this.pos_layer=layer;
+		coords.setLayer(l);
 	}
 	
 	public void rotateLeft()
@@ -91,9 +90,6 @@ public abstract class Creature {
 	{
 		this.view_direction=direction;
 	}	
-	public void calculateVisible()
-	{
-		
-	}
+	public abstract void calculateVisible();
 		public int getTurn() {		return AyirahStaticVars.TURN_INVALID_TURN;	}	public GameMap getMap() {		return this.map;	}
 }
