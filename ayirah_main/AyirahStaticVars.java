@@ -92,4 +92,7 @@ public class AyirahStaticVars {
 	public static final String avtr_prefix="avatars/avtr2";
 	public static final String tile_prefix="tiles/";
 	public static final String item_prefix="items/";
+	public static final String cursor_name="cursor/hand_sm.gif";
+	
+	public static final String[] tile_names={"unknown1.gif"};
 }
