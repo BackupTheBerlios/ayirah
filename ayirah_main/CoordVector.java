@@ -28,7 +28,7 @@
 /**
  * @author Wolfgang
  */
-public class CoordVector {
+public class CoordVector implements Cloneable {
 	private int pos_l;
 	private int pos_x;
 	private int pos_y;
