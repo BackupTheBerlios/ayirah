@@ -87,5 +87,9 @@ public class CoordVector {
 		else
 			return false;
 	}
-
+	
+	public Object clone()
+	{
+		return new CoordVector(pos_l, pos_x, pos_y);
+	}
 }
